@@ -6,8 +6,10 @@ package rateme;
 
 public class main {
     public static void main (String[] args) {
-        System.out.println("Hello Moritz");
-        System.out.println("hey"); 
+
+        System.out.println("rateme start");
+        System.out.println("rateme close");
+
     }
 
 

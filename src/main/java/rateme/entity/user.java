@@ -32,6 +32,7 @@ public class user {
     @Column(name = "istGesperrt", nullable = false)
     private boolean isBlocked = false;
 
+    // Auto-generate Getter and Setter with ALT + EINFG
     public Integer getId() {
         return id;
     }
