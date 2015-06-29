@@ -1,26 +1,26 @@
 package rateme.entity;
 
-/**
- * Created by Mo on 29.06.2015.
- */
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+/**
+ * Created by Mo on 29.06.2015.
+ */
+
 @Entity
-@Table(name="benutzer")
-public class user {
+@Table(name = "benutzer")
+public class User {
     @Id
-    @Column(name="id")
+    @Column(name = "id")
     private Integer id;
 
-    @Column(name="name", nullable=false, length = 50)
+    @Column(name = "name", length = 50)
     private String username;
 
     // Unique
-    @Column(name="email", nullable=false, unique = true)
+    @Column(name = "email", nullable = false, unique = true)
     private String email;
 
     @Column(name = "passwort", nullable = false, length = 50)
