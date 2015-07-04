@@ -26,11 +26,11 @@ public class User {
     @Column(name = "passwort", nullable = false, length = 50)
     private String password;
 
-    @Column(name = "istAdmin", nullable = false)
+    @Column(name = "isAdmin", nullable = false)
     private boolean isAdmin = false;
 
-    @Column(name = "istGesperrt", nullable = false)
-    private boolean isBlocked = false;
+    //@Column(name = "istGesperrt", nullable = false)
+    //private boolean isBlocked = false;
 
     // Auto-generate Getter and Setter with ALT + EINFG
     public Integer getId() {
@@ -73,11 +73,11 @@ public class User {
         this.isAdmin = isAdmin;
     }
 
-    public boolean isBlocked() {
-        return isBlocked;
-    }
+    //public boolean isBlocked() {
+    //    return isBlocked;
+    //}
 
-    public void setIsBlocked(boolean isBlocked) {
-        this.isBlocked = isBlocked;
-    }
+    //public void setIsBlocked(boolean isBlocked) {
+    //    this.isBlocked = isBlocked;
+    //}
 }
