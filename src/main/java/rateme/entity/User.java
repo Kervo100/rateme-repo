@@ -11,7 +11,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "benutzer")
-public class user {
+public class User {
     @Id
     @Column(name = "id")
     private Integer id;
