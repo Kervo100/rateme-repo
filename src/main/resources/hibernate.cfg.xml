@@ -6,9 +6,9 @@
     <session-factory>
         <!-- Database connection properties - Driver, URL, user, password -->
         <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
-        <property name="hibernate.connection.url">jdbc:mysql://localhost/rateme</property>
-        <property name="hibernate.connection.username">root</property>
-        <property name="hibernate.connection.password">Malkreide</property>
+        <property name="hibernate.connection.url">jdbc:mysql://195.37.176.178:11336/dbwebanw_sose15_02</property>
+        <property name="hibernate.connection.username">dbweb_user_02</property>
+        <property name="hibernate.connection.password">VhtXT3A8Fl</property>
         <!-- Connection Pool Size -->
         <property name="hibernate.connection.pool_size">1</property>
 
@@ -16,7 +16,7 @@
         <property name="hibernate.current_session_context_class">thread</property>
 
         <!-- Outputs the SQL queries, should be disabled in Production -->
-        <property name="hibernate.show_sql">true</property>
+        <property name="hibernate.show_sql">false</property>
 
         <!-- Dialect is required to let Hibernate know the Database Type, MySQL, Oracle etc
             Hibernate 4 automatically figure out Dialect from Database Connection Metadata -->
