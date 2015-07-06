@@ -24,6 +24,13 @@
 
         <!-- mapping file, we can use Bean annotations too -->
         <!--mapping resource="employee.hbm.xml" /-->
+        <mapping class="rateme.entity.Category" />
+        <mapping class="rateme.entity.Comment" />
+        <mapping class="rateme.entity.Link" />
+        <mapping class="rateme.entity.Medium" />
+        <mapping class="rateme.entity.Platform" />
+        <mapping class="rateme.entity.Rating" />
         <mapping class="rateme.entity.User" />
+
     </session-factory>
 </hibernate-configuration>
