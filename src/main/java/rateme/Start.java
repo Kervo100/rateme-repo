@@ -4,15 +4,16 @@
 
 package rateme;
 
-import rateme.entity.*;
+import rateme.entity.User;
 import rateme.manager.*;
 
-public class main {
+public class Start {
     public static void main (String[] args) {
         System.out.println("rateme start");
 
         UserManager userManager = new UserManager();
-        User u = userManager.getUserByName("John Doe");
+        User user = userManager.getUserByName("John Doe");
+        System.out.println(user.getEmail());
 
         HibernateUtil.shutdown();
         System.out.println("rateme close");

@@ -26,7 +26,7 @@ public class User {
     @Column(name = "passwort", nullable = false, length = 50)
     private String password;
 
-    @Column(name = "isAdmin", nullable = false)
+    @Column(name = "istAdmin", nullable = false)
     private boolean isAdmin = false;
 
     //@Column(name = "istGesperrt", nullable = false)
