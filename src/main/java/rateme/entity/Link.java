@@ -16,13 +16,13 @@ public class Link {
     @Column(name = "link", length = 1000)
     private String url;
 
-    @ManyToOne(fetch= FetchType.EAGER)
+    @OneToOne(fetch= FetchType.EAGER)
     @JoinColumn (name= "platform_id")
-    private int platformId;
+    private Platform platform;
 
-    @ManyToOne(fetch= FetchType.EAGER)
+    @OneToOne(fetch= FetchType.EAGER)
     @JoinColumn (name= "medium_id")
-    private int mediumId;
+    private Medium medium;
 
     public int getId() {
         return id;
@@ -40,19 +40,19 @@ public class Link {
         this.url = url;
     }
 
-    public int getPlatformId() {
-        return platformId;
+    public Platform getPlatform() {
+        return platform;
     }
 
-    public void setPlatformId(int platformId) {
-        this.platformId = platformId;
+    public void setPlatform(Platform platform) {
+        this.platform = platform;
     }
 
-    public int getMediumId() {
-        return mediumId;
+    public Medium getMedium() {
+        return medium;
     }
 
-    public void setMediumId(int mediumId) {
-        this.mediumId = mediumId;
+    public void setMedium(Medium medium) {
+        this.medium = medium;
     }
 }

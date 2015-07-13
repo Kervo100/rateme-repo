@@ -20,27 +20,20 @@ public class Comment {
     @Column(name="date", nullable = false)
     private Date date;
 
-    @ManyToOne(fetch= FetchType.EAGER)
+    @OneToOne(fetch= FetchType.EAGER)
     @JoinColumn (name= "benutzer_id")
-    private int userId;
+    private User user;
 
-    @ManyToOne(fetch= FetchType.EAGER)
+    @OneToOne(fetch= FetchType.EAGER)
     @JoinColumn (name= "medium_id")
-    private int mediumId;
+    private Medium medium;
 
-    public Integer getId() {return id;
+    public Integer getId() {
+        return id;
     }
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public int getMediaId() {
-        return mediumId;
-    }
-
-    public void setMediaId(int mediaId) {
-        this.mediumId = mediaId;
     }
 
     public String getText() {
@@ -59,13 +52,19 @@ public class Comment {
         this.date = date;
     }
 
-    public int getUserId() {
-        return userId;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public void setUser(User user) {
+        this.user = user;
     }
 
+    public Medium getMedium() {
+        return medium;
+    }
 
+    public void setMedium(Medium medium) {
+        this.medium = medium;
+    }
 }

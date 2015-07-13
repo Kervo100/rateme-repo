@@ -16,13 +16,13 @@ public class Rating {
     @Column(name = "wert", nullable = false)
     private byte value;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "benutzer_id")
-    private int userId;
+    private User user;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "medium_id")
-    private int mediumId;
+    private Medium medium;
 
     public Integer getId() {
         return id;
@@ -40,19 +40,19 @@ public class Rating {
         this.value = value;
     }
 
-    public int getUserId() {
-        return userId;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public void setUser(User user) {
+        this.user = user;
     }
 
-    public int getMediumId() {
-        return mediumId;
+    public Medium getMedium() {
+        return medium;
     }
 
-    public void setMediumId(int mediumId) {
-        this.mediumId = mediumId;
+    public void setMedium(Medium medium) {
+        this.medium = medium;
     }
 }
