@@ -2,7 +2,7 @@ package rateme.entity;
 
 import javax.persistence.*;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
+import java.util.Date;
 
 /**
  * Created by Mo on 29.06.2015.
@@ -19,26 +19,18 @@ public class Medium {
     private String name;
 
     @Column(name = "erstellungsdatum", nullable = false)
-    private String timestamp;
+    private Date timestamp;
 
     @Column(name = "beschreibung", length = 2000)
     private String description;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "benutzer_id")
-    private int userId;
+    private User user;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "kategorie_id")
-    private int kategorieId;
-
-    public int getKategorieId() {
-        return kategorieId;
-    }
-
-    public void setKategorieId(int kategorieId) {
-        this.kategorieId = kategorieId;
-    }
+    private Category category;
 
     public Integer getId() {
         return id;
@@ -60,7 +52,15 @@ public class Medium {
         return new SimpleDateFormat("dd.MM.yyyy HH:mm").format(timestamp);
     }
 
-    public void setTimestamp(String timestamp) {
+    public String getDate() {
+        return new SimpleDateFormat("dd.MM.yyyy").format(timestamp);
+    }
+
+    public String getTime() {
+        return new SimpleDateFormat("HH:mm").format(timestamp);
+    }
+
+    public void setTimestamp(Date timestamp) {
         this.timestamp = timestamp;
     }
 
@@ -72,11 +72,20 @@ public class Medium {
         this.description = description;
     }
 
-    public int getUserId() {
-        return userId;
+    public User getUser() {
+        return this.user;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public void setUserId(User u) {
+        this.user = u;
     }
+
+    public Category getCategory() {
+        return this.category;
+    }
+
+    public void setCategory(Category c) {
+        this.category = c;
+    }
+
 }

@@ -1,4 +1,4 @@
-package rateme.manager;
+package rateme.controller;
 
 import org.hibernate.Criteria;
 import org.hibernate.Session;
@@ -12,8 +12,8 @@ import java.util.List;
 /**
  * Created by thorben on 04/07/15.
  */
-public class UserManager extends Manager{
-    public UserManager() {
+public class UserController extends Controller {
+    public UserController() {
 
     }
 
@@ -82,7 +82,7 @@ public class UserManager extends Manager{
         Transaction transaction = null;
         try {
             transaction = session.beginTransaction();
-            user = (User) session.get(User.class, 1);
+            user = (User) session.get(User.class, id);
             transaction.commit();
         }
         catch (Exception e) {
@@ -97,6 +97,7 @@ public class UserManager extends Manager{
     }
 
     public User getUserByName(String name) {
+        User user = null;
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction transaction = null;
         try {
@@ -105,9 +106,9 @@ public class UserManager extends Manager{
             List allUsers = criteria.list();
             Iterator itr = allUsers.iterator();
             while (itr.hasNext()) {
-                User user = (User) itr.next();
-                if(user.getUsername().equals((name))) {
-                    return user;
+                User u = (User) itr.next();
+                if(u.getUsername().equals((name))) {
+                    user = u;
                 }
             }
 
@@ -121,6 +122,6 @@ public class UserManager extends Manager{
             session.close();
         }
 
-        return null;
+        return user;
     }
 }

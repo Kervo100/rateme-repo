@@ -17,7 +17,7 @@ public class Category {
     @Column(name="id")
     private int id;
 
-    @Column(name="text", nullable = false, length =100)
+    @Column(name="name", nullable = false, length =100)
     private String name;
 
     public int getId() {

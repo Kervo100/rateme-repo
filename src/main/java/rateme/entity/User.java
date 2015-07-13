@@ -1,9 +1,8 @@
 package rateme.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import org.hibernate.annotations.GenericGenerator;
+
+import javax.persistence.*;
 
 /**
  * Created by Mo on 29.06.2015.
@@ -12,7 +11,23 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "benutzer")
 public class User {
+
+    public User() {}
+    public User(String name, String email, String password) {
+        this.username = name;
+        this.email = email;
+        this.password = password;
+    }
+    public User(String name, String email, String password, boolean admin) {
+        this.username = name;
+        this.email = email;
+        this.password = password;
+        this.isAdmin = admin;
+    }
+
     @Id
+    @GenericGenerator(name = "generator", strategy = "increment")
+    @GeneratedValue(generator = "generator")
     @Column(name = "id")
     private Integer id;
 
