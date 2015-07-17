@@ -20,6 +20,32 @@ public class UserManager {
         mediumController = new MediumController();
     }
 
+    public boolean registerUser(String name, String password, String mail, boolean isAdmin) {
+        User newUser = new User(name, mail, password, isAdmin);
+        User checkIfExist = userController.getUserByName(name);
+        if(checkIfExist == null) {
+            userController.createObject(newUser);
+            return true;
+        }
+        else {
+            System.out.println("registerUser - ein User mit diesem Namen bereits vorhanden");
+        }
+        return false;
+    }
+
+    public boolean loginUser(String name, String password) {
+        User user = userController.getUserByName(name);
+        if(user != null && user.getPassword().equals(password)) {
+            user.setLoggedIn(true);
+            return true;
+        }
+        else {
+            System.out.println("loginUser - wrong password");
+        }
+
+        return false;
+    }
+
     public boolean banUserWithID(int id) {
         User user = userController.getUserByID(id);
 

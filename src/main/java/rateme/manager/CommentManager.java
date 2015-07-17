@@ -22,14 +22,13 @@ public class CommentManager {
         mediumController = new MediumController();
     }
 
-    public boolean deleteComment(int mediumID, int commentID, int userID) {
+    public boolean deleteComment(int commentID, int userID) {
         User user = userController.getUserByID(userID);
-        Medium medium = mediumController.getMediumByID(mediumID);
         Comment comment = commentController.getCommentByID(commentID);
 
-        if(user != null && medium != null && comment != null) {
+        if(user != null && comment != null) {
             if(user.isAdmin() == true || user == comment.getUser()) {
-
+                commentController.deleteObject(comment);
                 return true;
             }
             else {
@@ -38,7 +37,7 @@ public class CommentManager {
             }
         }
         else {
-            System.out.println("deleteComment - eines der Objekte nicht vorhanden");
+            System.out.println("deleteComment - user oder comment nicht vorhanden");
             return false;
         }
     }
