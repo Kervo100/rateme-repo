@@ -124,4 +124,71 @@ public class UserController extends Controller {
 
         return user;
     }
+
+    public User getUserByEmail(String email){
+        User user = null;
+        Session session =  HibernateUtil.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try{
+            transaction = session.beginTransaction();
+            Criteria criteria = session.createCriteria(User.class);
+            List allUsers = criteria.list();
+            Iterator itr = allUsers.iterator();
+            while (itr.hasNext()) {
+                User u = (User) itr.next();
+                if(u.getEmail().equals((email))) {
+                    user = u;
+                }
+            }
+
+            transaction.commit();
+        }
+        catch (Exception e) {
+            if (transaction!=null) transaction.rollback();
+            throw e;
+        }
+        finally {
+            session.close();
+        }
+
+        return user;
+    }
+
+    public User logIn(String email, String pass){
+        User user = null;
+        Session session =  HibernateUtil.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try{
+            transaction = session.beginTransaction();
+            Criteria criteria = session.createCriteria(User.class);
+            List allUsers = criteria.list();
+            Iterator itr = allUsers.iterator();
+            while (itr.hasNext()) {
+                User u = (User) itr.next();
+                if(u.getEmail().equals((email)) || u.getPassword().equals(pass)) {
+                    user = u;
+                }
+            }
+
+            transaction.commit();
+        }
+        catch (Exception e) {
+            if (transaction!=null) transaction.rollback();
+            throw e;
+        }
+        finally {
+            session.close();
+        }
+
+        return user;
+    }
+
+    public boolean registerUser(String name, String email, String pass){
+        boolean success = false;
+        User u = new User(name, email, pass);
+        createObject(u);
+        success = true;
+        return success;
+    }
+
 }
