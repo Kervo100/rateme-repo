@@ -12,14 +12,13 @@ public class Start {
     public static void main (String[] args) {
         System.out.println("rateme start");
 
-        UserController userController = new UserController();
-        User moritz = new User("Moritz Ellmers", "moritz.ellmers@web.de", "1234", true);
-        userController.createObject(moritz);
-        User mo = userController.getUserByName("Moritz Ellmers");
-        System.out.println(mo.getUsername());
+        //UserController userController = new UserController();
+        //User moritz = new User("Moritz Ellmers", "mers@web.de", "1234", true);
+        //userController.createObject(moritz);
+        //User mo = userController.getUserByName("Moritz Ellmers");
+        //System.out.println(mo.getUsername());
 
         //MediumController mediumController = new MediumController();
-        //Medium medium = mediumController.getMediumByID(1);
         //System.out.println(medium.getTimestamp());
 
         HibernateUtil.shutdown();

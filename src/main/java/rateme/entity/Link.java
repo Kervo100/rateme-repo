@@ -1,5 +1,7 @@
 package rateme.entity;
 
+import org.hibernate.annotations.GenericGenerator;
+
 import javax.persistence.*;
 
 /**
@@ -10,6 +12,8 @@ import javax.persistence.*;
 @Table(name="verlinkung")
 public class Link {
     @Id
+    @GenericGenerator(name = "generator", strategy = "increment")
+    @GeneratedValue(generator = "generator")
     @Column(name="id")
     private  int id;
 
