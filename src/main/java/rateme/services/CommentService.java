@@ -1,29 +1,28 @@
-package rateme.controller;
+package rateme.services;
 
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import rateme.HibernateUtil;
-import rateme.entity.Comment;
-import rateme.entity.Rating;
+import rateme.entity.*;
 
 /**
  * Created by Mo on 06.07.2015.
  */
-public class RatingController extends Controller {
-    public RatingController() {
+public class CommentService extends Service {
+    public CommentService() {
 
     }
 
     @Override
     public boolean createObject(Object object) {
-        Rating rating = (Rating) object;
+        Comment comment = (Comment) object;
         boolean success = false;
 
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction transaction = null;
         try {
             transaction = session.beginTransaction();
-            session.save(rating);
+            session.save(comment);
             transaction.commit();
             success = true;
         }
@@ -51,13 +50,13 @@ public class RatingController extends Controller {
         return false;
     }
 
-    public Rating getRatingByID(int id) {
-        Rating rating = null;
+    public Comment getCommentByID(int id) {
+        Comment comment = null;
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction transaction = null;
         try {
             transaction = session.beginTransaction();
-            rating = (Rating) session.get(Rating.class, id);
+            comment = (Comment) session.get(Comment.class, id);
             transaction.commit();
         }
         catch (Exception e) {
@@ -68,6 +67,6 @@ public class RatingController extends Controller {
             session.close();
         }
 
-        return rating;
+        return comment;
     }
 }

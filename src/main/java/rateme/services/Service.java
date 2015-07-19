@@ -1,10 +1,10 @@
-package rateme.controller;
+package rateme.services;
 
 /**
  * Created by thorben on 04/07/15.
  */
-public abstract class Controller {
-    public Controller() {
+public abstract class Service {
+    public Service() {
 
     }
 

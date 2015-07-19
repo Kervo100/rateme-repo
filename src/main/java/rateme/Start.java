@@ -4,21 +4,17 @@
 
 package rateme;
 
-import rateme.entity.Medium;
-import rateme.entity.User;
-import rateme.controller.*;
-
 public class Start {
     public static void main (String[] args) {
         System.out.println("rateme start");
 
-        //UserController userController = new UserController();
+        //UserService userService = new UserService();
         //User moritz = new User("Moritz Ellmers", "mers@web.de", "1234", true);
-        //userController.createObject(moritz);
-        //User mo = userController.getUserByName("Moritz Ellmers");
+        //userService.createObject(moritz);
+        //User mo = userService.getUserByName("Moritz Ellmers");
         //System.out.println(mo.getUsername());
 
-        //MediumController mediumController = new MediumController();
+        //MediumService mediumService = new MediumService();
         //System.out.println(medium.getTimestamp());
 
         HibernateUtil.shutdown();
