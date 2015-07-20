@@ -1,9 +1,8 @@
 package rateme.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import org.hibernate.annotations.GenericGenerator;
+
+import javax.persistence.*;
 
 /**
  * Created by Salaufein on 29.06.2015.
@@ -14,6 +13,8 @@ import javax.persistence.Table;
 public class Category {
 
     @Id
+    @GenericGenerator(name = "generator", strategy = "increment")
+    @GeneratedValue(generator = "generator")
     @Column(name="id")
     private int id;
 

@@ -17,14 +17,18 @@ public class User {
         this.username = name;
         this.email = email;
         this.password = password;
+        this.loggedIn = false;
     }
     public User(String name, String email, String password, boolean admin) {
         this.username = name;
         this.email = email;
         this.password = password;
         this.isAdmin = admin;
+        this.loggedIn = false;
     }
 
+    boolean loggedIn;
+    
     @Id
     @GenericGenerator(name = "generator", strategy = "increment")
     @GeneratedValue(generator = "generator")
@@ -44,8 +48,8 @@ public class User {
     @Column(name = "istAdmin", nullable = false)
     private boolean isAdmin = false;
 
-    //@Column(name = "istGesperrt", nullable = false)
-    //private boolean isBlocked = false;
+    @Column(name = "istGesperrt", nullable = false)
+    private boolean isBlocked = false;
 
     // Auto-generate Getter and Setter with ALT + EINFG
     public Integer getId() {
@@ -88,11 +92,15 @@ public class User {
         this.isAdmin = isAdmin;
     }
 
-    //public boolean isBlocked() {
-    //    return isBlocked;
-    //}
+    public boolean isBlocked() {
+        return isBlocked;
+    }
 
-    //public void setIsBlocked(boolean isBlocked) {
-    //    this.isBlocked = isBlocked;
-    //}
+    public void setIsBlocked(boolean isBlocked) {
+        this.isBlocked = isBlocked;
+    }
+
+    public boolean isLoggedIn() { return this.loggedIn; }
+
+    public void setLoggedIn(boolean status) { this.loggedIn = status; }
 }

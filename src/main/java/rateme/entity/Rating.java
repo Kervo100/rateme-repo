@@ -1,5 +1,7 @@
 package rateme.entity;
 
+import org.hibernate.annotations.GenericGenerator;
+
 import javax.persistence.*;
 
 /**
@@ -10,6 +12,8 @@ import javax.persistence.*;
 @Table(name = "bewertung")
 public class Rating {
     @Id
+    @GenericGenerator(name = "generator", strategy = "increment")
+    @GeneratedValue(generator = "generator")
     @Column(name = "id")
     private Integer id;
 

@@ -80,8 +80,8 @@ public class MediumController extends Controller {
         try {
             transaction = session.beginTransaction();
             Criteria criteria = session.createCriteria(Medium.class);
-            List allUsers = criteria.list();
-            Iterator itr = allUsers.iterator();
+            List allMedia = criteria.list();
+            Iterator itr = allMedia.iterator();
             while (itr.hasNext()) {
                 Medium medium = (Medium) itr.next();
                 if(medium.getName().equals((name))) {
@@ -100,5 +100,26 @@ public class MediumController extends Controller {
         }
 
         return null;
+    }
+
+    public List<Medium> getMediumList(){
+        List mediaList;
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            Criteria criteria = session.createCriteria(Medium.class);
+           mediaList = criteria.list();
+
+            transaction.commit();
+        }
+        catch (Exception e) {
+            if (transaction!=null) transaction.rollback();
+            throw e;
+        }
+        finally {
+            session.close();
+        }
+        return mediaList;
     }
 }

@@ -1,5 +1,7 @@
 package rateme.entity;
 
+import org.hibernate.annotations.GenericGenerator;
+
 import javax.persistence.*;
 import java.util.Date;
 
@@ -11,6 +13,8 @@ import java.util.Date;
 @Table(name="kommentar")
 public class Comment {
     @Id
+    @GenericGenerator(name = "generator", strategy = "increment")
+    @GeneratedValue(generator = "generator")
     @Column(name="id")
     private Integer id;
 
