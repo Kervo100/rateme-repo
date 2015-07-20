@@ -1,5 +1,9 @@
 package rateme.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
 import rateme.services.CategoryService;
 import rateme.services.MediumService;
 import rateme.services.UserService;
@@ -12,6 +16,8 @@ import java.util.List;
 /**
  * Created by Mo on 13.07.2015.
  */
+
+@Controller
 public class MediumController {
 
     public static MediumController mediumController = new MediumController();
@@ -19,6 +25,7 @@ public class MediumController {
     private UserService userService = null;
     private CategoryService categoryService = null;
 
+    @Autowired
     public MediumController() {
         this.mediumService = new MediumService();
         this.userService = new UserService();
@@ -41,8 +48,10 @@ public class MediumController {
         return false;
     }
 
-    public boolean getMediumList(){
+    @RequestMapping(value = "/")
+    public String showMediumList(Model model){
         List<Medium> mediaList = this.mediumService.getMediumList();
-        return false;
+        model.addAttribute("mediaList", mediaList);
+        return "index";
     }
 }

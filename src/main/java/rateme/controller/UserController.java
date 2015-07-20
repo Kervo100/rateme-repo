@@ -1,5 +1,8 @@
 package rateme.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
 import rateme.services.CommentService;
 import rateme.services.MediumService;
 import rateme.services.UserService;
@@ -8,23 +11,28 @@ import rateme.entity.*;
 /**
  * Created by thorben on 13/07/15.
  */
+
+@Controller
 public class UserController {
+
     public static UserController userController = new UserController();
     private UserService userService;
     private CommentService commentService;
     private MediumService mediumService;
 
+    @Autowired
     public UserController() {
-        userService = new UserService();
-        commentService = new CommentService();
-        mediumService = new MediumService();
+        this.userService = new UserService();
+        this.commentService = new CommentService();
+        this.mediumService = new MediumService();
     }
 
+    @RequestMapping(value = "/register")
     public boolean registerUser(String name, String password, String mail, boolean isAdmin) {
         User newUser = new User(name, mail, password, isAdmin);
-        User checkIfExist = userService.getUserByName(name);
+        User checkIfExist = this.userService.getUserByName(name);
         if(checkIfExist == null) {
-            userService.createObject(newUser);
+            this.userService.createObject(newUser);
             return true;
         }
         else {
@@ -34,7 +42,7 @@ public class UserController {
     }
 
     public boolean loginUser(String name, String password) {
-        User user = userService.getUserByName(name);
+        User user = this.userService.getUserByName(name);
         if(user != null && user.getPassword().equals(password)) {
             user.setLoggedIn(true);
             return true;
@@ -47,7 +55,7 @@ public class UserController {
     }
 
     public boolean banUserWithID(int id) {
-        User user = userService.getUserByID(id);
+        User user = this.userService.getUserByID(id);
 
         if(user != null) {
             user.setIsBlocked(true);
@@ -60,7 +68,7 @@ public class UserController {
     }
 
     public boolean unbanUserWithID(int id) {
-        User user = userService.getUserByID(id);
+        User user = this.userService.getUserByID(id);
 
         if(user != null) {
             user.setIsBlocked(false);

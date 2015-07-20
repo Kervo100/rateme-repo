@@ -8,9 +8,9 @@ public class Start {
     public static void main (String[] args) {
         System.out.println("rateme start");
 
-        //UserService userService = new UserService();
+        //UserController userController = new UserController();
         //User moritz = new User("Moritz Ellmers", "mers@web.de", "1234", true);
-        //userService.createObject(moritz);
+        //userController.createObject(moritz);
         //User mo = userService.getUserByName("Moritz Ellmers");
         //System.out.println(mo.getUsername());
 
