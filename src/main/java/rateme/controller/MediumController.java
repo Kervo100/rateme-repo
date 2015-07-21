@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
 import rateme.services.CategoryService;
 import rateme.services.MediumService;
 import rateme.services.UserService;
@@ -19,13 +21,12 @@ import java.util.List;
 
 @Controller
 public class MediumController {
-
+/*
     public static MediumController mediumController = new MediumController();
     private MediumService mediumService = null;
     private UserService userService = null;
     private CategoryService categoryService = null;
 
-    @Autowired
     public MediumController() {
         this.mediumService = new MediumService();
         this.userService = new UserService();
@@ -47,11 +48,11 @@ public class MediumController {
         // TODO HTML Befehle
         return false;
     }
-
-    @RequestMapping(value = "/")
-    public String showMediumList(Model model){
-        List<Medium> mediaList = this.mediumService.getMediumList();
-        model.addAttribute("mediaList", mediaList);
-        return "index";
+*/
+    @RequestMapping(value = "/index")
+    public ModelAndView showMediumList(){
+        //List<Medium> mediaList = this.mediumService.getMediumList();
+        //model.addAttribute("mediaList", mediaList);
+        return new ModelAndView("index");
     }
 }

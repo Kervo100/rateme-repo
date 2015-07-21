@@ -109,7 +109,7 @@ public class MediumService extends Service {
         try {
             transaction = session.beginTransaction();
             Criteria criteria = session.createCriteria(Medium.class);
-           mediaList = criteria.list();
+            mediaList = criteria.list();
 
             transaction.commit();
         }

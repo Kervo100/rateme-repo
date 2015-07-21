@@ -25,6 +25,5 @@
     </form>
 
 </div> <!-- /container -->
-<p th:text="'Hello, ' + ${name} + '!'" />
 </body>
 </html>

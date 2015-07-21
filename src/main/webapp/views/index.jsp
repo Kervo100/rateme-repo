@@ -6,13 +6,15 @@
 </head>
 <body>
 
-<nav th:replace="fragments/layout :: nav"></nav>
+<!--<nav th:replace="fragments/layout :: nav"></nav>
 
 <section id="content">
 
 </section>
 
-<footer th:replace="fragments/layout :: footer"></footer>
+<footer th:replace="fragments/layout :: footer"></footer>-->
+
+<h1>Test</h1>
 
 </body>
 </html>
