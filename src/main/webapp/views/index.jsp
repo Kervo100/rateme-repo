@@ -14,7 +14,7 @@
 
 <footer th:replace="fragments/layout :: footer"></footer>-->
 
-<h1>Test</h1>
+<h1>${message}</h1>
 
 </body>
 </html>
