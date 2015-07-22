@@ -50,16 +50,32 @@ public class MediumController {
         return false;
     }
 */
-    @RequestMapping(value = "/index", method = RequestMethod.GET)
+
+    /**
+     *
+     * Index.jsp (show MediumList)
+     */
+
+    @RequestMapping(value = {"/", "/index", "/home"})
     public ModelAndView showMediumList(){
         //List<Medium> mediaList = this.mediumService.getMediumList();
         //model.addAttribute("mediaList", mediaList);
-        ModelAndView mav = new ModelAndView();
-        mav.setViewName("index");
+        ModelAndView modelAndView = new ModelAndView("index");
 
-        String str = "Hello World";
-        mav.addObject("message", str);
+        modelAndView.addObject("page", "mediumList");
+        modelAndView.addObject("title", "RateMe");
+        modelAndView.addObject("message", "Hello World");
 
-        return mav;
+        return modelAndView;
+    }
+
+    @RequestMapping("*")
+    public ModelAndView show404Page() {
+        ModelAndView modelAndView = new ModelAndView("index");
+
+        modelAndView.addObject("page", "404");
+        modelAndView.addObject("title", "404 Page not found | RateMe");
+
+        return modelAndView;
     }
 }

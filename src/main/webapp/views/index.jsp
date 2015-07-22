@@ -1,20 +1,25 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
+<html>
 <head>
-    <title>Login | rateme</title>
+    <title>${title}</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link href="/assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/assets/css/style.css" rel="stylesheet">
 </head>
 <body>
 
-<!--<nav th:replace="fragments/layout :: nav"></nav>
+<jsp:include page="fragments/nav.jsp" />
 
-<section id="content">
-
+<section id="page-content">
+    <jsp:include page="fragments/${page}.jsp" />
 </section>
 
-<footer th:replace="fragments/layout :: footer"></footer>-->
+<jsp:include page="fragments/footer.jsp" />
 
-<h1>${message}</h1>
+<script src="/assets/plugins/js/jquery-2.1.4.min.js"></script>
+<script src="/assets/plugins/bootstrap/js/bootstrap.min.js"></script>
 
 </body>
 </html>

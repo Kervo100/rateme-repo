@@ -36,8 +36,8 @@ dependencies {
     compile "org.hibernate:hibernate-core:4.3.10.Final"
     compile "mysql:mysql-connector-java:5.1.35"
     compile 'org.springframework.boot:spring-boot-starter-web'
-    //Required dependency for JSP
-    providedRuntime 'org.apache.tomcat.embed:tomcat-embed-jasper'
+    providedRuntime 'org.apache.tomcat.embed:tomcat-embed-jasper' //Required dependency for JSP
+    compile 'javax.servlet:jstl:1.2'
 }
 
 task wrapper(type: Wrapper) {
