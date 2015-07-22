@@ -69,6 +69,13 @@ public class MediumController {
         return modelAndView;
     }
 
+    @RequestMapping("/impressum")
+    public ModelAndView showImpressum() {
+        ModelAndView modelAndView = new ModelAndView("impressum");
+
+        return modelAndView;
+    }
+
     @RequestMapping("*")
     public ModelAndView show404Page() {
         ModelAndView modelAndView = new ModelAndView("index");
