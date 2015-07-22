@@ -15,7 +15,7 @@ apply plugin: 'java'
 apply plugin: 'war'
 apply plugin: 'spring-boot'
 
-//mainClassName = "rateme.Start"
+mainClassName = "rateme.Start"
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
