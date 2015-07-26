@@ -1,28 +1,33 @@
 package rateme.services;
 
+import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import rateme.HibernateUtil;
-import rateme.entity.Rating;
+import rateme.entity.Link;
+import rateme.entity.Medium;
+
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * Created by Mo on 06.07.2015.
  */
-public class RatingService extends Service {
-    public RatingService() {
+public class LinkService extends Service {
+    public LinkService() {
 
     }
 
     @Override
     public Integer createObject(Object object) {
-        Rating rating = (Rating) object;
+        Link link = (Link) object;
         Integer id = null;
 
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction transaction = null;
         try {
             transaction = session.beginTransaction();
-            id = (Integer) session.save(rating);
+            id = (Integer) session.save(link);
             transaction.commit();
         }
         catch (Exception e) {
@@ -49,23 +54,4 @@ public class RatingService extends Service {
         return false;
     }
 
-    public Rating getRatingByID(int id) {
-        Rating rating = null;
-        Session session = HibernateUtil.getSessionFactory().openSession();
-        Transaction transaction = null;
-        try {
-            transaction = session.beginTransaction();
-            rating = (Rating) session.get(Rating.class, id);
-            transaction.commit();
-        }
-        catch (Exception e) {
-            if (transaction!=null) transaction.rollback();
-            throw e;
-        }
-        finally {
-            session.close();
-        }
-
-        return rating;
-    }
 }

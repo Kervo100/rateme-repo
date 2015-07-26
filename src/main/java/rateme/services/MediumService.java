@@ -18,7 +18,38 @@ public class MediumService extends Service {
     }
 
     @Override
-    public boolean createObject(Object object) {
+    public Integer createObject(Object object) {
+        Medium medium = (Medium) object;
+        Integer id = null;
+
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            id = (Integer) session.save(medium);
+            transaction.commit();
+        }
+        catch (Exception e) {
+            if (transaction!=null){
+                transaction.rollback();
+                id = null;
+            }
+            throw e;
+        }
+        finally {
+            session.close();
+        }
+
+        return id;
+    }
+
+    @Override
+    public boolean updateObject(Object object) {
+        return false;
+    }
+
+    @Override
+    public boolean deleteObject(Object object) {
         Medium medium = (Medium) object;
         boolean success = false;
 
@@ -26,7 +57,7 @@ public class MediumService extends Service {
         Transaction transaction = null;
         try {
             transaction = session.beginTransaction();
-            session.save(medium);
+            session.delete(medium);
             transaction.commit();
             success = true;
         }
@@ -44,17 +75,7 @@ public class MediumService extends Service {
         return success;
     }
 
-    @Override
-    public boolean updateObject(Object object) {
-        return false;
-    }
-
-    @Override
-    public boolean deleteObject(Object object) {
-        return false;
-    }
-
-    public Medium getMediumByID(int id) {
+    public Medium getMediumById(int id) {
         Medium medium = null;
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction transaction = null;

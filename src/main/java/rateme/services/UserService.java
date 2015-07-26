@@ -18,22 +18,21 @@ public class UserService extends Service {
     }
 
     @Override
-    public boolean createObject(Object object) {
+    public Integer createObject(Object object) {
         User user = (User) object;
-        boolean success = false;
+        Integer id = null;
 
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction transaction = null;
         try {
             transaction = session.beginTransaction();
-            session.save(user);
+            id = (Integer) session.save(user);
             transaction.commit();
-            success = true;
         }
         catch (Exception e) {
             if (transaction!=null){
                 transaction.rollback();
-                success = false;
+                id = null;
             }
             throw e;
         }
@@ -41,7 +40,7 @@ public class UserService extends Service {
             session.close();
         }
 
-        return success;
+        return id;
     }
 
     @Override

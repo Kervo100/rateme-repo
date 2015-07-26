@@ -17,17 +17,13 @@ public class User {
         this.username = name;
         this.email = email;
         this.password = password;
-        this.loggedIn = false;
     }
     public User(String name, String email, String password, boolean admin) {
         this.username = name;
         this.email = email;
         this.password = password;
         this.isAdmin = admin;
-        this.loggedIn = false;
     }
-
-    boolean loggedIn;
 
     @Id
     @GenericGenerator(name = "generator", strategy = "increment")
@@ -99,8 +95,4 @@ public class User {
     public void setIsBlocked(boolean isBlocked) {
         this.isBlocked = isBlocked;
     }
-
-    public boolean isLoggedIn() { return this.loggedIn; }
-
-    public void setLoggedIn(boolean status) { this.loggedIn = status; }
 }
