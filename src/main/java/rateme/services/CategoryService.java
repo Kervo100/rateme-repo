@@ -1,4 +1,4 @@
-package rateme.controller;
+package rateme.services;
 
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -8,7 +8,7 @@ import rateme.entity.Category;
 /**
  * Created by Mo on 13.07.2015.
  */
-public class CategoryController extends Controller {
+public class CategoryService extends Service {
 
     @Override
     public boolean createObject(Object object) {

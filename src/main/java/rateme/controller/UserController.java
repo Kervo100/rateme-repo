@@ -1,127 +1,87 @@
 package rateme.controller;
 
-import org.hibernate.Criteria;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
-import rateme.HibernateUtil;
-import rateme.entity.User;
-
-import java.util.Iterator;
-import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import rateme.services.CommentService;
+import rateme.services.MediumService;
+import rateme.services.UserService;
+import rateme.entity.*;
 
 /**
- * Created by thorben on 04/07/15.
+ * Created by thorben on 13/07/15.
  */
-public class UserController extends Controller {
+
+@Controller
+public class UserController {
+/*
+    public static UserController userController = new UserController();
+    private UserService userService;
+    private CommentService commentService;
+    private MediumService mediumService;
+
     public UserController() {
-
+        this.userService = new UserService();
+        this.commentService = new CommentService();
+        this.mediumService = new MediumService();
     }
 
-    @Override
-    public boolean createObject(Object object) {
-        User user = (User) object;
-        boolean success = false;
-
-        Session session = HibernateUtil.getSessionFactory().openSession();
-        Transaction transaction = null;
-        try {
-            transaction = session.beginTransaction();
-            session.save(user);
-            transaction.commit();
-            success = true;
+    @RequestMapping("/register/addUser")
+    public boolean registerUser(String name, String password, String mail, boolean isAdmin) {
+        User newUser = new User(name, mail, password, isAdmin);
+        User checkIfExist = this.userService.getUserByName(name);
+        if(checkIfExist == null) {
+            this.userService.createObject(newUser);
+            return true;
         }
-        catch (Exception e) {
-            if (transaction!=null){
-                transaction.rollback();
-                success = false;
-            }
-            throw e;
+        else {
+            System.out.println("registerUser - ein User mit diesem Namen bereits vorhanden");
         }
-        finally {
-            session.close();
-        }
-
-        return success;
-    }
-
-    @Override
-    public boolean updateObject(Object object) {
-        User user = (User) object;
-        boolean success = false;
-
-        Session session = HibernateUtil.getSessionFactory().openSession();
-        Transaction transaction = null;
-        try {
-            transaction = session.beginTransaction();
-            session.update(user);
-            transaction.commit();
-            success = true;
-        }
-        catch (Exception e) {
-            if (transaction!=null){
-                transaction.rollback();
-                success = false;
-            }
-            throw e;
-        }
-        finally {
-            session.close();
-        }
-
-        return success;
-    }
-
-    @Override
-    public boolean deleteObject(Object object) {
         return false;
     }
 
-    public User getUserByID(int id) {
-        User user = null;
-        Session session = HibernateUtil.getSessionFactory().openSession();
-        Transaction transaction = null;
-        try {
-            transaction = session.beginTransaction();
-            user = (User) session.get(User.class, id);
-            transaction.commit();
-        }
-        catch (Exception e) {
-            if (transaction!=null) transaction.rollback();
-            throw e;
-        }
-        finally {
-            session.close();
-        }
-
-        return user;
+    @RequestMapping("/register")
+    public String registerUser() {
+        return "login";
     }
 
-    public User getUserByName(String name) {
-        User user = null;
-        Session session = HibernateUtil.getSessionFactory().openSession();
-        Transaction transaction = null;
-        try {
-            transaction = session.beginTransaction();
-            Criteria criteria = session.createCriteria(User.class);
-            List allUsers = criteria.list();
-            Iterator itr = allUsers.iterator();
-            while (itr.hasNext()) {
-                User u = (User) itr.next();
-                if(u.getUsername().equals((name))) {
-                    user = u;
-                }
-            }
-
-            transaction.commit();
+    public boolean loginUser(String name, String password) {
+        User user = this.userService.getUserByName(name);
+        if(user != null && user.getPassword().equals(password)) {
+            user.setLoggedIn(true);
+            return true;
         }
-        catch (Exception e) {
-            if (transaction!=null) transaction.rollback();
-            throw e;
-        }
-        finally {
-            session.close();
+        else {
+            System.out.println("loginUser - wrong password");
         }
 
-        return user;
+        return false;
     }
+
+    public boolean banUserWithID(int id) {
+        User user = this.userService.getUserByID(id);
+
+        if(user != null) {
+            user.setIsBlocked(true);
+            return true;
+        }
+        else {
+            System.out.println("banUserWithID - User nicht vorhanden");
+            return false;
+        }
+    }
+
+    public boolean unbanUserWithID(int id) {
+        User user = this.userService.getUserByID(id);
+
+        if(user != null) {
+            user.setIsBlocked(false);
+            return true;
+        }
+        else {
+            System.out.println("unbanUserWithID - User nicht vorhanden");
+            return false;
+        }
+    }
+    */
 }

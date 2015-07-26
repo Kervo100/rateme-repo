@@ -1,16 +1,15 @@
-package rateme.controller;
+package rateme.services;
 
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import rateme.HibernateUtil;
-import rateme.entity.Comment;
 import rateme.entity.Rating;
 
 /**
  * Created by Mo on 06.07.2015.
  */
-public class RatingController extends Controller {
-    public RatingController() {
+public class RatingService extends Service {
+    public RatingService() {
 
     }
 

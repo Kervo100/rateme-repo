@@ -1,125 +1,88 @@
 package rateme.controller;
 
-import org.hibernate.Criteria;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
-import rateme.HibernateUtil;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
+import rateme.services.CategoryService;
+import rateme.services.MediumService;
+import rateme.services.UserService;
+import rateme.entity.Category;
 import rateme.entity.Medium;
+import rateme.entity.User;
 
-import java.util.Iterator;
 import java.util.List;
 
 /**
- * Created by Mo on 06.07.2015.
+ * Created by Mo on 13.07.2015.
  */
-public class MediumController extends Controller {
+
+@Controller
+public class MediumController {
+/*
+    public static MediumController mediumController = new MediumController();
+    private MediumService mediumService = null;
+    private UserService userService = null;
+    private CategoryService categoryService = null;
+
     public MediumController() {
-
+        this.mediumService = new MediumService();
+        this.userService = new UserService();
+        this.categoryService = new CategoryService();
     }
 
-    @Override
-    public boolean createObject(Object object) {
-        Medium medium = (Medium) object;
-        boolean success = false;
-
-        Session session = HibernateUtil.getSessionFactory().openSession();
-        Transaction transaction = null;
-        try {
-            transaction = session.beginTransaction();
-            session.save(medium);
-            transaction.commit();
-            success = true;
+    public boolean addMedium(String name, String description, int userId, int categoryId){
+        // Get Data from HTML Forms
+        User user = userService.getUserByID(userId);
+        Category category = this.categoryService.getCategoryById(categoryId);
+        // Create a new Medium in database
+        Medium medium = new Medium(name, description, user, category);
+        if (this.mediumService.createObject(medium)){
+            System.out.println("new medium created");
         }
-        catch (Exception e) {
-            if (transaction!=null){
-                transaction.rollback();
-                success = false;
-            }
-            throw e;
+        else {
+            System.out.println("medium could not create");
         }
-        finally {
-            session.close();
-        }
-
-        return success;
-    }
-
-    @Override
-    public boolean updateObject(Object object) {
+        // TODO HTML Befehle
         return false;
     }
+*/
 
-    @Override
-    public boolean deleteObject(Object object) {
-        return false;
+    /**
+     *
+     * Index.jsp (show MediumList)
+     */
+
+    @RequestMapping(value = {"/", "/index", "/home"})
+    public ModelAndView showMediumList(){
+        //List<Medium> mediaList = this.mediumService.getMediumList();
+        //model.addAttribute("mediaList", mediaList);
+        ModelAndView modelAndView = new ModelAndView("index");
+
+        modelAndView.addObject("page", "mediumList");
+        modelAndView.addObject("title", "RateMe");
+        modelAndView.addObject("message", "Hello World");
+
+        return modelAndView;
     }
 
-    public Medium getMediumByID(int id) {
-        Medium medium = null;
-        Session session = HibernateUtil.getSessionFactory().openSession();
-        Transaction transaction = null;
-        try {
-            transaction = session.beginTransaction();
-            medium = (Medium) session.get(Medium.class, id);
-            transaction.commit();
-        }
-        catch (Exception e) {
-            if (transaction!=null) transaction.rollback();
-            throw e;
-        }
-        finally {
-            session.close();
-        }
+    @RequestMapping("/impressum")
+    public ModelAndView showImpressum() {
+        ModelAndView modelAndView = new ModelAndView("impressum");
 
-        return medium;
+        return modelAndView;
     }
 
-    public Medium getMediumByName(String name) {
-        Session session = HibernateUtil.getSessionFactory().openSession();
-        Transaction transaction = null;
-        try {
-            transaction = session.beginTransaction();
-            Criteria criteria = session.createCriteria(Medium.class);
-            List allMedia = criteria.list();
-            Iterator itr = allMedia.iterator();
-            while (itr.hasNext()) {
-                Medium medium = (Medium) itr.next();
-                if(medium.getName().equals((name))) {
-                    return medium;
-                }
-            }
+    @RequestMapping("*")
+    public ModelAndView show404Page() {
+        ModelAndView modelAndView = new ModelAndView("index");
 
-            transaction.commit();
-        }
-        catch (Exception e) {
-            if (transaction!=null) transaction.rollback();
-            throw e;
-        }
-        finally {
-            session.close();
-        }
+        modelAndView.addObject("page", "404");
+        modelAndView.addObject("title", "404 Page not found | RateMe");
 
-        return null;
-    }
-
-    public List<Medium> getMediumList(){
-        List mediaList;
-        Session session = HibernateUtil.getSessionFactory().openSession();
-        Transaction transaction = null;
-        try {
-            transaction = session.beginTransaction();
-            Criteria criteria = session.createCriteria(Medium.class);
-           mediaList = criteria.list();
-
-            transaction.commit();
-        }
-        catch (Exception e) {
-            if (transaction!=null) transaction.rollback();
-            throw e;
-        }
-        finally {
-            session.close();
-        }
-        return mediaList;
+        return modelAndView;
     }
 }

@@ -4,21 +4,27 @@
 
 package rateme;
 
-import rateme.entity.Medium;
-import rateme.entity.User;
-import rateme.controller.*;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
 
+@Configuration
+@ComponentScan
+@EnableAutoConfiguration
 public class Start {
     public static void main (String[] args) {
         System.out.println("rateme start");
 
+        SpringApplication.run(Start.class, args);
+
         //UserController userController = new UserController();
         //User moritz = new User("Moritz Ellmers", "mers@web.de", "1234", true);
         //userController.createObject(moritz);
-        //User mo = userController.getUserByName("Moritz Ellmers");
+        //User mo = userService.getUserByName("Moritz Ellmers");
         //System.out.println(mo.getUsername());
 
-        //MediumController mediumController = new MediumController();
+        //MediumService mediumService = new MediumService();
         //System.out.println(medium.getTimestamp());
 
         HibernateUtil.shutdown();

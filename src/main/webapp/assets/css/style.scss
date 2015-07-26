@@ -1,0 +1,81 @@
+/* Variables
+-------------------------------------------------- */
+$font-stack: Helvetica, sans-serif;
+$primary-color: #2A1F0B;
+$secondary-color: #442f15;
+$background-color: #E5F0F6;
+$background-color-banner: #BCAA92;
+$highlight-color: #AF8823;
+/* General
+-------------------------------------------------- */
+body {
+  font: $font-stack;
+  color: $primary-color;
+}
+a {
+  color: $secondary-color;
+}
+.page-content {
+  margin-bottom: 30px;
+}
+/* Navbar
+-------------------------------------------------- */
+.navbar-inverse {
+  background-color: $background-color-banner;
+  border-color: $background-color-banner;
+  .navbar-nav>li>a, .navbar-brand {
+    color: $primary-color;
+    &:hover {
+      text-decoration: none;
+      color: $highlight-color;
+    }
+  }
+}
+.btn-primary {
+  background-color: $background-color-banner;
+  border-color: $background-color-banner;
+  &:hover {
+    background-color: $highlight-color;
+    border-color: $highlight-color;
+  }
+}
+/* Error Page
+-------------------------------------------------- */
+.error-template {
+  padding: 100px 15px;
+  text-align: center;
+}
+.error-actions {
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+.error-actions .btn {
+  margin-right:10px;
+}
+/* Sticky footer styles
+-------------------------------------------------- */
+html {
+  position: relative;
+  min-height: 100%;
+}
+body {
+  /* Margin bottom by footer height */
+  margin-bottom: 60px;
+}
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  /* Set the fixed height of the footer here */
+  height: auto;
+  background-color: $background-color-banner;
+}
+.footer-content {
+  margin-top: 20px;
+  color: $primary-color;
+  a:hover {
+    text-decoration: none;
+    color: $highlight-color;
+
+  }
+}

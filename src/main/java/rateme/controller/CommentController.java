@@ -1,76 +1,45 @@
 package rateme.controller;
 
-import org.hibernate.Criteria;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
-import rateme.HibernateUtil;
-import rateme.entity.*;
-
-import java.util.Iterator;
-import java.util.List;
+import rateme.services.CommentService;
+import rateme.services.MediumService;
+import rateme.services.UserService;
+import rateme.entity.Comment;
+import rateme.entity.Medium;
+import rateme.entity.User;
 
 /**
- * Created by Mo on 06.07.2015.
+ * Created by thorben on 13/07/15.
  */
-public class CommentController extends Controller {
+public class CommentController {
+
+    public static CommentController commentManager = new CommentController();
+    private UserService userService;
+    private CommentService commentService;
+    private MediumService mediumService;
+
     public CommentController() {
-
+        userService = new UserService();
+        commentService = new CommentService();
+        mediumService = new MediumService();
     }
 
-    @Override
-    public boolean createObject(Object object) {
-        Comment comment = (Comment) object;
-        boolean success = false;
+    public boolean deleteComment(int commentID, int userID) {
+        User user = userService.getUserByID(userID);
+        Comment comment = commentService.getCommentByID(commentID);
 
-        Session session = HibernateUtil.getSessionFactory().openSession();
-        Transaction transaction = null;
-        try {
-            transaction = session.beginTransaction();
-            session.save(comment);
-            transaction.commit();
-            success = true;
-        }
-        catch (Exception e) {
-            if (transaction!=null){
-                transaction.rollback();
-                success = false;
+        if(user != null && comment != null) {
+            if(user.isAdmin() == true || user == comment.getUser()) {
+                commentService.deleteObject(comment);
+                return true;
             }
-            throw e;
+            else {
+                System.out.println("deleteComment - User nicht berechtigt, den Kommentar zu loeschen");
+                return false;
+            }
         }
-        finally {
-            session.close();
+        else {
+            System.out.println("deleteComment - user oder comment nicht vorhanden");
+            return false;
         }
-
-        return success;
-    }
-
-    @Override
-    public boolean updateObject(Object object) {
-        return false;
-    }
-
-    @Override
-    public boolean deleteObject(Object object) {
-        return false;
-    }
-
-    public Comment getCommentByID(int id) {
-        Comment comment = null;
-        Session session = HibernateUtil.getSessionFactory().openSession();
-        Transaction transaction = null;
-        try {
-            transaction = session.beginTransaction();
-            comment = (Comment) session.get(Comment.class, id);
-            transaction.commit();
-        }
-        catch (Exception e) {
-            if (transaction!=null) transaction.rollback();
-            throw e;
-        }
-        finally {
-            session.close();
-        }
-
-        return comment;
     }
 }
