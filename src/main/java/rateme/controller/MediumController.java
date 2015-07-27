@@ -5,14 +5,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import rateme.entity.*;
 import rateme.services.*;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.lang.reflect.Method;
 import java.net.URISyntaxException;
@@ -73,7 +72,8 @@ public class MediumController {
             @RequestParam("medium-link") String url,
             @RequestParam("medium-category") int categoryId,
             @RequestParam("medium-description") String description,
-            @RequestParam("user-id") int userId) {
+            @RequestParam("user-id") int userId,
+            @CookieValue(value = "rateMe_LoggedIn", defaultValue = "false") String loginCookie) {
 
         System.out.println(name + " " + url + " " + categoryId + " " + description);
         String message = "<p class='alert alert-danger'>Das Medium konnte nicht geteilt werden!</p>";
@@ -113,47 +113,28 @@ public class MediumController {
             }
         }
 
-        return showMediumList(message);
+        return showMediumList(loginCookie, message);
     }
 
-    /**
-     *
-     * Index.jsp (show MediumList)
-     */
-
     @RequestMapping(value = {"/", "/index", "/home"})
-    public ModelAndView showMediumList(String message){
-        //List<Medium> mediaList = this.mediumService.getMediumList();
-        //model.addAttribute("mediaList", mediaList);
-        ModelAndView modelAndView = new ModelAndView("index");
+    public ModelAndView showMediumList(@CookieValue(value = "rateMe_LoggedIn", defaultValue = "false") String loginCookie
+                                        , String message){
 
+        ModelAndView modelAndView = new ModelAndView("index");
+        if(!loginCookie.equals("false")) {
+            modelAndView.addObject("title", "RateMe - " + loginCookie);
+        }
+        else {
+            modelAndView.addObject("title", "RateMe");
+        }
+        modelAndView.addObject("loginCookie", loginCookie);
         modelAndView.addObject("page", "mediumList");
-        modelAndView.addObject("title", "RateMe");
         modelAndView.addObject("message", message);
 
         return modelAndView;
     }
 
-    @RequestMapping(value="/login", method=RequestMethod.POST)
-    public ModelAndView login(@RequestParam("email") String email,
-                              @RequestParam("password") String password) {
-        System.out.println("login for User: " + email + " requested");
 
-        User remoteUser = userService.getUserByEmail(email);
-        if(remoteUser != null) {
-            if(remoteUser.getPassword().equals(password)) {
-                System.out.println("User erfolgreich eingeloggt");
-            }
-        }
-        else {
-            System.out.println("dieser User existiert nicht");
-        }
-
-        ModelAndView modelAndView = new ModelAndView("index");
-        modelAndView.addObject("page", "mediumList");
-
-        return modelAndView;
-    }
 
     @RequestMapping("/impressum")
     public ModelAndView showImpressum() {
@@ -161,6 +142,8 @@ public class MediumController {
 
         return modelAndView;
     }
+
+
 
     @RequestMapping("*")
     public ModelAndView show404Page() {
