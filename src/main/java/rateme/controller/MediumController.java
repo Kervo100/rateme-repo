@@ -129,6 +129,9 @@ public class MediumController {
         modelAndView.addObject("title", "RateMe");
         modelAndView.addObject("message", message);
 
+        List<Medium> mediaList = this.mediumService.getMediumList();
+        modelAndView.addObject("mediaList", mediaList);
+
         return modelAndView;
     }
 
