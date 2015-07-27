@@ -12,6 +12,7 @@ import java.util.List;
 /**
  * Created by thorben on 04/07/15.
  */
+
 public class UserService extends Service {
     public UserService() {
 
@@ -107,6 +108,35 @@ public class UserService extends Service {
             while (itr.hasNext()) {
                 User u = (User) itr.next();
                 if(u.getUsername().equals((name))) {
+                    user = u;
+                }
+            }
+
+            transaction.commit();
+        }
+        catch (Exception e) {
+            if (transaction!=null) transaction.rollback();
+            throw e;
+        }
+        finally {
+            session.close();
+        }
+
+        return user;
+    }
+
+    public User getUserByEmail(String email) {
+        User user = null;
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            Criteria criteria = session.createCriteria(User.class);
+            List allUsers = criteria.list();
+            Iterator itr = allUsers.iterator();
+            while (itr.hasNext()) {
+                User u = (User) itr.next();
+                if(u.getEmail().equals((email))) {
                     user = u;
                 }
             }
