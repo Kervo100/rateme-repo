@@ -20,6 +20,9 @@
           <span class="btn btn-default input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
         </div>
       </form>
+      <ul class="nav navbar-nav">
+        <li><a href="/share" class="btn btn-default">Teilen</a></li>
+      </ul>
       <form class="navbar-form navbar-right">
         <div class="form-group">
           <input type="email" class="form-control" id="email-login" placeholder="Email">

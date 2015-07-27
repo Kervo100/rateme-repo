@@ -21,6 +21,7 @@ public class Medium {
         this.description = description;
         this.user = user;
         this.category = category;
+        System.out.println("Medium created: " + this.name + ", " + this.user.getUsername() + ", " + this.category.getName());
     }
 
     @Id

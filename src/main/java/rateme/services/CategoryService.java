@@ -11,8 +11,8 @@ import rateme.entity.Category;
 public class CategoryService extends Service {
 
     @Override
-    public boolean createObject(Object object) {
-        return false;
+    public Integer createObject(Object object) {
+        return 0;
     }
 
     @Override

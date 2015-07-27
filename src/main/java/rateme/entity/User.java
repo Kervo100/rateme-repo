@@ -6,7 +6,6 @@ import javax.persistence.*;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.*;
-import database.Db_Connection;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -25,18 +24,15 @@ public class User {
         this.username = name;
         this.email = email;
         this.password = password;
-        this.loggedIn = false;
     }
     public User(String name, String email, String password, boolean admin) {
         this.username = name;
         this.email = email;
         this.password = password;
         this.isAdmin = admin;
-        this.loggedIn = false;
     }
 
-    boolean loggedIn;
-    
+
     @Id
     @GenericGenerator(name = "generator", strategy = "increment")
     @GeneratedValue(generator = "generator")
@@ -107,33 +103,4 @@ public class User {
     public void setIsBlocked(boolean isBlocked) {
         this.isBlocked = isBlocked;
     }
-
-    public boolean isLoggedIn() { return this.loggedIn; }
-
-    public void setLoggedIn(boolean status) { this.loggedIn = status; }
-
-
-
-    public void registerUser()
-    {
-        try
-        {
-            Db_Connection dbconn = new Db_Connection();
-            Connection myconnection= dbconn.Connection();
-
-            String sqlString="INSERT INTO benutzer (username,email,password) VALUES ('"+username+"','"+email+"','"+password+"')";
-
-            Statement myStatement = myconnection.createStatement();
-
-            try
-            {
-                myStatement.executeUpdate(sqlString);
-                myStatement.close();
-                myconnection.close();
-            } catch (SQLException ex) {Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);}
-        } catch (SQLException ex) {Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);}
-    }
-
-
-
 }

@@ -9,6 +9,10 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
 @Configuration
 @ComponentScan
 @EnableAutoConfiguration
@@ -27,7 +31,7 @@ public class Start {
         //MediumService mediumService = new MediumService();
         //System.out.println(medium.getTimestamp());
 
-        HibernateUtil.shutdown();
+        //HibernateUtil.shutdown();
         System.out.println("rateme close");
     }
 }
