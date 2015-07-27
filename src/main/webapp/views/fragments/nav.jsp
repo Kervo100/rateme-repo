@@ -27,7 +27,8 @@
         <div class="form-group">
           <input type="password" class="form-control" id="password-login" placeholder="Passwort">
         </div>
-        <button type="submit" class="btn btn-default">Einloggen</button>
+        <button href="login" type="submit" class="btn btn-default">Einloggen</button>
+          <input type="button" class="btn btn-default" onClick="parent.location='register'" value='Register'>
       </form>
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->

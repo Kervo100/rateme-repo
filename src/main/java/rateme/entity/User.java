@@ -3,6 +3,14 @@ package rateme.entity;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.*;
+import database.Db_Connection;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+
 
 /**
  * Created by Mo on 29.06.2015.
@@ -103,4 +111,29 @@ public class User {
     public boolean isLoggedIn() { return this.loggedIn; }
 
     public void setLoggedIn(boolean status) { this.loggedIn = status; }
+
+
+
+    public void registerUser()
+    {
+        try
+        {
+            Db_Connection dbconn = new Db_Connection();
+            Connection myconnection= dbconn.Connection();
+
+            String sqlString="INSERT INTO benutzer (username,email,password) VALUES ('"+username+"','"+email+"','"+password+"')";
+
+            Statement myStatement = myconnection.createStatement();
+
+            try
+            {
+                myStatement.executeUpdate(sqlString);
+                myStatement.close();
+                myconnection.close();
+            } catch (SQLException ex) {Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);}
+        } catch (SQLException ex) {Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);}
+    }
+
+
+
 }

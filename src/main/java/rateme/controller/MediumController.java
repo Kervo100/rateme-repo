@@ -1,20 +1,8 @@
 package rateme.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
-import rateme.services.CategoryService;
-import rateme.services.MediumService;
-import rateme.services.UserService;
-import rateme.entity.Category;
-import rateme.entity.Medium;
-import rateme.entity.User;
-
-import java.util.List;
 
 /**
  * Created by Mo on 13.07.2015.
@@ -72,6 +60,13 @@ public class MediumController {
     @RequestMapping("/impressum")
     public ModelAndView showImpressum() {
         ModelAndView modelAndView = new ModelAndView("impressum");
+
+        return modelAndView;
+    }
+
+    @RequestMapping("/register")
+    public ModelAndView showRegister() {
+        ModelAndView modelAndView = new ModelAndView("register");
 
         return modelAndView;
     }

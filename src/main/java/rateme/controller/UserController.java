@@ -14,7 +14,7 @@ import rateme.entity.*;
 
 @Controller
 public class UserController {
-/*
+
     public static UserController userController = new UserController();
     private UserService userService;
     private CommentService commentService;
@@ -26,7 +26,7 @@ public class UserController {
         this.mediumService = new MediumService();
     }
 
-    @RequestMapping("/register/addUser")
+    @RequestMapping("/register")
     public boolean registerUser(String name, String password, String mail, boolean isAdmin) {
         User newUser = new User(name, mail, password, isAdmin);
         User checkIfExist = this.userService.getUserByName(name);
@@ -35,15 +35,17 @@ public class UserController {
             return true;
         }
         else {
-            System.out.println("registerUser - ein User mit diesem Namen bereits vorhanden");
+            System.out.println("ein User mit diesem Eintrag ist bereits vorhanden");
         }
         return false;
     }
-
+/*
     @RequestMapping("/register")
     public String registerUser() {
         return "login";
     }
+
+
 
     public boolean loginUser(String name, String password) {
         User user = this.userService.getUserByName(name);
@@ -83,5 +85,8 @@ public class UserController {
             return false;
         }
     }
-    */
+*/
 }
+
+
+
