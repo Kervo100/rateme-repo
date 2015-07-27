@@ -8,7 +8,7 @@ public abstract class Service {
 
     }
 
-    public abstract boolean createObject(Object object);
+    public abstract Integer createObject(Object object);
     public abstract boolean updateObject(Object object);
     public abstract boolean deleteObject(Object object);
 }

@@ -11,6 +11,15 @@ import javax.persistence.*;
 @Entity
 @Table(name="verlinkung")
 public class Link {
+
+    public Link() {}
+
+    public Link(String url, Platform platform, Medium medium) {
+        this.url = url;
+        this.platform = platform;
+        this.medium = medium;
+    }
+
     @Id
     @GenericGenerator(name = "generator", strategy = "increment")
     @GeneratedValue(generator = "generator")
@@ -21,7 +30,7 @@ public class Link {
     private String url;
 
     @OneToOne(fetch= FetchType.EAGER)
-    @JoinColumn (name= "platform_id")
+    @JoinColumn (name= "plattform_id")
     private Platform platform;
 
     @OneToOne(fetch= FetchType.EAGER)

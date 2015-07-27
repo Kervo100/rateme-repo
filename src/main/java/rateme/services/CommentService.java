@@ -14,22 +14,21 @@ public class CommentService extends Service {
     }
 
     @Override
-    public boolean createObject(Object object) {
+    public Integer createObject(Object object) {
         Comment comment = (Comment) object;
-        boolean success = false;
+        Integer id = null;
 
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction transaction = null;
         try {
             transaction = session.beginTransaction();
-            session.save(comment);
+            id = (Integer) session.save(comment);
             transaction.commit();
-            success = true;
         }
         catch (Exception e) {
             if (transaction!=null){
                 transaction.rollback();
-                success = false;
+                id = null;
             }
             throw e;
         }
@@ -37,7 +36,7 @@ public class CommentService extends Service {
             session.close();
         }
 
-        return success;
+        return id;
     }
 
     @Override
