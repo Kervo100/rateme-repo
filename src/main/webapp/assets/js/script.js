@@ -4,10 +4,17 @@ $(document).ready(function($) {
      * Start Plugins
      */
 
-    //Set maxlength of all the textarea (call plugin)
-    $().maxlength("#medium-description", "#medium-description-counter");
-
     screenshotPreview();
+
+    $(".ellipsis").dotdotdot({
+        ellipsis	: '... ',
+        height		: 100,
+        after: "a.readmore"
+    });
+
+    /**
+     * End Plugins
+     */
 
     // set userId in hidden input with id="user-id"
     var userId = 2;

@@ -1,24 +1,33 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <div class="container">
   <section class="page-content">
-    <div class="row">
-      <div class="col-sm-6 col-md-4">
-        <div class="thumbnail">
-          <div class="caption">
-            <h3 class="medium-title text-center">Medium Titel</h3>
-            <dl class="dl-horizontal">
-              <dt>Link</dt>
-              <dd class="medium-link"><a href="www.youtube.com">www.youtube.com</a></dd>
-              <dt>Kategorie</dt>
-              <dd class="medium-category">Video</dd>
-              <dt>Beschreibung</dt>
-              <dd class="medium-description">Lorem Ipsum</dd>
-              <dt>Geteilt von</dt>
-              <dd class="medium-user">Max Mustermann</dd>
-            </dl>
-            <p class="text-center"><a href="#" class="btn btn-primary" role="button">Details</a></p>
-          </div>
-        </div>
+    <div id="media-list">
+      <div class="row">
+
+          <c:if test="${not empty mediaList}">
+
+            <c:forEach var="medium" items="${mediaList}">
+              <div class="thumbnail">
+                <div class="caption">
+                  <h3 class="medium-title text-center">${medium.getName()}</h3>
+                  <dl class="dl-horizontal">
+                    <dt>Link</dt>
+                    <dd class="medium-link"><a href="www.youtube.com">${medium.getName()}</a></dd>
+                    <dt>Kategorie</dt>
+                    <dd class="medium-category">${medium.getCategory().getName()}</dd>
+                    <dt>Beschreibung</dt>
+                    <dd class="medium-description ellipsis">${medium.getDescription()} <a href="/medium/${medium.getId()}" class="readmore">mehr</a></dd>
+                    <dt>Geteilt von</dt>
+                    <dd class="medium-user">${medium.getUser().getUsername()}</dd>
+                  </dl>
+                  <p class="text-center"><a href="/medium/${medium.getId()}" class="btn btn-primary" role="button">Details</a></p>
+                </div>
+              </div>
+            </c:forEach>
+
+          </c:if>
+
       </div>
     </div>
   </section>

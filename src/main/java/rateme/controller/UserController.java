@@ -2,12 +2,18 @@ package rateme.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import rateme.services.CommentService;
+import rateme.services.MediumService;
 import rateme.services.UserService;
 import rateme.entity.*;
+
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * Created by kervin on 27/07/15.
@@ -16,8 +22,11 @@ import rateme.entity.*;
 @Controller
 public class UserController {
 
-    //public static UserController userController = new UserController();
-    private UserService userService = null;
+    public static UserController userController = new UserController();
+    private UserService userService;
+    private CommentService commentService;
+    private MediumService mediumService;
+
 
     public UserController() {
         this.userService = new UserService();
@@ -65,7 +74,6 @@ public class UserController {
         return modelAndView;
     }
 
-}
 
 
 
@@ -76,25 +84,47 @@ public class UserController {
 
 
 
-/*
+
     @RequestMapping("/register")
     public String registerUser() {
         return "login";
     }
 
-
-
-    public boolean loginUser(String name, String password) {
-        User user = this.userService.getUserByName(name);
-        if(user != null && user.getPassword().equals(password)) {
-            user.setLoggedIn(true);
-            return true;
+    @RequestMapping(value="/login", method= RequestMethod.POST)
+    public ModelAndView login(@RequestParam("email") String email,
+                              @RequestParam("password") String password,
+                              @RequestParam("currentPage") String currentPage,
+                              @CookieValue(value = "rateMe_LoggedIn", defaultValue = "false") String loginCookie,
+                              HttpServletResponse response) {
+        Cookie newCookie = null;
+        if(loginCookie.equals("false")) {
+            System.out.println("login for User: " + email + " requested");
+            User remoteUser = userService.getUserByEmail(email);
+            if (remoteUser != null) {
+                if (remoteUser.getPassword().equals(password)) {
+                    System.out.println("User erfolgreich eingeloggt");
+                    newCookie = new Cookie("rateMe_LoggedIn", email);
+                    newCookie.setMaxAge(86400); //1 day
+                    response.addCookie(newCookie);
+                } else {
+                    System.out.println("falsches Passwort");
+                }
+            } else {
+                System.out.println("dieser User existiert nicht");
+            }
         }
         else {
-            System.out.println("loginUser - wrong password");
+            System.out.println("logout for User: " + loginCookie + " requested");
+            newCookie = new Cookie("rateMe_LoggedIn", "false");
+            response.addCookie(newCookie);
+            System.out.println("User erfolgreich ausgeloggt");
         }
 
-        return false;
+        ModelAndView modelAndView = new ModelAndView("index");
+        modelAndView.addObject("page", currentPage);
+        modelAndView.addObject("loginCookie", newCookie.getValue());
+
+        return modelAndView;
     }
 
     public boolean banUserWithID(int id) {
@@ -122,7 +152,7 @@ public class UserController {
             return false;
         }
     }
-*/
 
 
+}
 

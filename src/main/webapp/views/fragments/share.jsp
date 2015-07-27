@@ -39,3 +39,8 @@
         </form>
   </section>
 </div>
+
+<script>
+  //Set maxlength of all the textarea (call plugin)
+  $().maxlength("#medium-description", "#medium-description-counter");
+</script>

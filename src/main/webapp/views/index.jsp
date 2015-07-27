@@ -19,6 +19,7 @@
 <jsp:include page="fragments/footer.jsp" />
 
 <script src="/assets/plugins/js/jquery-2.1.4.min.js"></script>
+<script src="/assets/plugins/js/jquery.dotdotdot.min.js"></script>
 <script src="/assets/plugins/js/jquery-textarea-maxlength.js"></script>
 <script src="/assets/plugins/js/website-preview.js"></script>
 <script src="/assets/plugins/bootstrap/js/bootstrap.min.js"></script>
