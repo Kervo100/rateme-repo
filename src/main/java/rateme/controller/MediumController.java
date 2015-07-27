@@ -3,8 +3,10 @@ package rateme.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 import rateme.services.CategoryService;
@@ -14,6 +16,7 @@ import rateme.entity.Category;
 import rateme.entity.Medium;
 import rateme.entity.User;
 
+import javax.validation.Valid;
 import java.util.List;
 
 /**
@@ -22,7 +25,6 @@ import java.util.List;
 
 @Controller
 public class MediumController {
-/*
     public static MediumController mediumController = new MediumController();
     private MediumService mediumService = null;
     private UserService userService = null;
@@ -46,25 +48,37 @@ public class MediumController {
         else {
             System.out.println("medium could not create");
         }
-        // TODO HTML Befehle
         return false;
     }
-*/
-
-    /**
-     *
-     * Index.jsp (show MediumList)
-     */
 
     @RequestMapping(value = {"/", "/index", "/home"})
     public ModelAndView showMediumList(){
-        //List<Medium> mediaList = this.mediumService.getMediumList();
-        //model.addAttribute("mediaList", mediaList);
         ModelAndView modelAndView = new ModelAndView("index");
 
         modelAndView.addObject("page", "mediumList");
         modelAndView.addObject("title", "RateMe");
         modelAndView.addObject("message", "Hello World");
+
+        return modelAndView;
+    }
+
+    @RequestMapping(value="/login", method=RequestMethod.POST)
+    public ModelAndView login(@RequestParam("email") String email,
+                              @RequestParam("password") String password) {
+        System.out.println("login for User: " + email + " requested");
+
+        User remoteUser = userService.getUserByEmail(email);
+        if(remoteUser != null) {
+            if(remoteUser.getPassword().equals(password)) {
+                System.out.println("User erfolgreich eingeloggt");
+            }
+        }
+        else {
+            System.out.println("dieser User existiert nicht");
+        }
+
+        ModelAndView modelAndView = new ModelAndView("index");
+        modelAndView.addObject("page", "mediumList");
 
         return modelAndView;
     }
