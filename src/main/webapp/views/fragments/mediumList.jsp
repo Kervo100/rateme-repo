@@ -7,17 +7,17 @@
 
           <c:if test="${not empty mediaList}">
 
-            <c:forEach var="medium" items="${mediaList}">
-              <div class="thumbnail">
+            <c:forEach var="medium" items="${mediaList}" varStatus="status">
+              <div class="thumbnail" data-sr>
                 <div class="caption">
                   <h3 class="medium-title text-center">${medium.getName()}</h3>
                   <dl class="dl-horizontal">
                     <dt>Link</dt>
-                    <dd class="medium-link"><a href="www.youtube.com">${medium.getName()}</a></dd>
+                    <dd class="medium-link"><a href="${linkList[status.index].getUrl()}">${linkList[status.index].getUrl()}</a></dd>
                     <dt>Kategorie</dt>
                     <dd class="medium-category">${medium.getCategory().getName()}</dd>
                     <dt>Beschreibung</dt>
-                    <dd class="medium-description ellipsis">${medium.getDescription()} <a href="/medium/${medium.getId()}" class="readmore">mehr</a></dd>
+                    <dd class="medium-description ellipsis">${medium.getDescription()} <a href="/medium/${medium.getId()}" class="readmore">mehr <i class="glyphicon glyphicon-chevron-right"></i></a></dd>
                     <dt>Geteilt von</dt>
                     <dd class="medium-user">${medium.getUser().getUsername()}</dd>
                   </dl>

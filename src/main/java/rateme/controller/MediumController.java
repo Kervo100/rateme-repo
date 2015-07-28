@@ -1,25 +1,13 @@
 package rateme.controller;
 
-import com.sun.org.apache.xpath.internal.operations.Mod;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import rateme.entity.*;
 import rateme.services.*;
 
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletResponse;
-import javax.validation.Valid;
-import java.lang.reflect.Method;
 import java.net.URISyntaxException;
 import java.util.List;
-
-/**
- * Created by Mo on 13.07.2015.
- */
 
 @Controller
 public class MediumController {
@@ -36,25 +24,6 @@ public class MediumController {
         this.linkService = new LinkService();
         this.platformService = new PlatformService();
     }
-/*
-    public boolean addMedium(String name, String description, int userId, int categoryId){
-        // Get Data from HTML Forms
-        User user = userService.getUserByID(userId);
-        Category category = this.categoryService.getCategoryById(categoryId);
-        // Create a new Medium in database
-        Medium medium = new Medium(name, description, user, category);
-        if (this.mediumService.createObject(medium)){
-            System.out.println("new medium created");
-        }
-        else {
-            System.out.println("medium could not create");
-        }
-        return false;
-    }
-
-    @RequestMapping(value = {"/", "/index", "/home"})
-    public ModelAndView showMediumList(){
-*/
 
     @RequestMapping("/share")
     public ModelAndView shareMedium(){
@@ -133,6 +102,8 @@ public class MediumController {
 
         List<Medium> mediaList = this.mediumService.getMediumList();
         modelAndView.addObject("mediaList", mediaList);
+        List<Link> linkList = this.linkService.getLinkList();
+        modelAndView.addObject("linkList", linkList);
 
         return modelAndView;
     }

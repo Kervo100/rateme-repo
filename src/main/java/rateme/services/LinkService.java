@@ -54,4 +54,25 @@ public class LinkService extends Service {
         return false;
     }
 
+    public List<Link> getLinkList(){
+        List linkList;
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            Criteria criteria = session.createCriteria(Link.class);
+            linkList = criteria.list();
+
+            transaction.commit();
+        }
+        catch (Exception e) {
+            if (transaction!=null) transaction.rollback();
+            throw e;
+        }
+        finally {
+            session.close();
+        }
+        return linkList;
+    }
+
 }

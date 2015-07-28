@@ -16,12 +16,13 @@ public class Platform {
    public Platform () {}
 
    public Platform (String url) throws URISyntaxException {
+      if(!url.startsWith("http") && !url.startsWith("https")){
+         url = "http://" + url;
+      }
       URI uri = new URI(url);
       String domain = uri.getHost();
       domain = domain.replaceAll(".*\\.(?=.*\\.)", "");
-      System.out.println("Domain: " + domain);
       String[] domainParts = domain.split("\\.");
-      System.out.println("Part 0: " + domainParts[0] + " ,Part 1: " + domainParts[1]);
       String platform = domainParts[0].substring(0, 1).toUpperCase() + domainParts[0].substring(1);
       System.out.println("Platform: " + platform);
       this.name = platform;
