@@ -148,4 +148,16 @@ public class MediumController {
 
         return modelAndView;
     }
+
+    @RequestMapping ("/medium/id")
+    public ModelAndView showMediumDetails(){
+
+        ModelAndView modelAndView = new ModelAndView("index");
+
+        modelAndView.addObject("page", "medium-detail");
+        modelAndView.addObject("title", "Medium Detail | RateMe");
+
+        return modelAndView;
+    }
+
 }
