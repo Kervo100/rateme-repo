@@ -4,25 +4,34 @@
 
 package rateme;
 
-import rateme.entity.Medium;
-import rateme.entity.User;
-import rateme.controller.*;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
+@Configuration
+@ComponentScan
+@EnableAutoConfiguration
 public class Start {
     public static void main (String[] args) {
         System.out.println("rateme start");
 
-        UserController userController = new UserController();
-        User moritz = new User("Moritz Ellmers", "moritz.ellmers@web.de", "1234", true);
-        userController.createObject(moritz);
-        User mo = userController.getUserByName("Moritz Ellmers");
-        System.out.println(mo.getUsername());
+        SpringApplication.run(Start.class, args);
 
-        //MediumController mediumController = new MediumController();
-        //Medium medium = mediumController.getMediumByID(1);
+        //UserController userController = new UserController();
+        //User moritz = new User("Moritz Ellmers", "mers@web.de", "1234", true);
+        //userController.createObject(moritz);
+        //User mo = userService.getUserByName("Moritz Ellmers");
+        //System.out.println(mo.getUsername());
+
+        //MediumService mediumService = new MediumService();
         //System.out.println(medium.getTimestamp());
 
-        HibernateUtil.shutdown();
+        //HibernateUtil.shutdown();
         System.out.println("rateme close");
     }
 }
