@@ -74,22 +74,6 @@ public class UserController {
         return modelAndView;
     }
 
-
-
-
-
-
-
-
-
-
-
-
-    @RequestMapping("/register")
-    public String registerUser() {
-        return "login";
-    }
-
     @RequestMapping(value="/login", method= RequestMethod.POST)
     public ModelAndView login(@RequestParam("email") String email,
                               @RequestParam("password") String password,
