@@ -23,6 +23,8 @@ public class UserService extends Service {
         User user = (User) object;
         Integer id = null;
 
+
+
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction transaction = null;
         try {

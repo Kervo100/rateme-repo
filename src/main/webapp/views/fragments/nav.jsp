@@ -37,6 +37,7 @@
                <input type="password" name="password" class="form-control" id="password-login" placeholder="Passwort">
             </div>
             <button type="submit" class="btn btn-default">Einloggen</button>
+            <input type="button" class="btn btn-default" onClick="parent.location='register'" value='Register'>
         <%}
         else {%>
             <div class="form-group">
@@ -45,9 +46,12 @@
             <div class="form-group">
               <input type="password" name="password" id="password-login" style="display: none;">
             </div>
+            <div class="form-group">
+              <label style="color: #FFFFFF;">${loginCookie}</label>
+            </div>
             <button type="submit" class="btn btn-default">Ausloggen</button>
+            <input type="button" class="btn btn-default" onClick="parent.location='register'" value='Register'>
         <%}%>
-
       </form>
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->

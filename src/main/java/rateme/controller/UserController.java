@@ -16,39 +16,62 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Created by thorben on 13/07/15.
+ * Created by kervin on 27/07/15.
  */
 
 @Controller
 public class UserController {
+
     public static UserController userController = new UserController();
     private UserService userService;
     private CommentService commentService;
     private MediumService mediumService;
 
+
     public UserController() {
         this.userService = new UserService();
-        this.commentService = new CommentService();
-        this.mediumService = new MediumService();
     }
 
-    @RequestMapping("/register/addUser")
-    public boolean registerUser(String name, String password, String mail, boolean isAdmin) {
-        User newUser = new User(name, mail, password, isAdmin);
-        User checkIfExist = this.userService.getUserByName(name);
-        if(checkIfExist == null) {
+    @RequestMapping(value = "/register-user", method = RequestMethod.POST)
+    public ModelAndView registerUserRequest(
+            @RequestParam("username") String username,
+            @RequestParam("email") String mail,
+            @RequestParam("password") String password) {
+
+        User newUser = new User(username, mail, password);
+        if (!checkIfExist(username) ) {
             this.userService.createObject(newUser);
-            return true;
         }
-        else {
-            System.out.println("registerUser - ein User mit diesem Namen bereits vorhanden");
-        }
-        return false;
+       System.out.println(username + " " + mail + " " + password);
+
+        ModelAndView modelAndView = new ModelAndView("index");
+
+        modelAndView.addObject("page", "mediumList");
+        modelAndView.addObject("title", "RateMe");
+
+        return modelAndView;
     }
+
+
+    public boolean checkIfExist(String username) {
+
+        User checkIfExistUser = this.userService.getUserByName(username);
+        if (checkIfExistUser == null) {
+            //create new User in Database
+            return false;
+        }   else {
+        System.out.println("ein User mit diesem Eintrag ist bereits vorhanden");
+    }
+    return true;
+
+    }
+
 
     @RequestMapping("/register")
-    public String registerUser() {
-        return "login";
+    public ModelAndView showRegister() {
+        ModelAndView modelAndView = new ModelAndView("register");
+
+        return modelAndView;
     }
 
     @RequestMapping(value="/login", method= RequestMethod.POST)
@@ -116,3 +139,4 @@ public class UserController {
 
 
 }
+
