@@ -50,7 +50,6 @@
               <label style="color: #FFFFFF;">${loginCookie}</label>
             </div>
             <button type="submit" class="btn btn-default">Ausloggen</button>
-            <input type="button" class="btn btn-default" onClick="parent.location='register'" value='Register'>
         <%}%>
       </form>
     </div><!-- /.navbar-collapse -->

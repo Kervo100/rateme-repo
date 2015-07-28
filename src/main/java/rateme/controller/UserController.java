@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import rateme.ViewLib;
 import rateme.services.CommentService;
 import rateme.services.MediumService;
 import rateme.services.UserService;
@@ -36,7 +37,8 @@ public class UserController {
     public ModelAndView registerUserRequest(
             @RequestParam("username") String username,
             @RequestParam("email") String mail,
-            @RequestParam("password") String password) {
+            @RequestParam("password") String password,
+            @CookieValue(value = "rateMe_LoggedIn", defaultValue = "false") String loginCookie) {
 
         User newUser = new User(username, mail, password);
         if (!checkIfExist(username) ) {
@@ -44,10 +46,8 @@ public class UserController {
         }
        System.out.println(username + " " + mail + " " + password);
 
-        ModelAndView modelAndView = new ModelAndView("index");
 
-        modelAndView.addObject("page", "mediumList");
-        modelAndView.addObject("title", "RateMe");
+        ModelAndView modelAndView = ViewLib.activeViewLib().getView(loginCookie, "mediumList");
 
         return modelAndView;
     }
@@ -82,11 +82,10 @@ public class UserController {
                               HttpServletResponse response) {
         Cookie newCookie = null;
         if(loginCookie.equals("false")) {
-            System.out.println("login for User: " + email + " requested");
             User remoteUser = userService.getUserByEmail(email);
             if (remoteUser != null) {
                 if (remoteUser.getPassword().equals(password)) {
-                    System.out.println("User erfolgreich eingeloggt");
+                    System.out.println(email + " erfolgreich eingeloggt");
                     newCookie = new Cookie("rateMe_LoggedIn", email);
                     newCookie.setMaxAge(86400); //1 day
                     response.addCookie(newCookie);
@@ -98,16 +97,12 @@ public class UserController {
             }
         }
         else {
-            System.out.println("logout for User: " + loginCookie + " requested");
             newCookie = new Cookie("rateMe_LoggedIn", "false");
             response.addCookie(newCookie);
-            System.out.println("User erfolgreich ausgeloggt");
+            System.out.println(email + " erfolgreich ausgeloggt");
         }
 
-        ModelAndView modelAndView = new ModelAndView("index");
-        modelAndView.addObject("page", currentPage);
-        modelAndView.addObject("loginCookie", newCookie.getValue());
-
+        ModelAndView modelAndView = ViewLib.activeViewLib().getView(newCookie.getValue(), currentPage);
         return modelAndView;
     }
 

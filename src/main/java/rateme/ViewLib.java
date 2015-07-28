@@ -1,8 +1,12 @@
 package rateme;
 
 import org.springframework.web.servlet.ModelAndView;
+import rateme.entity.Medium;
 import rateme.entity.User;
+import rateme.services.MediumService;
 import rateme.services.UserService;
+
+import java.util.List;
 
 /**
  * Created by thorben on 28/07/15.
@@ -11,12 +15,14 @@ public class ViewLib {
     private static ViewLib mViewLib = new ViewLib();
 
     private UserService userService;
+    private MediumService mediumService;
 
     public ViewLib() {
         userService = new UserService();
+        mediumService = new MediumService();
     }
 
-    public static ViewLib viewLib() {
+    public static ViewLib activeViewLib() {
         return mViewLib;
     }
 
@@ -36,6 +42,10 @@ public class ViewLib {
             modelAndView.addObject("isAdmin", "false");
         }
 
+        if(page.equals("mediumList")) {
+            List<Medium> mediaList = this.mediumService.getMediumList();
+            modelAndView.addObject("mediaList", mediaList);
+        }
 
 
         return modelAndView;

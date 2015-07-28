@@ -20,8 +20,20 @@
                     <dd class="medium-description ellipsis">${medium.getDescription()} <a href="/medium/${medium.getId()}" class="readmore">mehr</a></dd>
                     <dt>Geteilt von</dt>
                     <dd class="medium-user">${medium.getUser().getUsername()}</dd>
+                    <input type="text" name="mediumID" value="${medium.getId()}" style="display: none;">
                   </dl>
-                  <p class="text-center"><a href="/medium/${medium.getId()}" class="btn btn-primary" role="button">Details</a></p>
+                  <p class="text-center">
+                    <a href="/mediumDetail/${medium.getId()}" class="btn btn-primary" role="button">Details</a>
+
+                    <%
+                        String isAdmin = (String) request.getAttribute("isAdmin");
+                        if (isAdmin != null) {
+                          if(isAdmin.equals("true")) {%>
+                            <a href="/mediumDelete/${medium.getId()}" class="btn btn-primary" role="button">Löschen</a>
+                          <%}
+                        }
+                    %>
+                  </p>
                 </div>
               </div>
             </c:forEach>
