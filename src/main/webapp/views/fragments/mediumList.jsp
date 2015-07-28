@@ -21,7 +21,10 @@
                     <dt>Geteilt von</dt>
                     <dd class="medium-user">${medium.getUser().getUsername()}</dd>
                   </dl>
-                  <p class="text-center"><a href="/medium/${medium.getId()}" class="btn btn-primary" role="button">Details</a></p>
+                  <form class="text-center" action="/medium/${medium.id}" method="post">
+                    <input name="medium" value="${medium}" style="display: none;">
+                    <button class="btn btn-primary" role="button">Details</button>
+                  </form>
                 </div>
               </div>
             </c:forEach>

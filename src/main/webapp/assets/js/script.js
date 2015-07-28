@@ -28,7 +28,7 @@ $(document).ready(function($) {
      */
 
     // set userId in hidden input with id="user-id"
-    var userId = 2;
+    console.log($.cookie("rateMe_LoggedIn"));
     $("#user-id").value = $.cookie("rateMe_LoggedIn"); // TODO userId aus Cookie auslesen
 
 });

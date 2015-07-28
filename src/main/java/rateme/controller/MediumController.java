@@ -30,7 +30,7 @@ public class MediumController {
         ModelAndView modelAndView = new ModelAndView("index");
 
         modelAndView.addObject("page", "share");
-        modelAndView.addObject("title", "Teile ein Medium | RateMe");
+        modelAndView.addObject("title", "Teile ein Medium | Rate Me");
 
         return modelAndView;
     }
@@ -91,10 +91,10 @@ public class MediumController {
 
         ModelAndView modelAndView = new ModelAndView("index");
         if(!loginCookie.equals("false")) {
-            modelAndView.addObject("title", "RateMe - " + loginCookie);
+            modelAndView.addObject("title", "Rate Me - " + loginCookie);
         }
         else {
-            modelAndView.addObject("title", "RateMe");
+            modelAndView.addObject("title", "Rate Me");
         }
         modelAndView.addObject("loginCookie", loginCookie);
         modelAndView.addObject("page", "mediumList");
@@ -124,18 +124,24 @@ public class MediumController {
         ModelAndView modelAndView = new ModelAndView("index");
 
         modelAndView.addObject("page", "404");
-        modelAndView.addObject("title", "404 Page not found | RateMe");
+        modelAndView.addObject("title", "404 Page not found | Rate Me");
 
         return modelAndView;
     }
 
-    @RequestMapping ("/medium/id")
-    public ModelAndView showMediumDetails(){
+    @RequestMapping ("/medium/{mediumId}")
+    public ModelAndView showMediumDetail(
+            @PathVariable("mediumId") String mediumId,
+            @ModelAttribute Medium medium
+            ){
 
         ModelAndView modelAndView = new ModelAndView("index");
 
+
         modelAndView.addObject("page", "medium-detail");
-        modelAndView.addObject("title", "Medium Detail | RateMe");
+        modelAndView.addObject("title", "Medium Detail | Rate Me");
+        modelAndView.addObject("medium", medium);
+
 
         return modelAndView;
     }

@@ -64,7 +64,7 @@ public class UserController {
             if (remoteUser != null) {
                 if (remoteUser.getPassword().equals(password)) {
                     System.out.println("User erfolgreich eingeloggt");
-                    newCookie = new Cookie("rateMe_LoggedIn", email);
+                    newCookie = new Cookie("rateMe_LoggedIn", remoteUser.getId().toString());
                     newCookie.setMaxAge(86400); //1 day
                     response.addCookie(newCookie);
                 } else {
