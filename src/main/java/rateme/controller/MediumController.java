@@ -57,9 +57,9 @@ public class MediumController {
 */
 
     @RequestMapping("/share")
-    public ModelAndView shareMedium(){
+    public ModelAndView shareMedium(@CookieValue(value = "rateMe_LoggedIn", defaultValue = "false") String loginCookie){
         ModelAndView modelAndView = new ModelAndView("index");
-
+        modelAndView.addObject("loginCookie", loginCookie);
         modelAndView.addObject("page", "share");
         modelAndView.addObject("title", "Teile ein Medium | RateMe");
 
@@ -117,8 +117,8 @@ public class MediumController {
     }
 
     @RequestMapping(value = {"/", "/index", "/home"})
-    public ModelAndView showMediumList(@CookieValue(value = "rateMe_LoggedIn", defaultValue = "false") String loginCookie
-                                        , String message){
+    public ModelAndView showMediumList(@CookieValue(value = "rateMe_LoggedIn", defaultValue = "false") String loginCookie,
+                                       String message){
 
         ModelAndView modelAndView = new ModelAndView("index");
         if(!loginCookie.equals("false")) {
@@ -138,7 +138,6 @@ public class MediumController {
     }
 
 
-
     @RequestMapping("/impressum")
     public ModelAndView showImpressum() {
         ModelAndView modelAndView = new ModelAndView("impressum");
@@ -147,11 +146,10 @@ public class MediumController {
     }
 
 
-
     @RequestMapping("*")
-    public ModelAndView show404Page() {
+    public ModelAndView show404Page(@CookieValue(value = "rateMe_LoggedIn", defaultValue = "false") String loginCookie) {
         ModelAndView modelAndView = new ModelAndView("index");
-
+        modelAndView.addObject("loginCookie", loginCookie);
         modelAndView.addObject("page", "404");
         modelAndView.addObject("title", "404 Page not found | RateMe");
 

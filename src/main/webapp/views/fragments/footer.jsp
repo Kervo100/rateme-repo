@@ -7,6 +7,7 @@
                     <p>RateMe - Ein Projekt der Hochschule Bremen</p>
                 </div>
                 <div class="col-sm-6">
+                    <a href="/admin" class="pull-right">Admin</a>
                     <a href="/impressum" class="pull-right">Impressum</a>
                 </div>
             </div>
