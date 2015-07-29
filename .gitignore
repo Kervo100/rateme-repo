@@ -298,3 +298,6 @@ local.properties
 
 
 /build
+
+src/main/webapp/assets/css/style.css
+src/main/webapp/assets/css/style.css.map
