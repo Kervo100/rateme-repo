@@ -1,11 +1,20 @@
 package rateme.controller;
 
+import com.sun.org.apache.xpath.internal.operations.Mod;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import rateme.ViewLib;
 import rateme.entity.*;
 import rateme.services.*;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
+import java.lang.reflect.Method;
 import java.net.URISyntaxException;
 import java.util.List;
 
@@ -26,11 +35,9 @@ public class MediumController {
     }
 
     @RequestMapping("/share")
-    public ModelAndView shareMedium(){
-        ModelAndView modelAndView = new ModelAndView("index");
+    public ModelAndView shareMedium(@CookieValue(value = "rateMe_LoggedIn", defaultValue = "false") String loginCookie){
 
-        modelAndView.addObject("page", "share");
-        modelAndView.addObject("title", "Teile ein Medium | Rate Me");
+        ModelAndView modelAndView = ViewLib.activeViewLib().getView(loginCookie, "share");
 
         return modelAndView;
     }
@@ -86,24 +93,39 @@ public class MediumController {
     }
 
     @RequestMapping(value = {"/", "/index", "/home"})
-    public ModelAndView showMediumList(@CookieValue(value = "rateMe_LoggedIn", defaultValue = "false") String loginCookie
-                                        , String message){
+    public ModelAndView showMediumList(@CookieValue(value = "rateMe_LoggedIn", defaultValue = "false") String loginCookie,
+                                       String message) {
 
-        ModelAndView modelAndView = new ModelAndView("index");
-        if(!loginCookie.equals("false")) {
-            modelAndView.addObject("title", "Rate Me - " + loginCookie);
-        }
-        else {
-            modelAndView.addObject("title", "Rate Me");
-        }
-        modelAndView.addObject("loginCookie", loginCookie);
-        modelAndView.addObject("page", "medium-list");
+        ModelAndView modelAndView = ViewLib.activeViewLib().getView(loginCookie, "medium-list");
         modelAndView.addObject("message", message);
 
-        List<Medium> mediaList = this.mediumService.getMediumList();
-        modelAndView.addObject("mediaList", mediaList);
-        List<Link> linkList = this.linkService.getLinkList();
-        modelAndView.addObject("linkList", linkList);
+        return modelAndView;
+    }
+
+    @RequestMapping("/medium/{mediumId}")
+    public ModelAndView showMediumDetails(@CookieValue(value = "rateMe_LoggedIn", defaultValue = "false") String loginCookie,
+                                          @PathVariable(value = "mediumId") String mediumId) {
+
+        ModelAndView modelAndView = ViewLib.activeViewLib().getView(loginCookie, "medium-detail");
+
+        return modelAndView;
+    }
+
+    @RequestMapping(value = {"/mediumDelete/{mediumId}"}, method=RequestMethod.GET)
+    public ModelAndView deleteMedium(@CookieValue(value = "rateMe_LoggedIn", defaultValue = "false") String loginCookie,
+                                          @PathVariable(value = "mediumId") String mediumId) {
+        String message;
+        Medium medium = mediumService.getMediumById(Integer.parseInt(mediumId));
+
+        if(mediumService.deleteObject(medium)) {
+            message = "<p class='alert alert-success'>Medium gelöscht</p>";
+        }
+        else {
+            message = "<p class='alert alert-error'>Error</p>";
+        }
+
+        ModelAndView modelAndView = ViewLib.activeViewLib().getView(loginCookie, "medium-list");
+        modelAndView.addObject("message", message);
 
         return modelAndView;
     }
@@ -115,31 +137,11 @@ public class MediumController {
         return modelAndView;
     }
 
-    @RequestMapping ("/medium/{mediumId}")
-    public ModelAndView showMediumDetail(
-            @PathVariable("mediumId") String mediumId
-            ){
-
-        ModelAndView modelAndView = new ModelAndView("index");
-
-        modelAndView.addObject("page", "medium-detail");
-        modelAndView.addObject("title", "Medium Detail | Rate Me");
-
-        //modelAndView.addObject("link", this.linkService.getLinkByMediumId(medium.getId()));
-        //modelAndView.addObject("medium", medium);
-
-
-        return modelAndView;
-    }
-
     @RequestMapping("*")
-    public ModelAndView show404Page() {
-        ModelAndView modelAndView = new ModelAndView("index");
+    public ModelAndView show404Page(@CookieValue(value = "rateMe_LoggedIn", defaultValue = "false") String loginCookie) {
 
-        modelAndView.addObject("page", "404");
-        modelAndView.addObject("title", "404 Page not found | Rate Me");
+        ModelAndView modelAndView = ViewLib.activeViewLib().getView(loginCookie, "404");
 
         return modelAndView;
     }
-
 }

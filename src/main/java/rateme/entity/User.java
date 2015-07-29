@@ -3,6 +3,13 @@ package rateme.entity;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+
 
 /**
  * Created by Mo on 29.06.2015.
@@ -24,6 +31,7 @@ public class User {
         this.password = password;
         this.isAdmin = admin;
     }
+
 
     @Id
     @GenericGenerator(name = "generator", strategy = "increment")

@@ -15,12 +15,9 @@ import rateme.entity.*;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 
-/**
- * Created by thorben on 13/07/15.
- */
-
 @Controller
 public class UserController {
+
     public static UserController userController = new UserController();
     private UserService userService;
     private CommentService commentService;
@@ -32,23 +29,43 @@ public class UserController {
         this.mediumService = new MediumService();
     }
 
-    @RequestMapping("/register/addUser")
-    public boolean registerUser(String name, String password, String mail, boolean isAdmin) {
-        User newUser = new User(name, mail, password, isAdmin);
-        User checkIfExist = this.userService.getUserByName(name);
-        if(checkIfExist == null) {
+    @RequestMapping(value = "/register-user", method = RequestMethod.POST)
+    public ModelAndView registerUserRequest(
+            @RequestParam("username") String username,
+            @RequestParam("email") String mail,
+            @RequestParam("password") String password,
+            @CookieValue(value = "rateMe_LoggedIn", defaultValue = "false") String loginCookie) {
+
+        User newUser = new User(username, mail, password);
+        if (!checkIfExist(username) ) {
             this.userService.createObject(newUser);
-            return true;
         }
-        else {
-            System.out.println("registerUser - ein User mit diesem Namen bereits vorhanden");
-        }
-        return false;
+       System.out.println(username + " " + mail + " " + password);
+
+
+        ModelAndView modelAndView = ViewLib.activeViewLib().getView(loginCookie, "mediumList");
+
+        return modelAndView;
+    }
+
+    public boolean checkIfExist(String username) {
+
+        User checkIfExistUser = this.userService.getUserByName(username);
+        if (checkIfExistUser == null) {
+            //create new User in Database
+            return false;
+        }   else {
+        System.out.println("ein User mit diesem Eintrag ist bereits vorhanden");
+    }
+    return true;
+
     }
 
     @RequestMapping("/register")
-    public String registerUser() {
-        return "login";
+    public ModelAndView showRegister() {
+        ModelAndView modelAndView = new ModelAndView("register");
+
+        return modelAndView;
     }
 
     @RequestMapping(value="/login", method= RequestMethod.POST)
@@ -59,11 +76,10 @@ public class UserController {
                               HttpServletResponse response) {
         Cookie newCookie = null;
         if(loginCookie.equals("false")) {
-            System.out.println("login for User: " + email + " requested");
             User remoteUser = userService.getUserByEmail(email);
             if (remoteUser != null) {
                 if (remoteUser.getPassword().equals(password)) {
-                    System.out.println("User erfolgreich eingeloggt");
+                    System.out.println(email + " erfolgreich eingeloggt");
                     newCookie = new Cookie("rateMe_LoggedIn", remoteUser.getId().toString());
                     newCookie.setMaxAge(86400); //1 day
                     response.addCookie(newCookie);
@@ -75,16 +91,12 @@ public class UserController {
             }
         }
         else {
-            System.out.println("logout for User: " + loginCookie + " requested");
             newCookie = new Cookie("rateMe_LoggedIn", "false");
             response.addCookie(newCookie);
-            System.out.println("User erfolgreich ausgeloggt");
+            System.out.println(email + " erfolgreich ausgeloggt");
         }
 
-        ModelAndView modelAndView = new ModelAndView("index");
-        modelAndView.addObject("page", currentPage);
-        modelAndView.addObject("loginCookie", newCookie.getValue());
-
+        ModelAndView modelAndView = ViewLib.activeViewLib().getView(newCookie.getValue(), currentPage);
         return modelAndView;
     }
 
@@ -112,7 +124,3 @@ public class UserController {
             System.out.println("unbanUserWithID - User nicht vorhanden");
             return false;
         }
-    }
-
-
-}
