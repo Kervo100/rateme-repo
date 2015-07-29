@@ -156,6 +156,7 @@ public class MediumController {
         else {
             message = "<p class='alert alert-error'>Error</p>";
         }
+        
 
         ModelAndView modelAndView = ViewLib.activeViewLib().getView(loginCookie, "mediumList");
         modelAndView.addObject("message", message);
