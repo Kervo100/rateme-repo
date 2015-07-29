@@ -1,33 +1,29 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <div class="container">
-    <div class="row">
-      <div class="col-sm-6 col-md-4">
-        <div class="thumbnail">
-          <div class="caption">
-            <h3 class="medium-title text-center">Medium Titel</h3>
-            <dl class="dl-horizontal">
-              <dt>Link</dt>
-              <dd class="medium-link"><a href="www.youtube.com">www.youtube.com</a></dd>
-              <dt>Kategorie</dt>
-              <dd class="medium-category">Video</dd>
-              <dt>Beschreibung</dt>
-              <dd class="medium-description">Lorem Ipsum</dd>
-              <dt>Geteilt von</dt>
-              <dd class="medium-user">Max Mustermann</dd>
-              <dt>Bevertung</dt>
-              <dd class="medium-rating">5</dd>
+  <div class="page-header">
+    <h1>${medium.name}<small>${medium.category.name}</small></h1>
+  </div>
+  <div class="page-content">
 
-            </dl>
+    <dl class="dl-horizontal">
+      <dt>Link</dt>
+      <dd class="medium-link"><a href="${link.getUrl()}">${link.getUrl()}</a></dd>
+      <dt>Kategorie</dt>
+      <dd class="medium-category">${medium.getCategory().getName()}</dd>
+      <dt>Beschreibung</dt>
+      <dd class="medium-description ellipsis">${medium.getDescription()} <a href="/medium/${medium.getId()}" class="readmore">mehr <i class="glyphicon glyphicon-chevron-right"></i></a></dd>
+      <dt>Geteilt von</dt>
+      <dd class="medium-user">${medium.getUser().getUsername()}</dd>
+      <dt>Bewertung</dt>
+      <dd class="medium-rating">5</dd>
+    </dl>
 
-            <form>
-            Kommentar:<br/>
-            <input type="text" name="comment"/>
-            
-            <p class="text-center"><a href="/medium/id" class="btn btn-primary" role="button">Kommentieren</a></p>
-            </form>
+    <form action="/medium-detail/${medium.id}/post-send" method="post">
+      <input type="text" name="medium-comment" placeholder="Add comment">
 
-          </div>
-        </div>
-      </div>
-    </div>
+      <button class="btn btn-primary" role="button">Post</button>
+    </form>
+
+  </div>
+
 </div>

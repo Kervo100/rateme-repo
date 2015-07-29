@@ -75,4 +75,32 @@ public class LinkService extends Service {
         return linkList;
     }
 
+    public Link getLinkByMediumId(Integer mediumId) {
+        Link link = null;
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            Criteria criteria = session.createCriteria(Link.class);
+            List allLinks = criteria.list();
+            Iterator itr = allLinks.iterator();
+            while (itr.hasNext()) {
+                Link l = (Link) itr.next();
+                if(l.getMedium().getId() == mediumId) {
+                    link = l;
+                }
+            }
+
+            transaction.commit();
+        }
+        catch (Exception e) {
+            if (transaction!=null) transaction.rollback();
+            throw e;
+        }
+        finally {
+            session.close();
+        }
+        return link;
+    }
+
 }

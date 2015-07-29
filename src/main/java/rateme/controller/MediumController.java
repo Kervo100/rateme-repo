@@ -97,7 +97,7 @@ public class MediumController {
             modelAndView.addObject("title", "Rate Me");
         }
         modelAndView.addObject("loginCookie", loginCookie);
-        modelAndView.addObject("page", "mediumList");
+        modelAndView.addObject("page", "medium-list");
         modelAndView.addObject("message", message);
 
         List<Medium> mediaList = this.mediumService.getMediumList();
@@ -108,8 +108,6 @@ public class MediumController {
         return modelAndView;
     }
 
-
-
     @RequestMapping("/impressum")
     public ModelAndView showImpressum() {
         ModelAndView modelAndView = new ModelAndView("impressum");
@@ -117,7 +115,22 @@ public class MediumController {
         return modelAndView;
     }
 
+    @RequestMapping ("/medium/{mediumId}")
+    public ModelAndView showMediumDetail(
+            @PathVariable("mediumId") String mediumId
+            ){
 
+        ModelAndView modelAndView = new ModelAndView("index");
+
+        modelAndView.addObject("page", "medium-detail");
+        modelAndView.addObject("title", "Medium Detail | Rate Me");
+
+        //modelAndView.addObject("link", this.linkService.getLinkByMediumId(medium.getId()));
+        //modelAndView.addObject("medium", medium);
+
+
+        return modelAndView;
+    }
 
     @RequestMapping("*")
     public ModelAndView show404Page() {
@@ -125,23 +138,6 @@ public class MediumController {
 
         modelAndView.addObject("page", "404");
         modelAndView.addObject("title", "404 Page not found | Rate Me");
-
-        return modelAndView;
-    }
-
-    @RequestMapping ("/medium/{mediumId}")
-    public ModelAndView showMediumDetail(
-            @PathVariable("mediumId") String mediumId,
-            @ModelAttribute Medium medium
-            ){
-
-        ModelAndView modelAndView = new ModelAndView("index");
-
-
-        modelAndView.addObject("page", "medium-detail");
-        modelAndView.addObject("title", "Medium Detail | Rate Me");
-        modelAndView.addObject("medium", medium);
-
 
         return modelAndView;
     }
