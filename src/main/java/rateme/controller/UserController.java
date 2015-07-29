@@ -1,12 +1,12 @@
 package rateme.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import rateme.ViewLib;
 import rateme.services.CommentService;
 import rateme.services.MediumService;
 import rateme.services.UserService;
@@ -37,10 +37,10 @@ public class UserController {
             @CookieValue(value = "rateMe_LoggedIn", defaultValue = "false") String loginCookie) {
 
         User newUser = new User(username, mail, password);
-        if (!checkIfExist(username) ) {
+        if (!checkIfExist(username)) {
             this.userService.createObject(newUser);
         }
-       System.out.println(username + " " + mail + " " + password);
+        System.out.println(username + " " + mail + " " + password);
 
 
         ModelAndView modelAndView = ViewLib.activeViewLib().getView(loginCookie, "mediumList");
@@ -54,10 +54,10 @@ public class UserController {
         if (checkIfExistUser == null) {
             //create new User in Database
             return false;
-        }   else {
-        System.out.println("ein User mit diesem Eintrag ist bereits vorhanden");
-    }
-    return true;
+        } else {
+            System.out.println("ein User mit diesem Eintrag ist bereits vorhanden");
+        }
+        return true;
 
     }
 
@@ -68,14 +68,14 @@ public class UserController {
         return modelAndView;
     }
 
-    @RequestMapping(value="/login", method= RequestMethod.POST)
+    @RequestMapping(value = "/login", method = RequestMethod.POST)
     public ModelAndView login(@RequestParam("email") String email,
                               @RequestParam("password") String password,
                               @RequestParam("currentPage") String currentPage,
                               @CookieValue(value = "rateMe_LoggedIn", defaultValue = "false") String loginCookie,
                               HttpServletResponse response) {
         Cookie newCookie = null;
-        if(loginCookie.equals("false")) {
+        if (loginCookie.equals("false")) {
             User remoteUser = userService.getUserByEmail(email);
             if (remoteUser != null) {
                 if (remoteUser.getPassword().equals(password)) {
@@ -89,8 +89,7 @@ public class UserController {
             } else {
                 System.out.println("dieser User existiert nicht");
             }
-        }
-        else {
+        } else {
             newCookie = new Cookie("rateMe_LoggedIn", "false");
             response.addCookie(newCookie);
             System.out.println(email + " erfolgreich ausgeloggt");
@@ -103,11 +102,10 @@ public class UserController {
     public boolean banUserWithID(int id) {
         User user = this.userService.getUserByID(id);
 
-        if(user != null) {
+        if (user != null) {
             user.setIsBlocked(true);
             return true;
-        }
-        else {
+        } else {
             System.out.println("banUserWithID - User nicht vorhanden");
             return false;
         }
@@ -116,11 +114,12 @@ public class UserController {
     public boolean unbanUserWithID(int id) {
         User user = this.userService.getUserByID(id);
 
-        if(user != null) {
+        if (user != null) {
             user.setIsBlocked(false);
             return true;
-        }
-        else {
+        } else {
             System.out.println("unbanUserWithID - User nicht vorhanden");
             return false;
         }
+    }
+}

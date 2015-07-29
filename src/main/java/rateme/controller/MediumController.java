@@ -1,22 +1,12 @@
 package rateme.controller;
 
-import com.sun.org.apache.xpath.internal.operations.Mod;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import rateme.ViewLib;
 import rateme.entity.*;
 import rateme.services.*;
-
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletResponse;
-import javax.validation.Valid;
-import java.lang.reflect.Method;
 import java.net.URISyntaxException;
-import java.util.List;
 
 @Controller
 public class MediumController {
@@ -118,7 +108,7 @@ public class MediumController {
         Medium medium = mediumService.getMediumById(Integer.parseInt(mediumId));
 
         if(mediumService.deleteObject(medium)) {
-            message = "<p class='alert alert-success'>Medium gelöscht</p>";
+            message = "<p class='alert alert-success'>Medium gel&ouml;scht</p>";
         }
         else {
             message = "<p class='alert alert-error'>Error</p>";
@@ -131,8 +121,8 @@ public class MediumController {
     }
 
     @RequestMapping("/impressum")
-    public ModelAndView showImpressum() {
-        ModelAndView modelAndView = new ModelAndView("impressum");
+    public ModelAndView showImpressum(@CookieValue(value = "rateMe_LoggedIn", defaultValue = "false") String loginCookie) {
+        ModelAndView modelAndView = ViewLib.activeViewLib().getView(loginCookie, "impressum");
 
         return modelAndView;
     }
