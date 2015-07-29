@@ -1,0 +1,126 @@
+/* Variables
+-------------------------------------------------- */
+/* General
+-------------------------------------------------- */
+body {
+  font: Helvetica, sans-serif;
+  color: #2A1F0B; }
+
+a {
+  color: #442f15; }
+
+.page-content {
+  margin-bottom: 30px; }
+
+.page-header {
+  margin-bottom: 50px; }
+  .page-header h1 {
+    text-transform: uppercase; }
+    .page-header h1 small {
+      font-size: 17px; }
+
+.thumbnail {
+  width: 100%;
+  display: inline-block; }
+  .thumbnail dt {
+    width: 30%; }
+  .thumbnail dd {
+    margin-left: 35%; }
+
+#media-list .row {
+  -moz-column-width: 21em;
+  -webkit-column-width: 21em;
+  -moz-column-gap: 1em;
+  -webkit-column-gap: 1em; }
+
+.readmore {
+  text-decoration: underline;
+  display: none; }
+
+/* Navbar
+-------------------------------------------------- */
+.navbar .container {
+  padding-top: 5px; }
+
+a.navbar-brand {
+  line-height: 30px !important;
+  margin-top: -5px !important;
+  height: 60px;
+  width: 135px;
+  text-align: center;
+  font-size: 25px; }
+
+.navbar-inverse {
+  background-color: #BCAA92;
+  border-color: #BCAA92; }
+  .navbar-inverse .navbar-nav > li > a, .navbar-inverse .navbar-brand {
+    color: #2A1F0B;
+    line-height: 1px;
+    margin-top: 9px; }
+    .navbar-inverse .navbar-nav > li > a:hover, .navbar-inverse .navbar-brand:hover {
+      text-decoration: none;
+      color: #333;
+      background-color: #e6e6e6;
+      border-color: #adadad; }
+
+.btn-primary {
+  background-color: #BCAA92;
+  border-color: #BCAA92; }
+  .btn-primary:hover {
+    background-color: #AF8823;
+    border-color: #AF8823; }
+
+/* Share Page
+-------------------------------------------------- */
+.modal-body .alert {
+  margin-bottom: 0; }
+
+/* Error Page
+-------------------------------------------------- */
+.error-template {
+  padding: 100px 15px;
+  text-align: center; }
+
+.error-actions {
+  margin-top: 15px;
+  margin-bottom: 15px; }
+
+.error-actions .btn {
+  margin-right: 10px; }
+
+/* Sticky footer styles
+-------------------------------------------------- */
+html {
+  position: relative;
+  min-height: 100%; }
+
+body {
+  /* Margin bottom by footer height */
+  margin-bottom: 60px; }
+
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  /* Set the fixed height of the footer here */
+  height: auto;
+  background-color: #BCAA92; }
+
+.footer-content {
+  margin-top: 20px;
+  color: #2A1F0B; }
+  .footer-content a:hover {
+    text-decoration: none;
+    color: #AF8823; }
+
+/* Website Preview CSS
+-------------------------------------------------- */
+#screenshot {
+  position: absolute;
+  border: 1px solid #ccc;
+  background: #333;
+  padding: 5px;
+  display: none;
+  color: #fff; }
+
+/*# sourceMappingURL=style.css.map */

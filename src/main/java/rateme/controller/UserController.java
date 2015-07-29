@@ -36,34 +36,67 @@ public class UserController {
     public ModelAndView registerUserRequest(
             @RequestParam("username") String username,
             @RequestParam("email") String mail,
-            @RequestParam("password") String password) {
+            @RequestParam("password") String password,
+            @RequestParam ("passwordConfirm") String passwordConfirm) {
 
         User newUser = new User(username, mail, password);
-        if (!checkIfExist(username) ) {
-            this.userService.createObject(newUser);
+        if (!checkIfExist(username, mail)) {
+            if(doubleCheckPassword(password,passwordConfirm)){
+                this.userService.createObject(newUser);
+                System.out.println(username + " " + mail + " " + password + " has been created successfully");
+            } else {
+
+                ModelAndView modelAndView = new ModelAndView("index");
+
+                modelAndView.addObject("page", "confirmPassword");
+                //modelAndView.addObject("title", "RateMe");
+
+                return modelAndView;
+
+            }
+
+        } else {
+
+            ModelAndView modelAndView = new ModelAndView("index");
+
+            modelAndView.addObject("page", "userExist");
+            //modelAndView.addObject("title", "RateMe");
+
+            return modelAndView;
+
         }
-       System.out.println(username + " " + mail + " " + password);
+
 
         ModelAndView modelAndView = new ModelAndView("index");
 
-        modelAndView.addObject("page", "mediumList");
-        modelAndView.addObject("title", "RateMe");
+        modelAndView.addObject("page", "welcome");
+        //modelAndView.addObject("title", "RateMe");
 
         return modelAndView;
     }
 
 
-    public boolean checkIfExist(String username) {
+    public boolean checkIfExist(String username, String mail) {
 
         User checkIfExistUser = this.userService.getUserByName(username);
-        if (checkIfExistUser == null) {
-            //create new User in Database
+        User checkIfExistMail = this.userService.getUserByEmail(mail);
+        if (checkIfExistUser == null || checkIfExistMail == null) {
             return false;
         }   else {
         System.out.println("ein User mit diesem Eintrag ist bereits vorhanden");
+
     }
     return true;
 
+    }
+
+    public boolean doubleCheckPassword(String password, String passwordConfirm){
+        if ((password).equals(passwordConfirm)) {
+            return true;
+        } else {
+            System.out.println("Passwort wurde falsch eingegeben");
+        }
+        return false;
     }
 
 

@@ -131,10 +131,10 @@ public class MediumController {
 
         ModelAndView modelAndView = new ModelAndView("index");
         if(!loginCookie.equals("false")) {
-            modelAndView.addObject("title", "RateMe - " + loginCookie);
+            modelAndView.addObject("title", "Rate Me - " + loginCookie);
         }
         else {
-            modelAndView.addObject("title", "RateMe");
+            modelAndView.addObject("title", "Rate Me");
         }
         modelAndView.addObject("loginCookie", loginCookie);
         modelAndView.addObject("page", "mediumList");

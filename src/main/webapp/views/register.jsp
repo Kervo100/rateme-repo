@@ -12,7 +12,7 @@
 <body>
 
 <jsp:include page="fragments/nav.jsp" />
-
+<jsp:include page="fragments/footer.jsp" />
 
 <div class="container">
     <div class="row">
@@ -23,6 +23,12 @@
                     <div id="legend">
                         <legend class="">Register</legend>
                     </div>
+
+
+
+
+
+
                     <div class="control-group">
                         <label class="control-label" for="username">Username</label>
                         <div class="controls">
@@ -30,6 +36,8 @@
                             <p class="help-block">Username can contain any letters or numbers, without spaces</p>
                         </div>
                     </div>
+
+
 
                     <div class="control-group">
                         <label class="control-label" for="email">E-mail</label>
@@ -39,21 +47,27 @@
                         </div>
                     </div>
 
+
+
                     <div class="control-group">
                         <label class="control-label" for="password">Password</label>
                         <div class="controls">
                             <input type="password" id="password" name="password" placeholder="" class="form-control input-lg" >
-                            <p class="help-block">Password should be at least 6 characters</p>
+                            <p class="help-block">Enter your desired password</p>
                         </div>
                     </div>
 
+
+
                     <div class="control-group">
-                        <label class="control-label" for="password_confirm">Password (Confirm)</label>
+                        <label class="control-label" for="passwordConfirm">Password (Confirm)</label>
                         <div class="controls">
-                            <input type="password" id="password_confirm" name="password_confirm" placeholder="" class="form-control input-lg">
-                            <p class="help-block">Please confirm password</p>
+                            <input type="password" id="passwordConfirm" name="passwordConfirm" placeholder="" class="form-control input-lg">
+                            <p class="help-block">Please confirm Password</p>
                         </div>
                     </div>
+
+
 
                     <div class="control-group">
                         <!-- Button -->
@@ -61,9 +75,10 @@
                             <button class="btn btn-success">Register</button>
                         </div>
                     </div>
+
+
                 </fieldset>
             </form>
-
         </div>
     </div>
 </div>
