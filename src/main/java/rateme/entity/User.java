@@ -24,6 +24,7 @@ public class User {
         this.username = name;
         this.email = email;
         this.password = password;
+
     }
     public User(String name, String email, String password, boolean admin) {
         this.username = name;

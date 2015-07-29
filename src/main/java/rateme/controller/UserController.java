@@ -34,31 +34,50 @@ public class UserController {
             @RequestParam("username") String username,
             @RequestParam("email") String mail,
             @RequestParam("password") String password,
-            @CookieValue(value = "rateMe_LoggedIn", defaultValue = "false") String loginCookie) {
+            @CookieValue(value = "rateMe_LoggedIn", defaultValue = "false") String loginCookie,
+            @RequestParam ("passwordConfirm") String passwordConfirm) {
+
+        ModelAndView modelAndView = null;
 
         User newUser = new User(username, mail, password);
-        if (!checkIfExist(username)) {
-            this.userService.createObject(newUser);
+        if (!checkIfExist(username, mail)) {
+            if(doubleCheckPassword(password,passwordConfirm)){
+                this.userService.createObject(newUser);
+                System.out.println(username + " " + mail + " " + password + " has been created successfully");
+            } else {
+
+                modelAndView = ViewLib.activeViewLib().getView(loginCookie, "confirmPassword");
+                return  modelAndView;
+            }
+        } else {
+            modelAndView = ViewLib.activeViewLib().getView(loginCookie, "userExist");
+            return modelAndView;
         }
-        System.out.println(username + " " + mail + " " + password);
-
-
-        ModelAndView modelAndView = ViewLib.activeViewLib().getView(loginCookie, "mediumList");
-
+        modelAndView = ViewLib.activeViewLib().getView(loginCookie, "welcome");
         return modelAndView;
     }
 
-    public boolean checkIfExist(String username) {
+    public boolean checkIfExist(String username, String mail) {
 
         User checkIfExistUser = this.userService.getUserByName(username);
-        if (checkIfExistUser == null) {
-            //create new User in Database
+        User checkIfExistMail = this.userService.getUserByEmail(mail);
+        if (checkIfExistUser == null || checkIfExistMail == null) {
             return false;
-        } else {
+        }
+        else {
             System.out.println("ein User mit diesem Eintrag ist bereits vorhanden");
         }
-        return true;
 
+        return true;
+    }
+
+    public boolean doubleCheckPassword(String password, String passwordConfirm){
+        if ((password).equals(passwordConfirm)) {
+            return true;
+        } else {
+            System.out.println("Passwort wurde falsch eingegeben");
+        }
+        return false;
     }
 
     @RequestMapping("/register")

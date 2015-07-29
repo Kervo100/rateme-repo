@@ -299,3 +299,6 @@ local.properties
 
 /build
 /classes
+
+src/main/webapp/assets/css/style.css
+src/main/webapp/assets/css/style.css.map
