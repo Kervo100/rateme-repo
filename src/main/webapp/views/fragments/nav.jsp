@@ -14,10 +14,19 @@
 
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-      <form class="navbar-form navbar-left" role="search">
+      <form class="navbar-form navbar-left" role="search" action="/search">
         <div class="input-group">
-          <input type="text" class="form-control" placeholder="Search">
-          <span class="btn btn-default input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
+            <div class="input-group-btn">
+              <select class="form-control" id="medium-category" name="medium-category">
+                <option value="1">Video</option>
+                <option value="2">Audio</option>
+                <option value="3">Bild</option>
+              </select>
+            </div>
+          <input type="text" name="searchTerm" class="form-control" placeholder="Search">
+          <span class="input-group-btn">
+            <button type="submit" class="btn btn-default"><i class="glyphicon glyphicon-search"></i></button>
+          </span>
         </div>
       </form>
       <ul class="nav navbar-nav">
@@ -47,10 +56,18 @@
               <input type="password" name="password" style="display: none;">
             </div>
             <div class="form-group">
-              <label style="color: #FFFFFF;">${loginCookie}</label>
+              <label style="color: #FFFFFF;">${username}</label>
             </div>
             <button type="submit" class="btn btn-default">Logout</button>
-        <%}%>
+
+            <%
+            String isAdmin = (String) request.getAttribute("isAdmin");
+            if (isAdmin != null) {
+              if(isAdmin.equals("true")) {%>
+                <a href="/user-list" class="btn btn-default" role="button">Benutzer</a>
+            <%}
+            }
+        }%>
       </form>
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->

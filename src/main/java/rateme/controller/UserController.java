@@ -1,10 +1,7 @@
 package rateme.controller;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CookieValue;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import rateme.ViewLib;
 import rateme.services.CommentService;
@@ -87,13 +84,76 @@ public class UserController {
         return modelAndView;
     }
 
+    @RequestMapping("/user-list")
+    public ModelAndView showAllUsers(@CookieValue(value = "rateMe_LoggedIn", defaultValue = "false") String loginCookie) {
+        ModelAndView modelAndView = ViewLib.activeViewLib().getView(loginCookie, "user-list");
+        if(modelAndView.getModel().get("loginCookie").equals("false") ||
+                modelAndView.getModel().get("isAdmin").equals("false")) {
+            modelAndView = ViewLib.activeViewLib().getView(loginCookie, "medium-list");
+        }
+        return modelAndView;
+    }
+
+    @RequestMapping(value = {"/userDelete/{userId}"}, method=RequestMethod.GET)
+    public ModelAndView deleteUser(@CookieValue(value = "rateMe_LoggedIn", defaultValue = "false") String loginCookie,
+                                     @PathVariable(value = "userId") String userId) {
+        String message;
+        User user = userService.getUserByID(Integer.parseInt(userId));
+
+        if(userService.deleteObject(user)) {
+            message = "<p class='alert alert-success'>User gel&ouml;scht</p>";
+        }
+        else {
+            message = "<p class='alert alert-error'>Error</p>";
+        }
+
+        ModelAndView modelAndView = ViewLib.activeViewLib().getView(loginCookie, "user-list");
+        modelAndView.addObject("message", message);
+
+        return modelAndView;
+    }
+
+    @RequestMapping(value = {"/userToogleAdmin/{userId}"}, method=RequestMethod.GET)
+    public ModelAndView userToogleAdmin(@CookieValue(value = "rateMe_LoggedIn", defaultValue = "false") String loginCookie,
+                                     @PathVariable(value = "userId") String userId) {
+        String message = null;
+        User user = userService.getUserByID(Integer.parseInt(userId));
+        user.setIsAdmin(!user.isAdmin());
+        if(userService.updateObject(user)) {}
+        else {
+            message = "<p class='alert alert-error'>Error</p>";
+        }
+
+        ModelAndView modelAndView = ViewLib.activeViewLib().getView(loginCookie, "user-list");
+        modelAndView.addObject("message", message);
+
+        return modelAndView;
+    }
+
+    @RequestMapping(value = {"/userToogleBlocked/{userId}"}, method=RequestMethod.GET)
+    public ModelAndView userToogleBlocked(@CookieValue(value = "rateMe_LoggedIn", defaultValue = "false") String loginCookie,
+                                        @PathVariable(value = "userId") String userId) {
+        String message = null;
+        User user = userService.getUserByID(Integer.parseInt(userId));
+        user.setIsBlocked(!user.isBlocked());
+        if(userService.updateObject(user)) {}
+        else {
+            message = "<p class='alert alert-error'>Error</p>";
+        }
+
+        ModelAndView modelAndView = ViewLib.activeViewLib().getView(loginCookie, "user-list");
+        modelAndView.addObject("message", message);
+
+        return modelAndView;
+    }
+
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public ModelAndView login(@RequestParam("email") String email,
                               @RequestParam("password") String password,
                               @RequestParam("currentPage") String currentPage,
                               @CookieValue(value = "rateMe_LoggedIn", defaultValue = "false") String loginCookie,
                               HttpServletResponse response) {
-        Cookie newCookie = null;
+        Cookie newCookie = new Cookie("rateMe_LoggedIn", "false");
         if (loginCookie.equals("false")) {
             User remoteUser = userService.getUserByEmail(email);
             if (remoteUser != null) {
@@ -109,7 +169,6 @@ public class UserController {
                 System.out.println("dieser User existiert nicht");
             }
         } else {
-            newCookie = new Cookie("rateMe_LoggedIn", "false");
             response.addCookie(newCookie);
             System.out.println(email + " erfolgreich ausgeloggt");
         }

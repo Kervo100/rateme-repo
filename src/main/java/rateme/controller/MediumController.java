@@ -6,7 +6,10 @@ import org.springframework.web.servlet.ModelAndView;
 import rateme.ViewLib;
 import rateme.entity.*;
 import rateme.services.*;
+
+import javax.swing.text.View;
 import java.net.URISyntaxException;
+import java.util.*;
 
 @Controller
 public class MediumController {
@@ -116,6 +119,49 @@ public class MediumController {
 
         ModelAndView modelAndView = ViewLib.activeViewLib().getView(loginCookie, "medium-list");
         modelAndView.addObject("message", message);
+
+        return modelAndView;
+    }
+
+    @RequestMapping("/search")
+    public ModelAndView search(@CookieValue(value = "rateMe_LoggedIn", defaultValue = "false") String loginCookie,
+                               @RequestParam("searchTerm") String searchTerm,
+                               @RequestParam("medium-category") int categoryId) {
+
+        ModelAndView modelAndView = ViewLib.activeViewLib().getView(loginCookie, "medium-list");
+        modelAndView.getModel().remove("mediaList");
+        modelAndView.getModel().remove("linkList");
+
+        searchTerm = searchTerm.toLowerCase();
+        List<Medium> mediaList = this.mediumService.getMediumList();
+        Category category = this.categoryService.getCategoryById(categoryId);
+        List<Link> linkList = this.linkService.getLinkList();
+
+        ArrayList<Medium> filteredMedia = new ArrayList<>();
+        ArrayList<Link> filteredLinks = new ArrayList<>();
+        //Search in Title
+        for(int i = 0; i < mediaList.size(); i++) {
+            String name = mediaList.get(i).getName().toLowerCase();
+            if(mediaList.get(i).getCategory().getId() == category.getId()
+                    && name.contains(searchTerm)) {
+                filteredMedia.add(mediaList.get(i));
+                filteredLinks.add(linkList.get(i));
+            }
+        }
+        //Search in Description
+        for(int i = 0; i < mediaList.size(); i++) {
+            String desc = mediaList.get(i).getDescription().toLowerCase();
+            if(mediaList.get(i).getCategory().getId() == category.getId()
+                    && desc.contains(searchTerm)) {
+
+                if(!filteredMedia.contains(mediaList.get(i))) {
+                    filteredMedia.add(mediaList.get(i));
+                    filteredLinks.add(linkList.get(i));
+                }
+            }
+        }
+        modelAndView.addObject("mediaList", filteredMedia);
+        modelAndView.addObject("linkList", filteredLinks);
 
         return modelAndView;
     }

@@ -4,6 +4,7 @@ import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import rateme.HibernateUtil;
+import rateme.entity.Medium;
 import rateme.entity.User;
 
 import java.util.Iterator;
@@ -75,7 +76,29 @@ public class UserService extends Service {
 
     @Override
     public boolean deleteObject(Object object) {
-        return false;
+        User user = (User) object;
+        boolean success = false;
+
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            session.delete(user);
+            transaction.commit();
+            success = true;
+        }
+        catch (Exception e) {
+            if (transaction!=null){
+                transaction.rollback();
+                success = false;
+            }
+            throw e;
+        }
+        finally {
+            session.close();
+        }
+
+        return success;
     }
 
     public User getUserByID(int id) {
@@ -154,5 +177,26 @@ public class UserService extends Service {
         }
 
         return user;
+    }
+
+    public List<User> getUserList(){
+        List userList;
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            Criteria criteria = session.createCriteria(User.class);
+            userList = criteria.list();
+
+            transaction.commit();
+        }
+        catch (Exception e) {
+            if (transaction!=null) transaction.rollback();
+            throw e;
+        }
+        finally {
+            session.close();
+        }
+        return userList;
     }
 }

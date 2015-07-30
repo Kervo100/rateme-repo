@@ -39,6 +39,7 @@ public class ViewLib {
 
         if(!loginCookie.equals("false")) {
             User usr = userService.getUserByID(Integer.parseInt(loginCookie));
+            modelAndView.addObject("username", usr.getUsername());
             if(usr.isAdmin()) {
                 modelAndView.addObject("isAdmin", "true");
             }
@@ -53,7 +54,10 @@ public class ViewLib {
             List<Link> linkList = this.linkService.getLinkList();
             modelAndView.addObject("linkList", linkList);
         }
-
+        else if(page.equals("user-list")) {
+            List<User> userList = this.userService.getUserList();
+            modelAndView.addObject("userList", userList);
+        }
 
         return modelAndView;
     }
@@ -78,8 +82,11 @@ public class ViewLib {
             case "medium-detail":
                 title = "Medium Detail";
                 break;
+            case "user-list":
+                title = "Alle Benutzer";
+                break;
             default:
-                title = "Error";
+                title = "No Title";
                 break;
         }
 

@@ -17,6 +17,34 @@
     <jsp:include page="fragments/${page}.jsp" />
 </section>
 
+<%
+String message = (String ) request.getAttribute("message");
+
+if (message != null) {%>
+
+  <!-- Modal -->
+  <div class="modal fade" id="messageModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title" id="myModalLabel">Medium teilen</h4>
+        </div>
+        <div class="modal-body">
+          ${message}
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-dismiss="modal">Schließen</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="/assets/plugins/js/jquery-2.1.4.min.js"></script>
+  <script src="/assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+  <script>$('#messageModal').modal('show')</script>
+<%}%>
+
 <jsp:include page="fragments/footer.jsp" />
 
 <script src="/assets/plugins/js/jquery-2.1.4.min.js"></script>
