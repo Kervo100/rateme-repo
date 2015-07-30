@@ -5,8 +5,9 @@
 <head>
     <title>${title}</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+    <!--<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">-->
     <link href="/assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/assets/plugins/css/rating.css" rel="stylesheet">
     <link href="/assets/css/style.css" rel="stylesheet">
 </head>
 <body>
