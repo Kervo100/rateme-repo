@@ -19,11 +19,11 @@
 
   <div class="container-fluid">
     <h1>Welcome Dude!</h1>
-    <p class="lead">Get Started In Sharing Your Videos With The Entire World! </p>
+    <p class="lead">Get Started In Sharing Your Videos And Pictures With The Entire World! </p>
     <div class="row-fluid">
       <div class="span10">
         <div class="well">
-          Use RATE ME to listen music, watch videos, share, rate and comment. Let others get the taste of your lifestyle and have fun!
+          Use RATE ME to listen music, watch videos, view pictures, share, rate and comment. Let others get the taste of your lifestyle and have fun!
           <!--<br><br><button class="btn btn-primary btn-large" data-toggle="popover" title="Share Your Videos, Now!" data-placement="right" data-content="">Get Started</button><!-->
           <br><br><input type="button" name="getStarted" class="btn btn-primary btn-large" value="Get Started" onClick="parent.location='index'" />
         </div>

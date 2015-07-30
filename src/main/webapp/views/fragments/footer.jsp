@@ -7,7 +7,8 @@
                     <p>RateMe - Ein Projekt der Hochschule Bremen</p>
                 </div>
                 <div class="col-sm-6">
-                    <input type="button" class="btn default" onClick="parent.location='impressum'" value='Impressum'>
+                    <!--<input type="button" id="footer-impressum" class="btn default btn-impressum" onClick="parent.location='impressum'" value='Impressum'>-->
+                    <a href="/impressum" class="pull-right">Impressum</a>
                 </div>
             </div>
         </div>
