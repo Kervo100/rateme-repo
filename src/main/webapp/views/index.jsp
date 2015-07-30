@@ -14,7 +14,9 @@
 <jsp:include page="fragments/nav.jsp" />
 
 <section id="page-content">
-    <jsp:include page="fragments/${page}.jsp" />
+    <div class="container">
+        <jsp:include page="fragments/${page}.jsp" />
+    </div>
 </section>
 
 <%
@@ -58,7 +60,7 @@ if (message != null) {%>
 
 <%
 
-    String share = (String ) request.getAttribute("page");
+    String share = (String) request.getAttribute("page");
 
     if (share == "share") {%>
 

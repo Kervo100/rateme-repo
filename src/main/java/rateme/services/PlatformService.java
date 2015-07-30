@@ -3,16 +3,10 @@ package rateme.services;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.Restrictions;
 import rateme.HibernateUtil;
-import rateme.entity.Link;
 import rateme.entity.Platform;
 
-import java.util.Iterator;
-import java.util.List;
-
-/**
- * Created by Mo on 06.07.2015.
- */
 public class PlatformService extends Service {
     public PlatformService() {
 
@@ -84,14 +78,8 @@ public class PlatformService extends Service {
         try {
             transaction = session.beginTransaction();
             Criteria criteria = session.createCriteria(Platform.class);
-            List allUsers = criteria.list();
-            Iterator itr = allUsers.iterator();
-            while (itr.hasNext()) {
-                Platform p = (Platform) itr.next();
-                if(p.getName().equals((name))) {
-                    platform = p;
-                }
-            }
+            criteria.add(Restrictions.eq("name", name));
+            platform = (Platform) criteria.list().get(0);
 
             transaction.commit();
         }

@@ -3,15 +3,12 @@ package rateme.services;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.Restrictions;
 import rateme.HibernateUtil;
 import rateme.entity.Medium;
 
-import java.util.Iterator;
 import java.util.List;
 
-/**
- * Created by Mo on 06.07.2015.
- */
 public class MediumService extends Service {
     public MediumService() {
 
@@ -96,19 +93,14 @@ public class MediumService extends Service {
     }
 
     public Medium getMediumByName(String name) {
+        Medium medium = null;
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction transaction = null;
         try {
             transaction = session.beginTransaction();
             Criteria criteria = session.createCriteria(Medium.class);
-            List allMedia = criteria.list();
-            Iterator itr = allMedia.iterator();
-            while (itr.hasNext()) {
-                Medium medium = (Medium) itr.next();
-                if(medium.getName().equals((name))) {
-                    return medium;
-                }
-            }
+            criteria.add(Restrictions.eq("name", name));
+            medium =(Medium) criteria.list().get(0);
 
             transaction.commit();
         }
@@ -120,7 +112,7 @@ public class MediumService extends Service {
             session.close();
         }
 
-        return null;
+        return medium;
     }
 
     public List<Medium> getMediumList(){

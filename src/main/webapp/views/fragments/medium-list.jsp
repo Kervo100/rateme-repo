@@ -1,46 +1,45 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<div class="container">
-  <section class="page-content">
-    <div id="media-list">
-      <div class="row">
+<section class="page-content">
+  <div id="media-list">
+    <div class="row">
 
-          <c:if test="${not empty mediaList}">
+        <c:if test="${not empty mediaList}">
 
-            <c:forEach var="medium" items="${mediaList}" varStatus="status">
-              <div class="thumbnail" data-sr>
-                <div class="caption">
-                  <h3 class="medium-title text-center">${medium.getName()}</h3>
-                  <dl class="dl-horizontal">
-                    <dt>Link</dt>
-                    <dd class="medium-link"><a href="${linkList[status.index].getUrl()}">${linkList[status.index].getUrl()}</a></dd>
-                    <dt>Kategorie</dt>
-                    <dd class="medium-category">${medium.getCategory().getName()}</dd>
-                    <dt>Beschreibung</dt>
-                    <dd class="medium-description ellipsis">${medium.getDescription()} <a href="/medium/${medium.getId()}" class="readmore">mehr <i class="glyphicon glyphicon-chevron-right"></i></a></dd>
-                    <dt>Geteilt von</dt>
-                    <dd class="medium-user">${medium.getUser().getUsername()}</dd>
-                  </dl>
-                  <p class="text-center">
-                    <a href="/medium/${medium.getId()}" class="btn btn-primary" role="button">Details</a>
+          <c:forEach var="medium" items="${mediaList}" varStatus="status">
+            <div class="thumbnail" data-sr>
+              <div class="caption">
+                <h3 class="medium-title text-center">${medium.getName()}</h3>
+                <dl class="dl-horizontal">
+                  <dt>Link</dt>
+                  <dd class="medium-link"><a href="${linkList[status.index].getUrl()}">${linkList[status.index].getUrl()}</a></dd>
+                  <dt>Category</dt>
+                  <dd class="medium-category">${medium.getCategory().getName()}</dd>
+                  <dt>Description</dt>
+                  <dd class="medium-description ellipsis">${medium.getDescription()} <a href="/medium/${medium.getId()}" class="readmore">mehr <i class="glyphicon glyphicon-chevron-right"></i></a></dd>
+                  <dt>Shared by</dt>
+                  <dd class="medium-user">${medium.getUser().getUsername()}</dd>
+                </dl>
+                <p class="text-center">
+                  <a href="/medium/${medium.getId()}" class="btn btn-primary" role="button">Details</a>
 
-                    <%
-                        String isAdmin = (String) request.getAttribute("isAdmin");
-                        if (isAdmin != null) {
-                          if(isAdmin.equals("true")) {%>
-                            <a href="/mediumDelete/${medium.getId()}" class="btn btn-primary" role="button">Löschen</a>
-                          <%}
-                        }
-                    %>
-                  </p>
-                </div>
+                  <%
+                      String isAdmin = (String) request.getAttribute("isAdmin");
+                      if (isAdmin != null) {
+                        if(isAdmin.equals("true")) {%>
+                          <a href="/mediumDelete/${medium.getId()}" class="btn btn-primary" role="button">Löschen</a>
+                        <%}
+                      }
+                  %>
+                </p>
               </div>
-            </c:forEach>
+            </div>
+          </c:forEach>
 
-          </c:if>
+        </c:if>
 
-      </div>
     </div>
-  </section>
+  </div>
+</section>
 
 </div>

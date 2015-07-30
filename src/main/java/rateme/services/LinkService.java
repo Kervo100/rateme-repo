@@ -3,16 +3,13 @@ package rateme.services;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.Restrictions;
 import rateme.HibernateUtil;
 import rateme.entity.Link;
 import rateme.entity.Medium;
 
-import java.util.Iterator;
 import java.util.List;
 
-/**
- * Created by Mo on 06.07.2015.
- */
 public class LinkService extends Service {
     public LinkService() {
 
@@ -76,20 +73,15 @@ public class LinkService extends Service {
     }
 
     public Link getLinkByMediumId(Integer mediumId) {
+        Medium medium = new MediumService().getMediumById(mediumId);
         Link link = null;
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction transaction = null;
         try {
             transaction = session.beginTransaction();
             Criteria criteria = session.createCriteria(Link.class);
-            List allLinks = criteria.list();
-            Iterator itr = allLinks.iterator();
-            while (itr.hasNext()) {
-                Link l = (Link) itr.next();
-                if(l.getMedium().getId() == mediumId) {
-                    link = l;
-                }
-            }
+            criteria.add(Restrictions.eq("medium", medium));
+            link = (Link) criteria.list().get(0);
 
             transaction.commit();
         }

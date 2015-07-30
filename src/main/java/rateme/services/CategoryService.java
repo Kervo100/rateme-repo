@@ -5,10 +5,8 @@ import org.hibernate.Transaction;
 import rateme.HibernateUtil;
 import rateme.entity.Category;
 
-/**
- * Created by Mo on 13.07.2015.
- */
 public class CategoryService extends Service {
+    public CategoryService() {}
 
     @Override
     public Integer createObject(Object object) {
