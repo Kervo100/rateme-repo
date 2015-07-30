@@ -7,6 +7,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link href="/assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="/assets/css/style.css" rel="stylesheet">
+    <link href="/assets/plugins/css/rating.css" rel="stylesheet">
 </head>
 <body>
 
@@ -23,6 +24,7 @@
 <script src="/assets/plugins/js/website-preview.js"></script>
 <script src="/assets/plugins/bootstrap/js/bootstrap.min.js"></script>
 <script src="/assets/js/script.js"></script>
+
 
 </body>
 </html>
