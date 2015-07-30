@@ -7,7 +7,6 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@page import="rateme.entity.User"%>
 <!DOCTYPE HTML>
 <html>
 <head>
@@ -33,7 +32,7 @@
           <div class="control-group">
             <label class="control-label" for="username">Username</label>
             <div class="controls">
-              <input type="text" id="username" name="username" placeholder="" class="form-control input-lg">
+              <input type="text" id="username" name="username" placeholder="" class="form-control input-lg" pattern=".{5,}" required title="5 characters minimum" required>
               <p class="help-block">Username can contain any letters or numbers, without spaces</p>
             </div>
           </div>
@@ -43,7 +42,7 @@
           <div class="control-group">
             <label class="control-label" for="email">E-mail</label>
             <div class="controls">
-              <input type="email" id="email" name="email" placeholder="" class="form-control input-lg">
+              <input type="email" id="email" name="email" placeholder="" class="form-control input-lg" required>
               <p class="help-block">Please provide your E-mail</p>
             </div>
           </div>
@@ -53,7 +52,7 @@
           <div class="control-group">
             <label class="control-label" for="password">Password</label>
             <div class="controls">
-              <input type="password" id="password" name="password" placeholder="" class="form-control input-lg" >
+              <input type="password" id="password" name="password" placeholder="" class="form-control input-lg" pattern=".{6,}" required title="6 characters minimum" required >
               <p class="help-block">Enter your desired Password</p>
             </div>
           </div>
@@ -71,7 +70,7 @@
           <div class="control-group">
             <label class="control-label" for="passwordConfirm">Password (Confirm)</label>
             <div class="controls">
-              <input type="password" id="passwordConfirm" name="passwordConfirm" placeholder="" class="form-control input-lg">
+              <input type="password" id="passwordConfirm" name="passwordConfirm" placeholder="" class="form-control input-lg" required>
               <p class="help-block">Please confirm Password</p>
             </div>
           </div>
