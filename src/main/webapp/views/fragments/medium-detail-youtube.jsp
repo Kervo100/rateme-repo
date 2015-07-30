@@ -1,14 +1,14 @@
 <%@ page import="rateme.entity.Link" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<div class="page-header" id="medium-detail">
+<div class="page-header">
     <h1>${medium.name} <small>${medium.category.name}</small></h1>
 </div>
 <div class="page-content">
 
-    <section class="embed-responsive embed-responsive-16by9">
-        <embed wmode="window" allowfullscreen="true" src="${link.getUrl()}"></embed>
-    </section>
+    <div class="embed-responsive embed-responsive-16by9">
+        <embed wmode="window" allowfullscreen="true" type="application/x-shockwave-flash" src="${linkUrl}&showsearch=0&fs=1&rel=0&autoplay=0&amp;ap=%2526fmt%3D22"></embed>
+    </div>
 
     <div class="row">
         <div class="col-md-9">
@@ -38,7 +38,7 @@
                 <c:when test="${not empty commentList}">
                     <c:forEach var="comment" items="${commentList}">
                         <div class="well">
-                            ${comment.getText()}
+                                ${comment.getText()}
                         </div>
                     </c:forEach>
                 </c:when>

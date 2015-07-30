@@ -7,6 +7,7 @@ import rateme.ViewLib;
 import rateme.entity.*;
 import rateme.services.*;
 import java.net.URISyntaxException;
+import java.util.List;
 
 @Controller
 public class MediumController {
@@ -15,6 +16,7 @@ public class MediumController {
     private CategoryService categoryService = null;
     private LinkService linkService = null;
     private PlatformService platformService = null;
+    private CommentService commentService = null;
 
     public MediumController() {
         this.mediumService = new MediumService();
@@ -22,14 +24,12 @@ public class MediumController {
         this.categoryService = new CategoryService();
         this.linkService = new LinkService();
         this.platformService = new PlatformService();
+        this.commentService = new CommentService();
     }
 
     @RequestMapping("/share")
     public ModelAndView shareMedium(@CookieValue(value = "rateMe_LoggedIn", defaultValue = "false") String loginCookie){
-
-        ModelAndView modelAndView = ViewLib.activeViewLib().getView(loginCookie, "share");
-
-        return modelAndView;
+        return ViewLib.activeViewLib().getView(loginCookie, "share");
     }
 
     @RequestMapping(value = "/medium-shared", method = RequestMethod.POST)
@@ -94,9 +94,28 @@ public class MediumController {
 
     @RequestMapping("/medium/{mediumId}")
     public ModelAndView showMediumDetails(@CookieValue(value = "rateMe_LoggedIn", defaultValue = "false") String loginCookie,
-                                          @PathVariable(value = "mediumId") String mediumId) {
+                                          @PathVariable(value = "mediumId") Integer mediumId) {
 
-        ModelAndView modelAndView = ViewLib.activeViewLib().getView(loginCookie, "medium-detail");
+        Medium medium = this.mediumService.getMediumById(mediumId);
+        Link link = this.linkService.getLinkByMediumId(mediumId);
+
+        ModelAndView modelAndView = null;
+        if(link.getPlatform().getName().equals("Youtube")) {
+            modelAndView = ViewLib.activeViewLib().getView(loginCookie, "medium-detail-youtube");
+            String linkUrl = link.getUrl();
+            String[] parts = linkUrl.split("\\.com/");
+            linkUrl = parts[0] + ".com/v/" + parts[1];
+            System.out.println(linkUrl);
+            modelAndView.addObject("linkUrl", linkUrl);
+        }
+        else {
+            modelAndView = ViewLib.activeViewLib().getView(loginCookie, "medium-detail");
+        }
+        modelAndView.addObject("medium", medium);
+        modelAndView.addObject("link", link);
+
+        List<Comment> commentList = this.commentService.getCommentListByMedium(medium);
+        modelAndView.addObject("commentList", commentList);
 
         return modelAndView;
     }

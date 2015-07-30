@@ -3,20 +3,12 @@ package rateme.services;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.Restrictions;
 import rateme.HibernateUtil;
 import rateme.entity.User;
 
-import java.util.Iterator;
-import java.util.List;
-
-/**
- * Created by thorben on 04/07/15.
- */
-
 public class UserService extends Service {
-    public UserService() {
-
-    }
+    public UserService() {}
 
     @Override
     public Integer createObject(Object object) {
@@ -105,14 +97,8 @@ public class UserService extends Service {
         try {
             transaction = session.beginTransaction();
             Criteria criteria = session.createCriteria(User.class);
-            List allUsers = criteria.list();
-            Iterator itr = allUsers.iterator();
-            while (itr.hasNext()) {
-                User u = (User) itr.next();
-                if(u.getUsername().equals((name))) {
-                    user = u;
-                }
-            }
+            criteria.add(Restrictions.eq("username", name));
+            user = (User) criteria.list().get(0);
 
             transaction.commit();
         }
@@ -134,14 +120,8 @@ public class UserService extends Service {
         try {
             transaction = session.beginTransaction();
             Criteria criteria = session.createCriteria(User.class);
-            List allUsers = criteria.list();
-            Iterator itr = allUsers.iterator();
-            while (itr.hasNext()) {
-                User u = (User) itr.next();
-                if(u.getEmail().equals((email))) {
-                    user = u;
-                }
-            }
+            criteria.add(Restrictions.eq("email", email));
+            user = (User) criteria.list().get(0);
 
             transaction.commit();
         }

@@ -78,6 +78,9 @@ public class ViewLib {
             case "medium-detail":
                 title = "Medium Detail";
                 break;
+            case "medium-detail-youtube":
+                title = "Medium Detail";
+                break;
             default:
                 title = "Error";
                 break;

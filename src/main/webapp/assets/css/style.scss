@@ -3,7 +3,8 @@
 $font-stack: Helvetica, sans-serif;
 $primary-color: #2A1F0B;
 $secondary-color: #9b6932;
-$background-color: #E5F0F6;
+$background-color: #e2e2e2;
+$background-color-lighten: lighten($background-color, 10%);
 $background-color-banner: #BCAA92;
 $highlight-color: #c39c23;
 /* General
@@ -15,6 +16,7 @@ html {
 body {
   font: $font-stack;
   color: $primary-color;
+  background-color: $background-color;
   /* Margin bottom by footer height */
   margin-bottom: 60px;
 }
@@ -144,4 +146,25 @@ a.navbar-brand {
   padding:5px;
   display:none;
   color:#fff;
+}
+/* Medium-Detail Page
+-------------------------------------------------- */
+#medium-detail {
+  margin: 0 0 40px 0;
+}
+.medium-info-box, .medium-rating, .medium-comments {
+  background-color: $background-color-lighten;
+  margin: 15px 0;
+  padding: 10px;
+  & h4 {
+    padding: 4px 0;
+    border-bottom: 1px solid #eee;
+  }
+  & .btn-post-comment {
+    margin: 10px 0;
+    float: right;
+  }
+}
+.comment-list {
+  margin: 60px 0 0 0;
 }

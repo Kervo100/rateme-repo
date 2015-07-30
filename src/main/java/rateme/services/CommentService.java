@@ -1,17 +1,16 @@
 package rateme.services;
 
+import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.Restrictions;
 import rateme.HibernateUtil;
 import rateme.entity.*;
 
-/**
- * Created by Mo on 06.07.2015.
- */
-public class CommentService extends Service {
-    public CommentService() {
+import java.util.List;
 
-    }
+public class CommentService extends Service {
+    public CommentService() {}
 
     @Override
     public Integer createObject(Object object) {
@@ -67,5 +66,27 @@ public class CommentService extends Service {
         }
 
         return comment;
+    }
+
+    public List<Comment> getCommentListByMedium(Medium medium){
+        List commentList;
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            Criteria criteria = session.createCriteria(Comment.class);
+            criteria.add(Restrictions.eq("medium", medium));
+            commentList = criteria.list();
+
+            transaction.commit();
+        }
+        catch (Exception e) {
+            if (transaction!=null) transaction.rollback();
+            throw e;
+        }
+        finally {
+            session.close();
+        }
+        return commentList;
     }
 }

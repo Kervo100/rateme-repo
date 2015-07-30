@@ -5,13 +5,8 @@ import org.hibernate.Transaction;
 import rateme.HibernateUtil;
 import rateme.entity.Rating;
 
-/**
- * Created by Mo on 06.07.2015.
- */
 public class RatingService extends Service {
-    public RatingService() {
-
-    }
+    public RatingService() {}
 
     @Override
     public Integer createObject(Object object) {
