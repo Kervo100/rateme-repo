@@ -126,14 +126,14 @@ public class MediumController {
     @RequestMapping(value = {"/mediumDelete/{mediumId}"}, method=RequestMethod.GET)
     public ModelAndView deleteMedium(@CookieValue(value = "rateMe_LoggedIn", defaultValue = "false") String loginCookie,
                                           @PathVariable(value = "mediumId") String mediumId) {
-        String message;
-        Medium medium = mediumService.getMediumById(Integer.parseInt(mediumId));
-
-        if(mediumService.deleteObject(medium)) {
-            message = "<p class='alert alert-success'>Medium gel&ouml;scht</p>";
-        }
-        else {
-            message = "<p class='alert alert-error'>Error</p>";
+        String message = null;
+        if(!loginCookie.equals("false") && userService.getUserByID(Integer.parseInt(loginCookie)).isAdmin()) {
+            Medium medium = mediumService.getMediumById(Integer.parseInt(mediumId));
+            if (mediumService.deleteObject(medium)) {
+                message = "<p class='alert alert-success'>Medium gel&ouml;scht</p>";
+            } else {
+                message = "<p class='alert alert-error'>Error</p>";
+            }
         }
 
         ModelAndView modelAndView = ViewLib.activeViewLib().getView(loginCookie, "medium-list");

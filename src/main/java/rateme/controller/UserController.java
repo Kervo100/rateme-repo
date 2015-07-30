@@ -126,24 +126,21 @@ public class UserController {
     @RequestMapping("/user-list")
     public ModelAndView showAllUsers(@CookieValue(value = "rateMe_LoggedIn", defaultValue = "false") String loginCookie) {
         ModelAndView modelAndView = ViewLib.activeViewLib().getView(loginCookie, "user-list");
-        if(modelAndView.getModel().get("loginCookie").equals("false") ||
-                modelAndView.getModel().get("isAdmin").equals("false")) {
-            modelAndView = ViewLib.activeViewLib().getView(loginCookie, "medium-list");
-        }
         return modelAndView;
     }
 
     @RequestMapping(value = {"/userDelete/{userId}"}, method=RequestMethod.GET)
     public ModelAndView deleteUser(@CookieValue(value = "rateMe_LoggedIn", defaultValue = "false") String loginCookie,
                                      @PathVariable(value = "userId") String userId) {
-        String message;
-        User user = userService.getUserByID(Integer.parseInt(userId));
+        String message = null;
 
-        if(userService.deleteObject(user)) {
-            message = "<p class='alert alert-success'>User gel&ouml;scht</p>";
-        }
-        else {
-            message = "<p class='alert alert-error'>Error</p>";
+        if(!loginCookie.equals("false") && userService.getUserByID(Integer.parseInt(loginCookie)).isAdmin()) {
+            User user = userService.getUserByID(Integer.parseInt(userId));
+            if (userService.deleteObject(user)) {
+                message = "<p class='alert alert-success'>User gel&ouml;scht</p>";
+            } else {
+                message = "<p class='alert alert-error'>Error</p>";
+            }
         }
 
         ModelAndView modelAndView = ViewLib.activeViewLib().getView(loginCookie, "user-list");
@@ -156,11 +153,13 @@ public class UserController {
     public ModelAndView userToogleAdmin(@CookieValue(value = "rateMe_LoggedIn", defaultValue = "false") String loginCookie,
                                      @PathVariable(value = "userId") String userId) {
         String message = null;
-        User user = userService.getUserByID(Integer.parseInt(userId));
-        user.setIsAdmin(!user.isAdmin());
-        if(userService.updateObject(user)) {}
-        else {
-            message = "<p class='alert alert-error'>Error</p>";
+        if(!loginCookie.equals("false") && userService.getUserByID(Integer.parseInt(loginCookie)).isAdmin()) {
+            User user = userService.getUserByID(Integer.parseInt(userId));
+            user.setIsAdmin(!user.isAdmin());
+            if (userService.updateObject(user)) {
+            } else {
+                message = "<p class='alert alert-error'>Error</p>";
+            }
         }
 
         ModelAndView modelAndView = ViewLib.activeViewLib().getView(loginCookie, "user-list");
@@ -173,11 +172,13 @@ public class UserController {
     public ModelAndView userToogleBlocked(@CookieValue(value = "rateMe_LoggedIn", defaultValue = "false") String loginCookie,
                                         @PathVariable(value = "userId") String userId) {
         String message = null;
-        User user = userService.getUserByID(Integer.parseInt(userId));
-        user.setIsBlocked(!user.isBlocked());
-        if(userService.updateObject(user)) {}
-        else {
-            message = "<p class='alert alert-error'>Error</p>";
+        if(!loginCookie.equals("false") && userService.getUserByID(Integer.parseInt(loginCookie)).isAdmin()) {
+            User user = userService.getUserByID(Integer.parseInt(userId));
+            user.setIsBlocked(!user.isBlocked());
+            if (userService.updateObject(user)) {
+            } else {
+                message = "<p class='alert alert-error'>Error</p>";
+            }
         }
 
         ModelAndView modelAndView = ViewLib.activeViewLib().getView(loginCookie, "user-list");
@@ -214,29 +215,5 @@ public class UserController {
 
         ModelAndView modelAndView = ViewLib.activeViewLib().getView(newCookie.getValue(), currentPage);
         return modelAndView;
-    }
-
-    public boolean banUserWithID(int id) {
-        User user = this.userService.getUserByID(id);
-
-        if (user != null) {
-            user.setIsBlocked(true);
-            return true;
-        } else {
-            System.out.println("banUserWithID - User nicht vorhanden");
-            return false;
-        }
-    }
-
-    public boolean unbanUserWithID(int id) {
-        User user = this.userService.getUserByID(id);
-
-        if (user != null) {
-            user.setIsBlocked(false);
-            return true;
-        } else {
-            System.out.println("unbanUserWithID - User nicht vorhanden");
-            return false;
-        }
     }
 }

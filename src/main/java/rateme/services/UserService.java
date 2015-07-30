@@ -5,8 +5,9 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
 import rateme.HibernateUtil;
-import rateme.entity.Medium;
 import rateme.entity.User;
+
+import java.util.List;
 
 public class UserService extends Service {
     public UserService() {}
@@ -121,7 +122,12 @@ public class UserService extends Service {
             transaction = session.beginTransaction();
             Criteria criteria = session.createCriteria(User.class);
             criteria.add(Restrictions.eq("username", name));
-            user = (User) criteria.list().get(0);
+            if (criteria.list().size() == 0) {
+                user = null;
+            }
+            else {
+                user = (User) criteria.list().get(0);
+            }
 
             transaction.commit();
         }
@@ -144,7 +150,12 @@ public class UserService extends Service {
             transaction = session.beginTransaction();
             Criteria criteria = session.createCriteria(User.class);
             criteria.add(Restrictions.eq("email", email));
-            user = (User) criteria.list().get(0);
+            if (criteria.list().size() == 0) {
+                user = null;
+            }
+            else {
+                user = (User) criteria.list().get(0);
+            }
 
             transaction.commit();
         }

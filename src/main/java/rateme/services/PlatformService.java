@@ -79,7 +79,12 @@ public class PlatformService extends Service {
             transaction = session.beginTransaction();
             Criteria criteria = session.createCriteria(Platform.class);
             criteria.add(Restrictions.eq("name", name));
-            platform = (Platform) criteria.list().get(0);
+            if (criteria.list().size() == 0) {
+                platform = null;
+            }
+            else {
+                platform = (Platform) criteria.list().get(0);
+            }
 
             transaction.commit();
         }

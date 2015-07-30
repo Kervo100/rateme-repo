@@ -59,6 +59,14 @@ public class ViewLib {
             modelAndView.addObject("userList", userList);
         }
 
+        //security check
+        //just add every restricted page to the list
+        if(loginCookie.equals("false") || !userService.getUserByID(Integer.parseInt(loginCookie)).isAdmin()) {
+            if (page.equals("user-list")) {
+                modelAndView = ViewLib.activeViewLib().getView(loginCookie, "medium-list");
+            }
+        }
+
         return modelAndView;
     }
 

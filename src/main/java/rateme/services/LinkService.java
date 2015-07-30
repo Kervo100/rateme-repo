@@ -81,7 +81,12 @@ public class LinkService extends Service {
             transaction = session.beginTransaction();
             Criteria criteria = session.createCriteria(Link.class);
             criteria.add(Restrictions.eq("medium", medium));
-            link = (Link) criteria.list().get(0);
+            if (criteria.list().size() == 0) {
+                link = null;
+            }
+            else {
+                link = (Link) criteria.list().get(0);
+            }
 
             transaction.commit();
         }

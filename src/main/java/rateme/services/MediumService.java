@@ -100,7 +100,12 @@ public class MediumService extends Service {
             transaction = session.beginTransaction();
             Criteria criteria = session.createCriteria(Medium.class);
             criteria.add(Restrictions.eq("name", name));
-            medium =(Medium) criteria.list().get(0);
+            if (criteria.list().size() == 0) {
+                medium = null;
+            }
+            else {
+                medium = (Medium) criteria.list().get(0);
+            }
 
             transaction.commit();
         }
