@@ -9,7 +9,7 @@
           <c:forEach var="medium" items="${mediaList}" varStatus="status">
             <div class="thumbnail" data-sr>
               <div class="caption">
-                <h3 class="medium-title text-center">${medium.getName()}</h3>
+                <a href="/medium/${medium.getId()}"><h3 class="medium-title text-center">${medium.getName()}</h3></a>
                 <dl class="dl-horizontal">
                   <dt>Link</dt>
                   <dd class="medium-link"><a href="${linkList[status.index].getUrl()}">${linkList[status.index].getUrl()}</a></dd>

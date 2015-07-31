@@ -7,35 +7,35 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import rateme.ViewLib;
+import rateme.entity.Comment;
 import rateme.entity.Medium;
+import rateme.entity.Rating;
+import rateme.entity.User;
 import rateme.services.CommentService;
 import rateme.services.MediumService;
+import rateme.services.RatingService;
 import rateme.services.UserService;
-import rateme.entity.Comment;
-import rateme.entity.User;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 @Controller
-public class CommentController {
+public class RatingController {
 
     private UserService userService;
-    private CommentService commentService;
+    private RatingService ratingService;
     private MediumService mediumService;
 
-    public CommentController() {
+    public RatingController() {
         userService = new UserService();
-        commentService = new CommentService();
+        ratingService = new RatingService();
         mediumService = new MediumService();
     }
 
-    @RequestMapping("/medium/{mediumId}/comment-send")
+    @RequestMapping("/medium/{mediumId}/rating-send")
     public ModelAndView postComment(
             @CookieValue(value = "rateMe_LoggedIn", defaultValue = "false") String loginCookie,
             @PathVariable("mediumId") String mediumId,
-            @RequestParam("comment-text") String text,
+            @RequestParam("score") String score,
             final RedirectAttributes redirectAttributes,
             HttpServletRequest request
             ) {
@@ -46,34 +46,15 @@ public class CommentController {
         if (!loginCookie.equals("false")) {
             User user = this.userService.getUserByID(Integer.parseInt(loginCookie));
             Medium medium = this.mediumService.getMediumById(Integer.parseInt(mediumId));
-            Comment comment = new Comment(text, user, medium);
-            this.commentService.createObject(comment);
+            Rating rating = new Rating(Byte.parseByte(score), user, medium);
+            this.ratingService.createObject(rating);
         }
         else {
-            redirectAttributes.addFlashAttribute("message", "<p class='alert alert-danger'>Please login before you can comment</p>");
-            redirectAttributes.addFlashAttribute("messageTitle", "Comment failed");
+            redirectAttributes.addFlashAttribute("message", "<p class='alert alert-danger'>Please login before you can rate</p>");
+            redirectAttributes.addFlashAttribute("messageTitle", "Rating failed");
         }
 
         return modelAndView;
     }
 
-    public boolean deleteComment(int commentID, int userID) {
-        User user = userService.getUserByID(userID);
-        Comment comment = commentService.getCommentByID(commentID);
-
-        if(user != null && comment != null) {
-            if(user.isAdmin() == true || user == comment.getUser()) {
-                commentService.deleteObject(comment);
-                return true;
-            }
-            else {
-                System.out.println("deleteComment - User nicht berechtigt, den Kommentar zu loeschen");
-                return false;
-            }
-        }
-        else {
-            System.out.println("deleteComment - user oder comment nicht vorhanden");
-            return false;
-        }
-    }
 }

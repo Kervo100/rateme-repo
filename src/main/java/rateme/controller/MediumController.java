@@ -3,11 +3,12 @@ package rateme.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import rateme.ViewLib;
 import rateme.entity.*;
 import rateme.services.*;
 
-import javax.swing.text.View;
+import javax.servlet.http.HttpServletRequest;
 import java.net.URISyntaxException;
 import java.util.List;
 import java.util.*;
@@ -20,6 +21,7 @@ public class MediumController {
     private LinkService linkService = null;
     private PlatformService platformService = null;
     private CommentService commentService = null;
+    private RatingService ratingService = null;
 
     public MediumController() {
         this.mediumService = new MediumService();
@@ -28,6 +30,7 @@ public class MediumController {
         this.linkService = new LinkService();
         this.platformService = new PlatformService();
         this.commentService = new CommentService();
+        this.ratingService = new RatingService();
     }
 
     @RequestMapping("/share")
@@ -42,7 +45,9 @@ public class MediumController {
             @RequestParam("medium-category") int categoryId,
             @RequestParam("medium-description") String description,
             @RequestParam("user-id") int userId,
-            @CookieValue(value = "rateMe_LoggedIn", defaultValue = "false") String loginCookie) {
+            @CookieValue(value = "rateMe_LoggedIn", defaultValue = "false") String loginCookie,
+            HttpServletRequest request,
+            final RedirectAttributes redirectAttributes) {
 
         System.out.println(name + " " + url + " " + categoryId + " " + description);
         String message = "<p class='alert alert-danger'>Das Medium konnte nicht geteilt werden!</p>";
@@ -82,17 +87,15 @@ public class MediumController {
             }
         }
 
-        return showMediumList(loginCookie, message);
+        redirectAttributes.addFlashAttribute("message", message);
+        redirectAttributes.addFlashAttribute("messageTitle" , "Medium share");
+        return new ModelAndView("redirect:/");
     }
 
     @RequestMapping(value = {"/", "/index", "/home"})
-    public ModelAndView showMediumList(@CookieValue(value = "rateMe_LoggedIn", defaultValue = "false") String loginCookie,
-                                       String message) {
+    public ModelAndView showMediumList(@CookieValue(value = "rateMe_LoggedIn", defaultValue = "false") String loginCookie) {
 
-        ModelAndView modelAndView = ViewLib.activeViewLib().getView(loginCookie, "medium-list");
-        modelAndView.addObject("message", message);
-
-        return modelAndView;
+        return ViewLib.activeViewLib().getView(loginCookie, "medium-list");
     }
 
     @RequestMapping("/medium/{mediumId}")
@@ -102,23 +105,27 @@ public class MediumController {
         Medium medium = this.mediumService.getMediumById(mediumId);
         Link link = this.linkService.getLinkByMediumId(mediumId);
 
-        ModelAndView modelAndView = null;
+        ModelAndView modelAndView = ViewLib.activeViewLib().getView(loginCookie, "medium-detail");
+        String mediumDetailHead = "";
+
         if(link.getPlatform().getName().equals("Youtube")) {
-            modelAndView = ViewLib.activeViewLib().getView(loginCookie, "medium-detail-youtube");
             String linkUrl = link.getUrl();
             String[] parts = linkUrl.split("\\.com/");
             linkUrl = parts[0] + ".com/v/" + parts[1];
             System.out.println(linkUrl);
             modelAndView.addObject("linkUrl", linkUrl);
+            mediumDetailHead = "youtube";
         }
-        else {
-            modelAndView = ViewLib.activeViewLib().getView(loginCookie, "medium-detail");
-        }
+
+        modelAndView.addObject("mediumDetailHead",mediumDetailHead);
         modelAndView.addObject("medium", medium);
         modelAndView.addObject("link", link);
 
         List<Comment> commentList = this.commentService.getCommentListByMedium(medium);
         modelAndView.addObject("commentList", commentList);
+
+        Byte mediumRating = this.ratingService.getAverageRatingByMediumId(medium);
+        modelAndView.addObject("mediumRating", mediumRating);
 
         return modelAndView;
     }
@@ -132,11 +139,12 @@ public class MediumController {
             if (mediumService.deleteObject(medium)) {
                 message = "<p class='alert alert-success'>Medium gel&ouml;scht</p>";
             } else {
-                message = "<p class='alert alert-error'>Error</p>";
+                message = "<p class='alert alert-danger'>Error</p>";
             }
         }
 
         ModelAndView modelAndView = ViewLib.activeViewLib().getView(loginCookie, "medium-list");
+        modelAndView.addObject("messageTitle", "Medium deleted");
         modelAndView.addObject("message", message);
 
         return modelAndView;

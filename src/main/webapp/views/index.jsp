@@ -6,9 +6,9 @@
     <title>${title}</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <!--<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">-->
-    <link href="/assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link href="/assets/plugins/css/rating.css" rel="stylesheet">
-    <link href="/assets/css/style.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/assets/plugins/css/jquery.raty.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/assets/css/style.css" rel="stylesheet">
 </head>
 <body>
 
@@ -31,7 +31,7 @@ if (message != null) {%>
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-          <h4 class="modal-title" id="myModalLabel">Medium teilen</h4>
+          <h4 class="modal-title" id="myModalLabel">${messageTitle}</h4>
         </div>
         <div class="modal-body">
           ${message}
@@ -43,21 +43,22 @@ if (message != null) {%>
     </div>
   </div>
 
-  <script src="/assets/plugins/js/jquery-2.1.4.min.js"></script>
-  <script src="/assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+  <script src="${pageContext.request.contextPath}/assets/plugins/js/jquery-2.1.4.min.js"></script>
+  <script src="${pageContext.request.contextPath}/assets/plugins/bootstrap/js/bootstrap.min.js"></script>
   <script>$('#messageModal').modal('show')</script>
 <%}%>
 
 <jsp:include page="fragments/footer.jsp" />
 
-<script src="/assets/plugins/js/jquery-2.1.4.min.js"></script>
-<script src="/assets/plugins/js/jquery.dotdotdot.min.js"></script>
-<script src="/assets/plugins/js/jquery-textarea-maxlength.js"></script>
-<script src="/assets/plugins/js/jquery.cookie.js"></script>
-<script src="/assets/plugins/js/scrollReveal.min.js"></script>
-<script src="/assets/plugins/js/website-preview.js"></script>
-<script src="/assets/plugins/bootstrap/js/bootstrap.min.js"></script>
-<script src="/assets/js/script.js"></script>
+<script src="${pageContext.request.contextPath}/assets/plugins/js/jquery-2.1.4.min.js"></script>
+<script src="${pageContext.request.contextPath}/assets/plugins/js/jquery.dotdotdot.min.js"></script>
+<script src="${pageContext.request.contextPath}/assets/plugins/js/jquery-textarea-maxlength.js"></script>
+<script src="${pageContext.request.contextPath}/assets/plugins/js/jquery.cookie.js"></script>
+<script src="${pageContext.request.contextPath}/assets/plugins/js/jquery.raty.js"></script>
+<script src="${pageContext.request.contextPath}/assets/plugins/js/scrollReveal.min.js"></script>
+<script src="${pageContext.request.contextPath}/assets/plugins/js/website-preview.js"></script>
+<script src="${pageContext.request.contextPath}/assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+<script src="${pageContext.request.contextPath}/assets/js/script.js"></script>
 
 <%
 

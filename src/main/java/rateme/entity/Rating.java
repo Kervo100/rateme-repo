@@ -4,13 +4,18 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 
-/**
- * Created by Mo on 29.06.2015.
- */
-
 @Entity
 @Table(name = "bewertung")
 public class Rating {
+
+    public Rating() {}
+
+    public Rating(Byte value, User user, Medium medium) {
+        this.value = value;
+        this.user = user;
+        this.medium = medium;
+    }
+
     @Id
     @GenericGenerator(name = "generator", strategy = "increment")
     @GeneratedValue(generator = "generator")

@@ -1,4 +1,3 @@
-<%@ page import="rateme.entity.Link" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <div class="page-header" id="medium-detail">
@@ -7,43 +6,44 @@
 <div class="page-content">
 
     <section class="embed-responsive embed-responsive-16by9">
-        <embed wmode="window" allowfullscreen="true" src="${link.getUrl()}"></embed>
+
+    <c:choose>
+        <c:when test="${mediumDetailHead=='youtube'}">
+            <embed wmode="window" allowfullscreen="true" type="application/x-shockwave-flash" src="${linkUrl}&showsearch=0&fs=1&rel=0&autoplay=0&amp;ap=%2526fmt%3D22"></embed>
+        </c:when>
+        <c:otherwise>
+            <embed wmode="window" allowfullscreen="true" src="${link.getUrl()}"></embed>
+        </c:otherwise>
+    </c:choose>
+
     </section>
 
     <div class="row">
         <div class="col-md-9">
-            <section class="medium-info-box">
+            <section id="medium-info-box">
                 <h4>Posted on ${medium.getDate()} by ${medium.getUser().getUsername()}</h4>
                 <p class="medium-description">${medium.getDescription()}</p>
             </section>
         </div>
         <div class="col-md-3">
-            <section class="medium-rating">
-                <div id="reviewStars-input">
-                    <input id="star-4" type="radio" name="reviewStars"/>
-                    <label title="gorgeous" for="star-4"></label>
-
-                    <input id="star-3" type="radio" name="reviewStars"/>
-                    <label title="good" for="star-3"></label>
-
-                    <input id="star-2" type="radio" name="reviewStars"/>
-                    <label title="regular" for="star-2"></label>
-
-                    <input id="star-1" type="radio" name="reviewStars"/>
-                    <label title="poor" for="star-1"></label>
-
-                    <input id="star-0" type="radio" name="reviewStars"/>
-                    <label title="bad" for="star-0"></label>
-                </div>
+            <section id="medium-rating">
+                <form action="/medium/${medium.id}/rating-send" method="post">
+                    <div class="tooltip-wrapper-rating">
+                        <div class="raty">
+                            <button type="submit" class="btn btn-primary btn-rating-submit">Rate</button>
+                        </div>
+                    </div>
+                </form>
             </section>
         </div>
     </div>
 
-    <section class="medium-comments">
+    <section id="medium-comments">
         <h4>All comments</h4>
-        <form action="/medium-detail/${medium.id}/comment-send" method="post">
-            <textarea rows="2" type="text" class="form-control input-lg" name="comment-text" placeholder="Add your comment"></textarea>
-            <input name="page" value="${page}" style="display: none;">
+        <form action="/medium/${medium.id}/comment-send#medium-comments" method="post">
+            <div class="tooltip-wrapper-comment">
+                <textarea rows="2" type="text" class="form-control input-lg" id="comment-text" name="comment-text" placeholder="Add your comment"></textarea>
+            </div>
             <button class="btn btn-primary btn-lg btn-post-comment" role="submit">Post</button>
         </form>
         <div class="comment-list">
@@ -52,6 +52,7 @@
                 <c:when test="${not empty commentList}">
                     <c:forEach var="comment" items="${commentList}">
                         <div class="well">
+                            <h4>${comment.getUser().getUsername()}<small> ${comment.getTimestamp()}</small></h4>
                             ${comment.getText()}
                         </div>
                     </c:forEach>
@@ -66,3 +67,5 @@
     </section>
 
 </div>
+
+<script>var mediumRating = "${mediumRating}"</script>

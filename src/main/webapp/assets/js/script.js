@@ -11,25 +11,65 @@ $(document).ready(function($) {
         after: "a.readmore"
     });
 
-    /*$('.medium-link .pathname').each(function() {
-        var path = $(this).html().split( '/' );
-        if ( path.length > 1 ) {
-            var name = path.pop();
-            $(this).html( path.join( '/' ) + '<span class="filename">/' + name + '</span>' );
-            $(this).dotdotdot({
-                after: 'span.filename',
-                wrap: 'letter'
-            });
-        }
-    });
-
     /**
      * End Plugins
      */
 
+    /**
+     * Medium-Detail Checks
+     */
+
+    if(typeof mediumRating == "undefined") {
+        mediumRating = 0;
+    }
+    var loggedIn = $.cookie("rateMe_LoggedIn");
+
+    if ($(".score").val() != "") {
+        $(".btn-rating-submit").css("display", "inline-block");
+    }
+    else {
+        $(".btn-rating-submit").css("display", "none");
+    }
+
+    if (loggedIn == "false") {
+        $("#comment-text").attr({
+            disabled: true
+        });
+        $(".tooltip-wrapper-rating").tooltip({
+            title: "Please login to rate",
+            placement: "auto bottom"
+        });
+        $(".tooltip-wrapper-comment").tooltip({
+            title: "Please login to add a comment",
+            placement: "auto top"
+        });
+        $(".raty").raty({
+            starType: 'i',
+            readOnly: true,
+            score: mediumRating
+        });
+        $(".btn-rating-submit").css("display", "none");
+    }
+    else {
+        $(".raty").raty({ starType: 'i', score: mediumRating });
+        $(".star-on-png").tooltip({ placement: "auto bottom"});
+        $(".star-off-png").tooltip({ placement: "auto bottom"});
+    }
+
+    $("#comment-text")
+        .on("focus", function(){
+            $(".btn-post-comment").css("display", "inline-block");
+            $(".comment-list").css("margin", "60px 0 0 0");
+        })
+        .on("focusout", function(){
+            if(this.value == ""){
+                $(".btn-post-comment").css("display", "none");
+                $(".comment-list").css("margin", "0");
+            }
+        });
+
     // set userId in hidden input with id="user-id"
-    console.log($.cookie("rateMe_LoggedIn"));
-    $("#user-id").value = $.cookie("rateMe_LoggedIn"); // TODO userId aus Cookie auslesen
+    $("#user-id").value = loggedIn;
 
 });
 

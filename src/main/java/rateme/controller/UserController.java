@@ -3,29 +3,23 @@ package rateme.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import rateme.ViewLib;
-import rateme.services.CommentService;
-import rateme.services.MediumService;
 import rateme.services.UserService;
 import rateme.entity.*;
 
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @Controller
 public class UserController {
 
-    public static UserController userController = new UserController();
     private UserService userService;
-    private CommentService commentService;
-    private MediumService mediumService;
 
     public UserController() {
         this.userService = new UserService();
-        this.commentService = new CommentService();
-        this.mediumService = new MediumService();
     }
-
 
 
 /*----------Register------------------------------------------------*/
@@ -56,7 +50,6 @@ public class UserController {
                 this.userService.createObject(newUser);
                 System.out.println(username + " " + mail + " " + password + " has been created successfully");
             } else {
-
                 modelAndView = ViewLib.activeViewLib().getView(loginCookie, "confirm-password");
                 return  modelAndView;
             }
@@ -65,30 +58,7 @@ public class UserController {
             return modelAndView;
         }
 
-
-
-        Cookie newCookie = null;
-        if (loginCookie.equals("false")) {
-            User remoteUser = userService.getUserByEmail(mail);
-            if (remoteUser != null) {
-                if (remoteUser.getPassword().equals(password)) {
-                    System.out.println(mail + " erfolgreich eingeloggt");
-                    newCookie = new Cookie("rateMe_LoggedIn", remoteUser.getId().toString());
-                    newCookie.setMaxAge(86400); //1 day
-                    response.addCookie(newCookie);
-                } else {
-                    System.out.println("falsches Passwort");
-                }
-            } else {
-                System.out.println("dieser User existiert nicht");
-            }
-        } else {
-            newCookie = new Cookie("rateMe_LoggedIn", "false");
-            response.addCookie(newCookie);
-            System.out.println(mail + " erfolgreich ausgeloggt");
-        }
-
-        loginCookie = newCookie.getValue();
+        loginCookie = this.setLoginCookie(loginCookie, mail, password, response).getValue();
         modelAndView = ViewLib.activeViewLib().getView(loginCookie, "welcome");
         return modelAndView;
     }
@@ -101,7 +71,7 @@ public class UserController {
             return false;
         }
         else {
-            System.out.println("ein User mit dieser Email ist bereits vorhanden");
+            System.out.println("User already exist");
         }
 
         return true;
@@ -111,7 +81,7 @@ public class UserController {
         if ((password).equals(passwordConfirm)) {
             return true;
         } else {
-            System.out.println("Passwort wurde falsch eingegeben");
+            System.out.println("Password wrong");
         }
         return false;
     }
@@ -139,12 +109,13 @@ public class UserController {
             if (userService.deleteObject(user)) {
                 message = "<p class='alert alert-success'>User gel&ouml;scht</p>";
             } else {
-                message = "<p class='alert alert-error'>Error</p>";
+                message = "<p class='alert alert-danger'>Error</p>";
             }
         }
 
         ModelAndView modelAndView = ViewLib.activeViewLib().getView(loginCookie, "user-list");
         modelAndView.addObject("message", message);
+        modelAndView.addObject("messageTitle", "User delete");
 
         return modelAndView;
     }
@@ -158,12 +129,13 @@ public class UserController {
             user.setIsAdmin(!user.isAdmin());
             if (userService.updateObject(user)) {
             } else {
-                message = "<p class='alert alert-error'>Error</p>";
+                message = "<p class='alert alert-danger'>Error</p>";
             }
         }
 
         ModelAndView modelAndView = ViewLib.activeViewLib().getView(loginCookie, "user-list");
         modelAndView.addObject("message", message);
+        modelAndView.addObject("messageTitle", "User toggle admin");
 
         return modelAndView;
     }
@@ -177,12 +149,13 @@ public class UserController {
             user.setIsBlocked(!user.isBlocked());
             if (userService.updateObject(user)) {
             } else {
-                message = "<p class='alert alert-error'>Error</p>";
+                message = "<p class='alert alert-danger'>Error</p>";
             }
         }
 
         ModelAndView modelAndView = ViewLib.activeViewLib().getView(loginCookie, "user-list");
         modelAndView.addObject("message", message);
+        modelAndView.addObject("messageTitle", "User toggle blocked user");
 
         return modelAndView;
     }
@@ -190,22 +163,42 @@ public class UserController {
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public ModelAndView login(@RequestParam("email") String email,
                               @RequestParam("password") String password,
-                              @RequestParam("currentPage") String currentPage,
                               @CookieValue(value = "rateMe_LoggedIn", defaultValue = "false") String loginCookie,
-                              HttpServletResponse response) {
+                              HttpServletResponse response,
+                              HttpServletRequest request,
+                              final RedirectAttributes redirectAttributes) {
+
+        Cookie cookie = this.setLoginCookie(loginCookie, email, password, response);
+
+        if (cookie.getValue().equals("password")) {
+            redirectAttributes.addFlashAttribute("message", "<p class='alert alert-danger'>Password wrong</p>");
+        }
+        else if (cookie.getValue().equals("user")) {
+            redirectAttributes.addFlashAttribute("message", "<p class='alert alert-danger'>User don't exist.</p>" +
+                    "<a href='/register' class='alert-link'>If you don't have an account, create a new here.</a>");
+        }
+        redirectAttributes.addFlashAttribute("messageTitle", "Login failed");
+
+        String referer = request.getHeader("Referer");
+        return new ModelAndView("redirect:"+referer);
+    }
+
+    private Cookie setLoginCookie(String loginCookie, String email, String password, HttpServletResponse response) {
         Cookie newCookie = new Cookie("rateMe_LoggedIn", "false");
         if (loginCookie.equals("false")) {
             User remoteUser = userService.getUserByEmail(email);
             if (remoteUser != null) {
                 if (remoteUser.getPassword().equals(password)) {
                     System.out.println(email + " erfolgreich eingeloggt");
-                    newCookie = new Cookie("rateMe_LoggedIn", remoteUser.getId().toString());
+                    newCookie.setValue(remoteUser.getId().toString());
                     newCookie.setMaxAge(86400); //1 day
                     response.addCookie(newCookie);
                 } else {
+                    newCookie.setValue("password");
                     System.out.println("falsches Passwort");
                 }
             } else {
+                newCookie.setValue("user");
                 System.out.println("dieser User existiert nicht");
             }
         } else {
@@ -213,7 +206,6 @@ public class UserController {
             System.out.println(email + " erfolgreich ausgeloggt");
         }
 
-        ModelAndView modelAndView = ViewLib.activeViewLib().getView(newCookie.getValue(), currentPage);
-        return modelAndView;
+        return newCookie;
     }
 }

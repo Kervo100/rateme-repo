@@ -1,6 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <div class="container">
-  <section class="page-header"><h1>Medium teilen <small> Teile einen beliebigen Link mit anderen Nutzern</small></h1></section>
+  <section class="page-header"><h1>Share a link <small> Share a random link with other user</small></h1></section>
   <section class="page-content">
         <form class="form-horizontal" action="/medium-shared" method="post">
 
@@ -18,19 +18,19 @@
               <select class="form-control input-lg" id="medium-category" name="medium-category">
                 <option value="1">Video</option>
                 <option value="2">Audio</option>
-                <option value="3">Bild</option>
+                <option value="3">Photo</option>
               </select>
             </div>
           </div>
 
           <div class="form-group-lg" style="padding: 15px 0">
-            <textarea maxlength="2000" class="form-control" rows="6" id="medium-description" name="medium-description" placeholder="Beschreibung"></textarea>
+            <textarea maxlength="2000" class="form-control" rows="6" id="medium-description" name="medium-description" placeholder="Description"></textarea>
             <span class="text-muted" id="medium-description-counter"></span>
           </div>
 
           <div class="form-group">
             <div class="col-md-12">
-              <button type="submit" class="btn btn-default btn-lg" id="medium-share-button">Medium teilen</button>
+              <button type="submit" class="btn btn-default btn-lg" id="medium-share-button">Share link</button>
             </div>
           </div>
 

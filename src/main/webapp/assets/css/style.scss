@@ -110,6 +110,9 @@ a.navbar-brand {
     font-size: 11px;
   }
 }
+h3.medium-title.text-center {
+  color: $primary-color;
+}
 /* Error Page
 -------------------------------------------------- */
 .error-template {
@@ -156,7 +159,7 @@ a.navbar-brand {
 #medium-detail {
   margin: 0 0 40px 0;
 }
-.medium-info-box, .medium-rating, .medium-comments {
+#medium-info-box, #medium-rating, #medium-comments {
   background-color: $background-color-lighten;
   margin: 15px 0;
   padding: 10px;
@@ -167,8 +170,12 @@ a.navbar-brand {
   & .btn-post-comment {
     margin: 10px 0;
     float: right;
+    display: none;
   }
 }
 .comment-list {
-  margin: 60px 0 0 0;
+  margin: 0;
+}
+.btn-rating-submit {
+  float: right;
 }

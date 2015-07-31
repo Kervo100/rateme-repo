@@ -11,9 +11,6 @@ import rateme.services.UserService;
 import java.util.IntSummaryStatistics;
 import java.util.List;
 
-/**
- * Created by thorben on 28/07/15.
- */
 public class ViewLib {
     private static ViewLib mViewLib = new ViewLib();
 
@@ -79,7 +76,7 @@ public class ViewLib {
                 title = "Share";
                 break;
             case "register":
-                title = "Register User";
+                title = "Register";
                 break;
             case "impressum":
                 title = "Impressum";
@@ -88,9 +85,6 @@ public class ViewLib {
                 title = "Home";
                 break;
             case "medium-detail":
-                title = "Medium Detail";
-                break;
-            case "medium-detail-youtube":
                 title = "Medium Detail";
                 break;
             case "user-list":
