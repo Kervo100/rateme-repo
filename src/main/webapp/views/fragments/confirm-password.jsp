@@ -15,12 +15,12 @@
   <link href="/assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
   <link href="/assets/css/style.css" rel="stylesheet">
 </head>
-<body>
+<body style="height: 10px;">
 
 
 <div class="container">
   <div class="row">
-    <div class="col-md-6">
+    <div class="col-md-6" style="height: 650px;">
 
       <form class="form-horizontal" action="/register-user" method="POST">
         <fieldset>
@@ -80,7 +80,7 @@
           <div class="control-group">
             <!-- Button -->
             <div class="controls">
-              <button class="btn btn-success">Register</button>
+              <button class="btn btn-default btn-primary">Register</button>
             </div>
           </div>
 

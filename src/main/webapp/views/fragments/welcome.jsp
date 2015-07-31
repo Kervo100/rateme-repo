@@ -17,7 +17,7 @@
 
   <script type="text/javascript">var z = document.createElement("script"); z.type = "text/javascript"; z.async = true; z.src = "http://engine.carbonads.com/z/32644/azcarbon_2_1_0_VERT"; var s = document.getElementsByTagName("script")[0]; s.parentNode.insertBefore(z, s);</script>
 
-  <div class="container-fluid">
+  <div class="container-fluid" style="height: 650px;">
     <h1>Welcome Dude!</h1>
     <p class="lead">Get Started In Sharing Your Videos And Pictures With The Entire World! </p>
     <div class="row-fluid">

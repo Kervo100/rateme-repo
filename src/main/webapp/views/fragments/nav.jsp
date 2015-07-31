@@ -19,10 +19,13 @@
           <input type="text" class="form-control" placeholder="Search">
           <span class="btn btn-default input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
         </div>
-      </form>
+          <input type="button" name="share" class="btn btn-default btn-primary" value="Share" onClick="parent.location='share'" />
+
       <ul class="nav navbar-nav">
-        <li><a href="/share" class="btn btn-default">Share</a></li>
+       <!-- <li><a href="/share" class="btn btn-default btn-primary">Share</a></li>-->
       </ul>
+      </form>
+
       <form class="navbar-form navbar-right" action="/login" method="post">
         <input type="text" id="currentPageID" name="currentPage" style="display: none;" value="${page}">
 
@@ -36,8 +39,8 @@
             <div class="form-group">
                <input type="password" name="password" class="form-control" id="password-login" placeholder="Password">
             </div>
-            <button type="submit" class="btn btn-default">Login</button>
-            <input type="button" name="register" class="btn btn-default" value="Register" onClick="parent.location='register'" />
+            <button type="submit" class="btn btn-default btn-primary">Login</button>
+            <input type="button" name="register" class="btn btn-default btn-primary" value="Register" onClick="parent.location='register'" />
         <%}
         else {%>
             <div class="form-group">
@@ -49,7 +52,7 @@
             <div class="form-group">
               <label style="color: #FFFFFF;">${loginCookie}</label>
             </div>
-            <button type="submit" class="btn btn-default">Logout</button>
+            <button type="submit" class="btn btn-default btn-primary">Logout</button>
         <%}%>
       </form>
     </div><!-- /.navbar-collapse -->
