@@ -46,6 +46,7 @@ $(document).ready(function($) {
         $(".raty").raty({
             starType: 'i',
             readOnly: true,
+            noRatedMsg: '',
             score: mediumRating
         });
         $(".btn-rating-submit").css("display", "none");

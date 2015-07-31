@@ -1,5 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<nav class="navbar navbar-inverse">
+<nav class="navbar navbar-inverse navbar-fixed-top">
   <div class="container">
     <!-- Brand and toggle get grouped for better mobile display -->
     <div class="navbar-header">
@@ -30,7 +30,7 @@
         </div>
       </form>
       <ul class="nav navbar-nav">
-        <li><a href="/share" class="btn btn-default">Share</a></li>
+        <li><a href="/share" class="btn btn-primary">Share</a></li>
       </ul>
       <form class="navbar-form navbar-right" action="/login" method="post">
         <input type="text" id="currentPageID" name="currentPage" style="display: none;" value="${page}">
@@ -40,13 +40,13 @@
         if(loginCookie == null) { loginCookie = "false"; }
         if (loginCookie.equals("false")) {%>
             <div class="form-group">
-               <input type="email" name="email" class="form-control" id="email-login" placeholder="Email">
+               <input type="email" name="email" class="form-control" id="email-login" placeholder="Email" required>
             </div>
             <div class="form-group">
-               <input type="password" name="password" class="form-control" id="password-login" placeholder="Password">
+               <input type="password" name="password" class="form-control" id="password-login" placeholder="Password" required>
             </div>
-            <button type="submit" class="btn btn-default btn-primary">Login</button>
-            <input type="button" name="register" class="btn btn-default btn-primary" value="Register" onClick="parent.location='register'" />
+            <button type="submit" class="btn btn-primary">Login</button>
+            <a href="/register" class="btn btn-primary">Register</a>
         <%}
         else {%>
             <div class="form-group">
@@ -58,13 +58,13 @@
             <div class="form-group">
               <label style="color: #FFFFFF;">${username}</label>
             </div>
-            <button type="submit" class="btn btn-default">Logout</button>
+            <button type="submit" class="btn btn-primary">Logout</button>
 
             <%
             String isAdmin = (String) request.getAttribute("isAdmin");
             if (isAdmin != null) {
               if(isAdmin.equals("true")) {%>
-                <a href="/user-list" class="btn btn-default btn-primary" role="button">Benutzer</a>
+                <a href="/user-list" class="btn btn-primary" role="button">User-List</a>
             <%}
             }
         }%>

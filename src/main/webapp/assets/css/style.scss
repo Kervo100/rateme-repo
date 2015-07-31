@@ -4,6 +4,7 @@ $font-stack: Helvetica, sans-serif;
 $primary-color: #2a1f0b;
 $secondary-color: #06b7a2;
 $background-color: #bfcad0;
+$background-color-lighten: lighten($background-color, 10%);
 $background-color-banner: #2e9ad7;
 $highlight-color: #06b9a1;
 
@@ -23,7 +24,7 @@ body {
 }
 .main-background {
   background-color: #EAF7FF;
-  padding-top: 30px;
+  padding-top: 75px;
   padding-bottom: 30px;
 }
 a {
@@ -56,7 +57,7 @@ a {
 /* Navbar
 -------------------------------------------------- */
 .navbar {
-  border-radius: 0px;
+  border-radius: 0;
 }
 .navbar .container {
   padding-top: 5px;
@@ -71,8 +72,8 @@ a.navbar-brand {
 }
 .btn-default {
   &:hover {
-    background-color: #06b9a1;
-    border-color: #06b9a1;
+    background-color: $highlight-color;
+    border-color: $highlight-color;
   }
   &:active {
     background-color: white ;
@@ -81,24 +82,21 @@ a.navbar-brand {
 .navbar-inverse .navbar-toggle {
   border-color: white;
   &:hover {
-    background-color: #06b9a1;
+    background-color: $highlight-color;
     border-color: white;
   }
 }
 .navbar-inverse {
   background-color: $background-color-banner;
   border-color: $background-color-banner;
-  margin-bottom: 0px;
+  margin-bottom: 0;
   .navbar-nav>li>a, .navbar-brand {
-    color: $primary-color;
     color: white;
     line-height: 1px;
     margin-top: 9px;
     &:hover {
-      //text-decoration: white;
-      //color: white;
-      background-color: #2e9ad7;
-      border-color: #2e9ad7;
+      background-color: $highlight-color;
+      border-color: $highlight-color;
     }
   }
 }
@@ -151,7 +149,7 @@ h3.medium-title.text-center {
   margin-bottom: 15px;
 }
 .error-actions .btn {
-  margin-right:10px;
+  margin-right: 10px;
 }
 /* Sticky footer styles
 -------------------------------------------------- */

@@ -88,7 +88,7 @@ public class ViewLib {
                 title = "Medium Detail";
                 break;
             case "user-list":
-                title = "Alle Benutzer";
+                title = "All User";
                 break;
             default:
                 title = "No Title";
