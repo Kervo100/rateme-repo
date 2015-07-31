@@ -45,8 +45,8 @@
             <div class="form-group">
                <input type="password" name="password" class="form-control" id="password-login" placeholder="Password">
             </div>
-            <button type="submit" class="btn btn-default">Login</button>
-            <input type="button" name="register" class="btn btn-default" value="Register" onClick="parent.location='register'" />
+            <button type="submit" class="btn btn-default btn-primary">Login</button>
+            <input type="button" name="register" class="btn btn-default btn-primary" value="Register" onClick="parent.location='register'" />
         <%}
         else {%>
             <div class="form-group">
@@ -64,7 +64,7 @@
             String isAdmin = (String) request.getAttribute("isAdmin");
             if (isAdmin != null) {
               if(isAdmin.equals("true")) {%>
-                <a href="/user-list" class="btn btn-default" role="button">Benutzer</a>
+                <a href="/user-list" class="btn btn-default btn-primary" role="button">Benutzer</a>
             <%}
             }
         }%>

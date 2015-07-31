@@ -14,7 +14,7 @@
 
 <jsp:include page="fragments/nav.jsp" />
 
-<section id="page-content">
+<section id="page-content" class="main-background">
     <div class="container">
         <jsp:include page="fragments/${page}.jsp" />
     </div>

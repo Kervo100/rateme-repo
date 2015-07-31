@@ -1,12 +1,12 @@
 /* Variables
 -------------------------------------------------- */
 $font-stack: Helvetica, sans-serif;
-$primary-color: #2A1F0B;
-$secondary-color: #9b6932;
-$background-color: #e2e2e2;
-$background-color-lighten: lighten($background-color, 10%);
-$background-color-banner: #BCAA92;
-$highlight-color: #c39c23;
+$primary-color: #2a1f0b;
+$secondary-color: #06b7a2;
+$background-color: #bfcad0;
+$background-color-banner: #2e9ad7;
+$highlight-color: #06b9a1;
+
 /* General
 -------------------------------------------------- */
 html {
@@ -16,9 +16,15 @@ html {
 body {
   font: $font-stack;
   color: $primary-color;
-  background-color: $background-color;
+  //background-color: $background-color;
   /* Margin bottom by footer height */
-  margin-bottom: 60px;
+  //margin-bottom: 60px;
+  //height: 2400px;
+}
+.main-background {
+  background-color: #EAF7FF;
+  padding-top: 30px;
+  padding-bottom: 30px;
 }
 a {
   color: $secondary-color;
@@ -49,6 +55,9 @@ a {
 }
 /* Navbar
 -------------------------------------------------- */
+.navbar {
+  border-radius: 0px;
+}
 .navbar .container {
   padding-top: 5px;
 }
@@ -60,18 +69,36 @@ a.navbar-brand {
   text-align: center;
   font-size: 25px;
 }
+.btn-default {
+  &:hover {
+    background-color: #06b9a1;
+    border-color: #06b9a1;
+  }
+  &:active {
+    background-color: white ;
+  }
+}
+.navbar-inverse .navbar-toggle {
+  border-color: white;
+  &:hover {
+    background-color: #06b9a1;
+    border-color: white;
+  }
+}
 .navbar-inverse {
   background-color: $background-color-banner;
   border-color: $background-color-banner;
+  margin-bottom: 0px;
   .navbar-nav>li>a, .navbar-brand {
     color: $primary-color;
+    color: white;
     line-height: 1px;
     margin-top: 9px;
     &:hover {
-      text-decoration: none;
-      color: #333;
-      background-color: #e6e6e6;
-      border-color: #adadad;
+      //text-decoration: white;
+      //color: white;
+      background-color: #2e9ad7;
+      border-color: #2e9ad7;
     }
   }
 }
@@ -137,12 +164,8 @@ h3.medium-title.text-center {
   background-color: $background-color-banner;
 }
 .footer-content {
-  margin-top: 20px;
+  margin-top: 2px;
   color: $primary-color;
-}
-
-.btn-impressum {
-
 }
 /* Website Preview CSS
 -------------------------------------------------- */
@@ -178,4 +201,9 @@ h3.medium-title.text-center {
 }
 .btn-rating-submit {
   float: right;
+}
+/* Welcome Page
+-------------------------------------------------- */
+.well {
+  background-color: white;
 }
