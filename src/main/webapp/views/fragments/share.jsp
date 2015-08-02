@@ -7,8 +7,11 @@
 <section id="page-content">
 
 <div class="container">
-  <section class="page-header"><h1>Share a link <small> Share a random link with other user</small></h1></section>
-  <section class="page-content">
+  <div id="legend">
+    <legend class="">Share Media</legend>
+  </div>  <section class="page-content">
+  <br>
+  <br>
         <form class="form-horizontal" action="/medium-shared" method="post">
 
           <div class="form-group">
@@ -37,7 +40,7 @@
 
           <div class="form-group">
             <div class="col-md-12">
-              <button type="submit" class="btn btn-primary btn-lg" id="medium-share-button">Share link</button>
+              <button type="submit" class="btn btn-primary" id="medium-share-button">Share</button>
             </div>
           </div>
 
