@@ -179,13 +179,15 @@ h3.medium-title.text-center {
 #medium-detail {
   margin: 0 0 40px 0;
 }
-#medium-info-box, #medium-rating, #medium-comments {
-  background-color: $background-color-lighten;
+#medium-info-box {
+  background-color: white;
   margin: 15px 0;
+  border: 1px solid #ccc;
+  border-radius: 6px;
   padding: 10px;
   & h4 {
     padding: 4px 0;
-    border-bottom: 1px solid #eee;
+    border-bottom: 1px solid #e5e5e5;
   }
   & .btn-post-comment {
     margin: 10px 0;
@@ -193,8 +195,45 @@ h3.medium-title.text-center {
     display: none;
   }
 }
+
+#medium-rating {
+  //background-color: white;
+  margin: 15px 0;
+  padding: 10px;
+  & h4 {
+    padding: 4px 0;
+    border-bottom: 1px solid #e5e5e5;
+  }
+  & .btn-post-comment {
+    margin: 10px 0;
+    float: right;
+    display: none;
+  }
+
+}
+
+#medium-comments {
+ //background-color: white;
+  margin: 15px 0;
+  padding: 10px;
+  & h4 {
+    padding: 4px 0;
+    border-bottom: 1px solid #e5e5e5;
+  }
+  & .btn-post-comment {
+    margin: 10px 0;
+    float: right;
+    display: none;
+  }
+
+}
+
 .comment-list {
   margin: 0;
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+
 }
 .btn-rating-submit {
   float: right;
@@ -229,4 +268,15 @@ button.edit {
 -------------------------------------------------- */
 .well {
   background-color: white;
+}
+
+.well-share {
+  min-height: 20px;
+  padding: 19px;
+  margin-bottom: 20px;
+  background-color: #ffffff;
+  //border: 1px solid #e3e3e3;
+  border-radius: 6px;
+  //-webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.05);
+  //box-shadow: inset 0 1px 1px rgba(0,0,0,.05);
 }

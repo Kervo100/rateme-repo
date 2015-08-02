@@ -59,14 +59,14 @@
             </div>
             <div class="form-group">
               <label style="color: #FFFFFF;">${username}</label>
-            </div>
             <button type="submit" class="btn btn-primary">Logout</button>
+            </div>
 
-            <%
+          <%
             String isAdmin = (String) request.getAttribute("isAdmin");
             if (isAdmin != null) {
               if(isAdmin.equals("true")) {%>
-                <a href="/user-list" class="btn btn-primary" role="button">User-List</a>
+                <a href="/user-list" class="btn btn-primary" role="button">User-Administration</a>
             <%}
             }
         }%>

@@ -10,11 +10,11 @@
     <link href="${pageContext.request.contextPath}/assets/plugins/css/jquery.raty.css" rel="stylesheet">
     <link href="${pageContext.request.contextPath}/assets/css/style.css" rel="stylesheet">
 </head>
-<body>
+<body class="main-background">
 
 <jsp:include page="fragments/nav.jsp" />
 
-<section id="page-content" class="main-background">
+<section id="page-content">
     <div class="container">
         <jsp:include page="fragments/${page}.jsp" />
     </div>

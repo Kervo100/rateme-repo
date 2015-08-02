@@ -3,7 +3,7 @@
 <head>
     <title>${title}</title>
 </head>
-<body>
+<body class="main-background">
 <div class="container">
   <div class="row">
     <div class="col-md-12">
