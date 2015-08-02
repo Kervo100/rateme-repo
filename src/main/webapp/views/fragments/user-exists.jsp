@@ -15,12 +15,13 @@
   <link href="/assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
   <link href="/assets/css/style.css" rel="stylesheet">
 </head>
-<body style="height: 10px;">
+<body class="main-background">
 
+<section id="page-content">
 
 <div class="container">
   <div class="row">
-    <div class="col-md-6" style="height: 650px;">
+    <div class="col-md-6">
 
       <form class="form-horizontal" action="/register-user" method="POST">
         <fieldset>
@@ -99,5 +100,6 @@
 <script src="/assets/plugins/js/jquery-2.1.4.min.js"></script>
 <script src="/assets/plugins/bootstrap/js/bootstrap.min.js"></script>
 
+  </section>
 </body>
 </html>

@@ -1,8 +1,14 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<!DOCTYPE html>
+<html>
+<body class="main-background">
 <section id="page-content">
 
     <div class="container">
-        <section class="page-header"><h1>Impressum <small> RateMe - Ein Projekt der Hochschule Bremen 2015</small></h1></section>
+        <div id="legend">
+            <legend class="">Impressum Rate Me</legend>
+        </div>
+        <!--<section class="page-header"><h1>Impressum <small> RateMe - Ein Projekt der Hochschule Bremen 2015</small></h1></section>-->
         <section class="page-content">
             <div class="row">
                 <div class="col-sm-6">
@@ -27,3 +33,5 @@
         </section>
     </div>
 </section>
+</body>
+</html>

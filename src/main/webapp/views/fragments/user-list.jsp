@@ -1,7 +1,15 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <section class="page-content">
+
+
   <div id="user-list">
+    <div id="legend">
+      <legend class="">List Of Registered Users</legend>
+    </div>
+    <br><br>
+
+
     <div class="row">
 
         <c:if test="${not empty userList}">
