@@ -63,7 +63,7 @@ $(document).ready(function($) {
     $("#comment-text")
         .on("focus", function(){
             $(".btn-post-comment").css("display", "inline-block");
-            $(".comment-list").css("margin", "60px 0 0 0");
+            $(".comment-list").css("margin", "40px 0 0 0");
         })
         .on("focusout", function(){
             if(this.value == ""){

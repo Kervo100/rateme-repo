@@ -60,7 +60,7 @@
         </form>
 
         <br>
-        
+
         <div class="comment-list">
             <c:choose>
                 <c:when test="${not empty commentList}">
