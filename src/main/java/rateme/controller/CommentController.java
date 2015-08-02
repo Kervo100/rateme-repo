@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import rateme.ViewLib;
 import rateme.entity.Medium;
 import rateme.services.CommentService;
 import rateme.services.MediumService;
@@ -16,7 +15,6 @@ import rateme.entity.Comment;
 import rateme.entity.User;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 @Controller
 public class CommentController {
@@ -37,8 +35,7 @@ public class CommentController {
             @PathVariable("mediumId") String mediumId,
             @RequestParam("comment-text") String text,
             final RedirectAttributes redirectAttributes,
-            HttpServletRequest request
-            ) {
+            HttpServletRequest request) {
 
         String referer = request.getHeader("Referer");
         ModelAndView modelAndView = new ModelAndView("redirect:"+referer);
@@ -57,23 +54,61 @@ public class CommentController {
         return modelAndView;
     }
 
-    public boolean deleteComment(int commentID, int userID) {
-        User user = userService.getUserByID(userID);
-        Comment comment = commentService.getCommentByID(commentID);
+    @RequestMapping("/medium/{mediumId}/comment-update")
+    public ModelAndView updateComment(
+            @CookieValue(value = "rateMe_LoggedIn", defaultValue = "false") String loginCookie,
+            @PathVariable("mediumId") String mediumId,
+            @RequestParam("commentId") Integer commentId,
+            @RequestParam("edit-comment-text") String text,
+            final RedirectAttributes redirectAttributes,
+            HttpServletRequest request) {
 
-        if(user != null && comment != null) {
-            if(user.isAdmin() == true || user == comment.getUser()) {
-                commentService.deleteObject(comment);
-                return true;
-            }
-            else {
-                System.out.println("deleteComment - User nicht berechtigt, den Kommentar zu loeschen");
-                return false;
+        String referer = request.getHeader("Referer");
+        ModelAndView modelAndView = new ModelAndView("redirect:"+referer);
+
+        if (!loginCookie.equals("false")) {
+            Comment comment = this.commentService.getCommentByID(commentId);
+            if(!comment.getText().equals(text)) {
+                comment.setText(text);
+                this.commentService.updateObject(comment);
             }
         }
         else {
-            System.out.println("deleteComment - user oder comment nicht vorhanden");
-            return false;
+            redirectAttributes.addFlashAttribute("message", "<p class='alert alert-danger'>Please login before you can comment</p>");
+            redirectAttributes.addFlashAttribute("messageTitle", "Comment failed");
         }
+
+        return modelAndView;
+    }
+
+    @RequestMapping("/medium/{mediumId}/comment-delete")
+    public ModelAndView deleteComment(
+            @CookieValue(value = "rateMe_LoggedIn", defaultValue = "false") String loginCookie,
+            @PathVariable("mediumId") String mediumId,
+            @RequestParam("commentId") Integer commentId,
+            final RedirectAttributes redirectAttributes,
+            HttpServletRequest request) {
+
+        String referer = request.getHeader("Referer");
+        ModelAndView modelAndView = new ModelAndView("redirect:"+referer);
+
+        User user = this.userService.getUserByID(Integer.parseInt(loginCookie));
+        Comment comment = this.commentService.getCommentByID(commentId);
+
+        if(user != null && comment != null) {
+            if(user.isAdmin() || user == comment.getUser()) {
+                this.commentService.deleteObject(comment);
+            }
+            else {
+                System.out.println("User ist nicht berechtigt, den Kommentar zu loeschen");
+                redirectAttributes.addFlashAttribute("message", "<p class='alert alert-danger'>Forbidden to delete comment</p>");
+                redirectAttributes.addFlashAttribute("messageTitle", "Comment delete failed");
+            }
+        }
+        else {
+            System.out.println("User oder Comment nicht vorhanden");
+        }
+
+        return modelAndView;
     }
 }

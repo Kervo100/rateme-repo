@@ -8,7 +8,6 @@ import rateme.services.LinkService;
 import rateme.services.MediumService;
 import rateme.services.UserService;
 
-import java.util.IntSummaryStatistics;
 import java.util.List;
 
 public class ViewLib {
@@ -36,9 +35,11 @@ public class ViewLib {
 
         if(!loginCookie.equals("false")) {
             User usr = userService.getUserByID(Integer.parseInt(loginCookie));
-            modelAndView.addObject("username", usr.getUsername());
-            if(usr.isAdmin()) {
-                modelAndView.addObject("isAdmin", "true");
+            if(usr != null) {
+                modelAndView.addObject("username", usr.getUsername());
+                if (usr.isAdmin()) {
+                    modelAndView.addObject("isAdmin", "true");
+                }
             }
         }
         else {

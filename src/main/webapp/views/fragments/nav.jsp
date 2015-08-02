@@ -30,7 +30,9 @@
         </div>
       </form>
       <ul class="nav navbar-nav">
-        <li><a href="/share" class="btn btn-primary">Share</a></li>
+          <li id="tooltip-wrapper-share-button">
+              <a href="/share" class="btn btn-primary" id="share-button">Share</a>
+          </li>
       </ul>
       <form class="navbar-form navbar-right" action="/login" method="post">
         <input type="text" id="currentPageID" name="currentPage" style="display: none;" value="${page}">

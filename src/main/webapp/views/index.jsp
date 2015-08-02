@@ -37,7 +37,7 @@ if (message != null) {%>
           ${message}
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-primary" data-dismiss="modal">Schließen</button>
+          <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
         </div>
       </div>
     </div>
@@ -56,7 +56,6 @@ if (message != null) {%>
 <script src="${pageContext.request.contextPath}/assets/plugins/js/jquery.cookie.js"></script>
 <script src="${pageContext.request.contextPath}/assets/plugins/js/jquery.raty.js"></script>
 <script src="${pageContext.request.contextPath}/assets/plugins/js/scrollReveal.min.js"></script>
-<script src="${pageContext.request.contextPath}/assets/plugins/js/website-preview.js"></script>
 <script src="${pageContext.request.contextPath}/assets/plugins/bootstrap/js/bootstrap.min.js"></script>
 <script src="${pageContext.request.contextPath}/assets/js/script.js"></script>
 

@@ -30,11 +30,11 @@
 
           <div class="form-group">
             <div class="col-md-12">
-              <button type="submit" class="btn btn-default btn-lg" id="medium-share-button">Share link</button>
+              <button type="submit" class="btn btn-primary btn-lg" id="medium-share-button">Share link</button>
             </div>
           </div>
 
-          <input id="user-id" name="user-id" style="display: none;" value="1">
+          <input type="text" class="hidden" name="user-id" value="${loginCookie}">
 
         </form>
   </section>

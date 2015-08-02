@@ -1,6 +1,7 @@
 package rateme.services;
 
 import org.hibernate.Criteria;
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
@@ -27,12 +28,18 @@ public class LinkService extends Service {
             id = (Integer) session.save(link);
             transaction.commit();
         }
-        catch (Exception e) {
-            if (transaction!=null){
-                transaction.rollback();
-                id = null;
+        catch (HibernateException e) {
+            if (transaction!=null) {
+                try {
+                    transaction.rollback();
+                    id = null;
+                }
+                catch (Exception re) {
+                    System.err.println("Error when trying to rollback transaction:"); // use logging framework here
+                    re.printStackTrace();
+                }
             }
-            throw e;
+            e.printStackTrace();
         }
         finally {
             session.close();
@@ -52,7 +59,7 @@ public class LinkService extends Service {
     }
 
     public List<Link> getLinkList(){
-        List linkList;
+        List linkList = null;
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction transaction = null;
         try {
@@ -62,9 +69,17 @@ public class LinkService extends Service {
 
             transaction.commit();
         }
-        catch (Exception e) {
-            if (transaction!=null) transaction.rollback();
-            throw e;
+        catch (HibernateException e) {
+            if (transaction!=null) {
+                try {
+                    transaction.rollback();
+                }
+                catch (Exception re) {
+                    System.err.println("Error when trying to rollback transaction:"); // use logging framework here
+                    re.printStackTrace();
+                }
+            }
+            e.printStackTrace();
         }
         finally {
             session.close();
@@ -90,9 +105,17 @@ public class LinkService extends Service {
 
             transaction.commit();
         }
-        catch (Exception e) {
-            if (transaction!=null) transaction.rollback();
-            throw e;
+        catch (HibernateException e) {
+            if (transaction!=null) {
+                try {
+                    transaction.rollback();
+                }
+                catch (Exception re) {
+                    System.err.println("Error when trying to rollback transaction:"); // use logging framework here
+                    re.printStackTrace();
+                }
+            }
+            e.printStackTrace();
         }
         finally {
             session.close();

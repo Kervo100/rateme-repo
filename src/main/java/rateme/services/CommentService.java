@@ -3,6 +3,7 @@ package rateme.services;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import rateme.HibernateUtil;
 import rateme.entity.*;
@@ -40,12 +41,54 @@ public class CommentService extends Service {
 
     @Override
     public boolean updateObject(Object object) {
-        return false;
+        Comment comment = (Comment) object;
+        Boolean result = true;
+
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            session.update(comment);
+            transaction.commit();
+        }
+        catch (Exception e) {
+            if (transaction!=null){
+                transaction.rollback();
+                result = false;
+            }
+            throw e;
+        }
+        finally {
+            session.close();
+        }
+
+        return result;
     }
 
     @Override
     public boolean deleteObject(Object object) {
-        return false;
+        Comment comment = (Comment) object;
+        boolean success = true;
+
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            session.delete(comment);
+            transaction.commit();
+        }
+        catch (Exception e) {
+            if (transaction!=null){
+                transaction.rollback();
+                success = false;
+            }
+            throw e;
+        }
+        finally {
+            session.close();
+        }
+
+        return success;
     }
 
     public Comment getCommentByID(int id) {
@@ -75,7 +118,9 @@ public class CommentService extends Service {
         try {
             transaction = session.beginTransaction();
             Criteria criteria = session.createCriteria(Comment.class);
-            criteria.add(Restrictions.eq("medium", medium));
+            criteria
+                    .add(Restrictions.eq("medium", medium))
+                    .addOrder(Order.desc("timestamp"));
             commentList = criteria.list();
 
             transaction.commit();

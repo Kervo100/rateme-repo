@@ -1,8 +1,10 @@
 package rateme.services;
 
 import org.hibernate.Criteria;
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import rateme.HibernateUtil;
 import rateme.entity.Medium;
@@ -10,9 +12,7 @@ import rateme.entity.Medium;
 import java.util.List;
 
 public class MediumService extends Service {
-    public MediumService() {
-
-    }
+    public MediumService() {}
 
     @Override
     public Integer createObject(Object object) {
@@ -26,12 +26,17 @@ public class MediumService extends Service {
             id = (Integer) session.save(medium);
             transaction.commit();
         }
-        catch (Exception e) {
-            if (transaction!=null){
-                transaction.rollback();
-                id = null;
+        catch (HibernateException e) {
+            if (transaction!=null) {
+                try {
+                    transaction.rollback();
+                }
+                catch (Exception re) {
+                    System.err.println("Error when trying to rollback transaction:"); // use logging framework here
+                    re.printStackTrace();
+                }
             }
-            throw e;
+            e.printStackTrace();
         }
         finally {
             session.close();
@@ -48,7 +53,7 @@ public class MediumService extends Service {
     @Override
     public boolean deleteObject(Object object) {
         Medium medium = (Medium) object;
-        boolean success = false;
+        boolean success = true;
 
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction transaction = null;
@@ -56,14 +61,18 @@ public class MediumService extends Service {
             transaction = session.beginTransaction();
             session.delete(medium);
             transaction.commit();
-            success = true;
         }
-        catch (Exception e) {
-            if (transaction!=null){
-                transaction.rollback();
-                success = false;
+        catch (HibernateException e) {
+            if (transaction!=null) {
+                try {
+                    transaction.rollback();
+                }
+                catch (Exception re) {
+                    System.err.println("Error when trying to rollback transaction:"); // use logging framework here
+                    re.printStackTrace();
+                }
             }
-            throw e;
+            e.printStackTrace();
         }
         finally {
             session.close();
@@ -81,9 +90,17 @@ public class MediumService extends Service {
             medium = (Medium) session.get(Medium.class, id);
             transaction.commit();
         }
-        catch (Exception e) {
-            if (transaction!=null) transaction.rollback();
-            throw e;
+        catch (HibernateException e) {
+            if (transaction!=null) {
+                try {
+                    transaction.rollback();
+                }
+                catch (Exception re) {
+                    System.err.println("Error when trying to rollback transaction:"); // use logging framework here
+                    re.printStackTrace();
+                }
+            }
+            e.printStackTrace();
         }
         finally {
             session.close();
@@ -109,9 +126,17 @@ public class MediumService extends Service {
 
             transaction.commit();
         }
-        catch (Exception e) {
-            if (transaction!=null) transaction.rollback();
-            throw e;
+        catch (HibernateException e) {
+            if (transaction!=null) {
+                try {
+                    transaction.rollback();
+                }
+                catch (Exception re) {
+                    System.err.println("Error when trying to rollback transaction:"); // use logging framework here
+                    re.printStackTrace();
+                }
+            }
+            e.printStackTrace();
         }
         finally {
             session.close();
@@ -121,19 +146,28 @@ public class MediumService extends Service {
     }
 
     public List<Medium> getMediumList(){
-        List mediaList;
+        List mediaList = null;
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction transaction = null;
         try {
             transaction = session.beginTransaction();
             Criteria criteria = session.createCriteria(Medium.class);
+            criteria.addOrder(Order.desc("timestamp"));
             mediaList = criteria.list();
 
             transaction.commit();
         }
-        catch (Exception e) {
-            if (transaction!=null) transaction.rollback();
-            throw e;
+        catch (HibernateException e) {
+            if (transaction!=null) {
+                try {
+                    transaction.rollback();
+                }
+                catch (Exception re) {
+                    System.err.println("Error when trying to rollback transaction:"); // use logging framework here
+                    re.printStackTrace();
+                }
+            }
+            e.printStackTrace();
         }
         finally {
             session.close();

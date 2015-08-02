@@ -1,19 +1,9 @@
 $(document).ready(function($) {
 
-    /**
-     * Start Plugins
-     */
-
-    screenshotPreview();
-
     $(".ellipsis").dotdotdot({
         height		: 100,
         after: "a.readmore"
     });
-
-    /**
-     * End Plugins
-     */
 
     /**
      * Medium-Detail Checks
@@ -22,6 +12,7 @@ $(document).ready(function($) {
     if(typeof mediumRating == "undefined") {
         mediumRating = 0;
     }
+
     var loggedIn = $.cookie("rateMe_LoggedIn");
 
     if ($(".score").val() != "") {
@@ -30,6 +21,13 @@ $(document).ready(function($) {
     else {
         $(".btn-rating-submit").css("display", "none");
     }
+
+    $(".raty-has-rated").raty({
+        starType: 'i',
+        readOnly: true,
+        noRatedMsg: '',
+        score: mediumRating
+    });
 
     if (loggedIn == "false") {
         $("#comment-text").attr({
@@ -50,6 +48,11 @@ $(document).ready(function($) {
             score: mediumRating
         });
         $(".btn-rating-submit").css("display", "none");
+        $("#share-button").toggleClass("disabled");
+        $("#tooltip-wrapper-share-button").tooltip({
+            title: "Please login to share a link!",
+            placement: "auto bottom"
+        });
     }
     else {
         $(".raty").raty({ starType: 'i', score: mediumRating });
@@ -69,9 +72,6 @@ $(document).ready(function($) {
             }
         });
 
-    // set userId in hidden input with id="user-id"
-    $("#user-id").value = loggedIn;
-
 });
 
 $(window).load(function() {
@@ -87,3 +87,10 @@ $(window).load(function() {
     };
     window.sr = new scrollReveal( config );
 });
+
+function editComment(commentId) {
+    var commentElement = "#comment-" + commentId + " ";
+    $(commentElement + ".current-comment-text").addClass("hidden");
+    $(commentElement + ".comment-update").removeClass("hidden");
+    $(commentElement + "form").css("margin", "0 0 48px 0");
+}

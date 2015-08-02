@@ -32,7 +32,7 @@ public class RatingController {
     }
 
     @RequestMapping("/medium/{mediumId}/rating-send")
-    public ModelAndView postComment(
+    public ModelAndView rateMedium(
             @CookieValue(value = "rateMe_LoggedIn", defaultValue = "false") String loginCookie,
             @PathVariable("mediumId") String mediumId,
             @RequestParam("score") String score,

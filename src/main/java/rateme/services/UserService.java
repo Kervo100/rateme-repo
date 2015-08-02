@@ -1,6 +1,7 @@
 package rateme.services;
 
 import org.hibernate.Criteria;
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
@@ -17,8 +18,6 @@ public class UserService extends Service {
         User user = (User) object;
         Integer id = null;
 
-
-
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction transaction = null;
         try {
@@ -26,12 +25,18 @@ public class UserService extends Service {
             id = (Integer) session.save(user);
             transaction.commit();
         }
-        catch (Exception e) {
-            if (transaction!=null){
-                transaction.rollback();
-                id = null;
+        catch (HibernateException e) {
+            if (transaction!=null) {
+                try {
+                    transaction.rollback();
+                    id = null;
+                }
+                catch (Exception re) {
+                    System.err.println("Error when trying to rollback transaction:"); // use logging framework here
+                    re.printStackTrace();
+                }
             }
-            throw e;
+            e.printStackTrace();
         }
         finally {
             session.close();
@@ -53,12 +58,18 @@ public class UserService extends Service {
             transaction.commit();
             success = true;
         }
-        catch (Exception e) {
-            if (transaction!=null){
-                transaction.rollback();
-                success = false;
+        catch (HibernateException e) {
+            if (transaction!=null) {
+                try {
+                    transaction.rollback();
+                    success = false;
+                }
+                catch (Exception re) {
+                    System.err.println("Error when trying to rollback transaction:"); // use logging framework here
+                    re.printStackTrace();
+                }
             }
-            throw e;
+            e.printStackTrace();
         }
         finally {
             session.close();
@@ -80,12 +91,18 @@ public class UserService extends Service {
             transaction.commit();
             success = true;
         }
-        catch (Exception e) {
-            if (transaction!=null){
-                transaction.rollback();
-                success = false;
+        catch (HibernateException e) {
+            if (transaction!=null) {
+                try {
+                    transaction.rollback();
+                    success = false;
+                }
+                catch (Exception re) {
+                    System.err.println("Error when trying to rollback transaction:"); // use logging framework here
+                    re.printStackTrace();
+                }
             }
-            throw e;
+            e.printStackTrace();
         }
         finally {
             session.close();
@@ -94,7 +111,7 @@ public class UserService extends Service {
         return success;
     }
 
-    public User getUserByID(int id) {
+    public User getUserByID(Integer id) {
         User user = null;
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction transaction = null;
@@ -103,9 +120,17 @@ public class UserService extends Service {
             user = (User) session.get(User.class, id);
             transaction.commit();
         }
-        catch (Exception e) {
-            if (transaction!=null) transaction.rollback();
-            throw e;
+        catch (HibernateException e) {
+            if (transaction!=null) {
+                try {
+                    transaction.rollback();
+                }
+                catch (Exception re) {
+                    System.err.println("Error when trying to rollback transaction:"); // use logging framework here
+                    re.printStackTrace();
+                }
+            }
+            e.printStackTrace();
         }
         finally {
             session.close();
@@ -131,9 +156,17 @@ public class UserService extends Service {
 
             transaction.commit();
         }
-        catch (Exception e) {
-            if (transaction!=null) transaction.rollback();
-            throw e;
+        catch (HibernateException e) {
+            if (transaction!=null) {
+                try {
+                    transaction.rollback();
+                }
+                catch (Exception re) {
+                    System.err.println("Error when trying to rollback transaction:"); // use logging framework here
+                    re.printStackTrace();
+                }
+            }
+            e.printStackTrace();
         }
         finally {
             session.close();
@@ -159,9 +192,17 @@ public class UserService extends Service {
 
             transaction.commit();
         }
-        catch (Exception e) {
-            if (transaction!=null) transaction.rollback();
-            throw e;
+        catch (HibernateException e) {
+            if (transaction!=null) {
+                try {
+                    transaction.rollback();
+                }
+                catch (Exception re) {
+                    System.err.println("Error when trying to rollback transaction:"); // use logging framework here
+                    re.printStackTrace();
+                }
+            }
+            e.printStackTrace();
         }
         finally {
             session.close();
@@ -171,7 +212,7 @@ public class UserService extends Service {
     }
 
     public List<User> getUserList(){
-        List userList;
+        List userList = null;
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction transaction = null;
         try {
@@ -181,9 +222,17 @@ public class UserService extends Service {
 
             transaction.commit();
         }
-        catch (Exception e) {
-            if (transaction!=null) transaction.rollback();
-            throw e;
+        catch (HibernateException e) {
+            if (transaction!=null) {
+                try {
+                    transaction.rollback();
+                }
+                catch (Exception re) {
+                    System.err.println("Error when trying to rollback transaction:"); // use logging framework here
+                    re.printStackTrace();
+                }
+            }
+            e.printStackTrace();
         }
         finally {
             session.close();

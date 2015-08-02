@@ -126,6 +126,11 @@ public class MediumController {
 
         Byte mediumRating = this.ratingService.getAverageRatingByMediumId(medium);
         modelAndView.addObject("mediumRating", mediumRating);
+        Boolean currentUserHasRated = false;
+        if (!loginCookie.equals("false")) {
+            currentUserHasRated = this.ratingService.getUserHasRatedByMediumAndUserId(medium, loginCookie);
+        }
+        modelAndView.addObject("currentUserHasRated", currentUserHasRated);
 
         return modelAndView;
     }

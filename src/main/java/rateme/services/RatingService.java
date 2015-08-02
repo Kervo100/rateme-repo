@@ -1,12 +1,14 @@
 package rateme.services;
 
 import org.hibernate.Criteria;
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
 import rateme.HibernateUtil;
 import rateme.entity.Medium;
 import rateme.entity.Rating;
+import rateme.entity.User;
 
 import java.util.List;
 
@@ -25,12 +27,17 @@ public class RatingService extends Service {
             id = (Integer) session.save(rating);
             transaction.commit();
         }
-        catch (Exception e) {
-            if (transaction!=null){
-                transaction.rollback();
-                id = null;
+        catch (HibernateException e) {
+            if (transaction!=null) {
+                try {
+                    transaction.rollback();
+                }
+                catch (Exception re) {
+                    System.err.println("Error when trying to rollback transaction:"); // use logging framework here
+                    re.printStackTrace();
+                }
             }
-            throw e;
+            e.printStackTrace();
         }
         finally {
             session.close();
@@ -58,9 +65,17 @@ public class RatingService extends Service {
             rating = (Rating) session.get(Rating.class, id);
             transaction.commit();
         }
-        catch (Exception e) {
-            if (transaction!=null) transaction.rollback();
-            throw e;
+        catch (HibernateException e) {
+            if (transaction!=null) {
+                try {
+                    transaction.rollback();
+                }
+                catch (Exception re) {
+                    System.err.println("Error when trying to rollback transaction:"); // use logging framework here
+                    re.printStackTrace();
+                }
+            }
+            e.printStackTrace();
         }
         finally {
             session.close();
@@ -90,13 +105,56 @@ public class RatingService extends Service {
 
             transaction.commit();
         }
-        catch (Exception e) {
-            if (transaction!=null) transaction.rollback();
-            throw e;
+        catch (HibernateException e) {
+            if (transaction!=null) {
+                try {
+                    transaction.rollback();
+                }
+                catch (Exception re) {
+                    System.err.println("Error when trying to rollback transaction:"); // use logging framework here
+                    re.printStackTrace();
+                }
+            }
+            e.printStackTrace();
         }
         finally {
             session.close();
         }
         return averageRating;
+    }
+
+    public Boolean getUserHasRatedByMediumAndUserId(Medium medium, String userId) {
+        Boolean result = false;
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        Transaction transaction = null;
+        User user = new UserService().getUserByID(Integer.parseInt(userId));
+        try {
+            transaction = session.beginTransaction();
+            Criteria criteria = session.createCriteria(Rating.class);
+            criteria
+                    .add(Restrictions.eq("medium", medium))
+                    .add(Restrictions.eq("user", user));
+            if (criteria.list().size() != 0) {
+                result = true;
+            }
+            transaction.commit();
+        }
+        catch (HibernateException e) {
+            if (transaction!=null) {
+                try {
+                    transaction.rollback();
+                    result = false;
+                }
+                catch (Exception re) {
+                    System.err.println("Error when trying to rollback transaction:"); // use logging framework here
+                    re.printStackTrace();
+                }
+            }
+            e.printStackTrace();
+        }
+        finally {
+            session.close();
+        }
+        return result;
     }
 }

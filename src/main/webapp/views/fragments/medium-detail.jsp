@@ -29,9 +29,20 @@
             <section id="medium-rating">
                 <form action="/medium/${medium.id}/rating-send" method="post">
                     <div class="tooltip-wrapper-rating">
-                        <div class="raty">
-                            <button type="submit" class="btn btn-primary btn-rating-submit">Rate</button>
-                        </div>
+                    <c:choose>
+                        <c:when test="${currentUserHasRated}">
+
+                            <div class="raty-has-rated"></div>
+
+                        </c:when>
+                        <c:otherwise>
+
+                            <div class="raty">
+                                <button type="submit" class="btn btn-primary btn-rating-submit">Rate</button>
+                            </div>
+
+                        </c:otherwise>
+                    </c:choose>
                     </div>
                 </form>
             </section>
@@ -42,18 +53,59 @@
         <h4>All comments</h4>
         <form action="/medium/${medium.id}/comment-send#medium-comments" method="post">
             <div class="tooltip-wrapper-comment">
-                <textarea rows="2" type="text" class="form-control input-lg" id="comment-text" name="comment-text" placeholder="Add your comment"></textarea>
+                <textarea rows="2" class="form-control input-lg" id="comment-text" name="comment-text" placeholder="Add your comment"></textarea>
             </div>
-            <button class="btn btn-primary btn-lg btn-post-comment" role="submit">Post</button>
+            <button class="btn btn-primary btn-lg btn-post-comment" type="submit">Post</button>
         </form>
         <div class="comment-list">
             <h4></h4>
             <c:choose>
                 <c:when test="${not empty commentList}">
                     <c:forEach var="comment" items="${commentList}">
-                        <div class="well">
+                        <div class="well" id="comment-${comment.getId()}">
+
+                            <c:if test="${loginCookie != 'false'}">
+                                <c:choose>
+                                    <c:when test="${isAdmin || comment.getUser().getId() == loginCookie}">
+
+                                        <button type="button" class="close" data-toggle="modal" data-target="#confirmDeleteCommentModal"><span>&times;</span></button>
+                                        <button type="button" class="edit" onclick="editComment(${comment.getId()});"><span>&#9998;</span></button>
+
+                                        <!-- Modal -->
+                                        <div class="modal fade" id="confirmDeleteCommentModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                                        <h4 class="modal-title" id="myModalLabel">Delete comment</h4>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <p>Do you really want to delete this comment?</p>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <form action="/medium/${medium.id}/comment-delete#medium-comments" method="post">
+                                                            <input type="text" name="commentId" value="${comment.getId()}" class="hidden">
+                                                            <button type="submit" class="btn btn-primary">Delete</button>
+                                                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </c:when>
+                                </c:choose>
+                            </c:if>
+
                             <h4>${comment.getUser().getUsername()}<small> ${comment.getTimestamp()}</small></h4>
-                            ${comment.getText()}
+                            <p class="current-comment-text">${comment.getText()}</p>
+
+                            <form action="/medium/${medium.id}/comment-update#medium-comments" method="post" class="comment-update hidden">
+                                <textarea rows="2" class="form-control input-lg edit-comment-text" name="edit-comment-text">${comment.getText()}</textarea>
+                                <input type="text" name="commentId" value="${comment.getId()}" class="hidden">
+                                <button class="btn btn-primary btn-lg btn-update-comment" type="submit">Update</button>
+                            </form>
+
                         </div>
                     </c:forEach>
                 </c:when>

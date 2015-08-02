@@ -19,13 +19,12 @@ body {
   color: $primary-color;
   //background-color: $background-color;
   /* Margin bottom by footer height */
-  //margin-bottom: 60px;
-  //height: 2400px;
+  margin-bottom: 80px;
 }
 .main-background {
   background-color: #EAF7FF;
   padding-top: 75px;
-  padding-bottom: 30px;
+  //padding-bottom: 30px;
 }
 a {
   color: $secondary-color;
@@ -198,6 +197,32 @@ h3.medium-title.text-center {
   margin: 0;
 }
 .btn-rating-submit {
+  float: right;
+}
+button.edit {
+  -webkit-appearance: none;
+  padding: 0;
+  cursor: pointer;
+  background: 0 0;
+  border: 0;
+  float: right;
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.5;
+  color: #000;
+  text-shadow: 0 1px 0 #fff;
+  filter: alpha(opacity=20);
+  opacity: .2;
+  margin: 0 15px;
+  &:hover {
+    text-decoration: none;
+    cursor: pointer;
+    filter: alpha(opacity=50);
+    opacity: .5;
+  }
+}
+.btn-update-comment {
+  margin: 10px 0;
   float: right;
 }
 /* Welcome Page

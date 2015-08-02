@@ -1,6 +1,7 @@
 package rateme.services;
 
 import org.hibernate.Criteria;
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
@@ -25,12 +26,18 @@ public class PlatformService extends Service {
                 transaction = session.beginTransaction();
                 id = (Integer) session.save(platform);
                 transaction.commit();
-            } catch (Exception e) {
-                if (transaction != null) {
-                    transaction.rollback();
-                    id = null;
+            }
+            catch (HibernateException e) {
+                if (transaction!=null) {
+                    try {
+                        transaction.rollback();
+                    }
+                    catch (Exception re) {
+                        System.err.println("Error when trying to rollback transaction:"); // use logging framework here
+                        re.printStackTrace();
+                    }
                 }
-                throw e;
+                e.printStackTrace();
             } finally {
                 session.close();
             }
@@ -60,9 +67,17 @@ public class PlatformService extends Service {
             platform = (Platform) session.get(Platform.class, id);
             transaction.commit();
         }
-        catch (Exception e) {
-            if (transaction!=null) transaction.rollback();
-            throw e;
+        catch (HibernateException e) {
+            if (transaction!=null) {
+                try {
+                    transaction.rollback();
+                }
+                catch (Exception re) {
+                    System.err.println("Error when trying to rollback transaction:"); // use logging framework here
+                    re.printStackTrace();
+                }
+            }
+            e.printStackTrace();
         }
         finally {
             session.close();
@@ -88,9 +103,17 @@ public class PlatformService extends Service {
 
             transaction.commit();
         }
-        catch (Exception e) {
-            if (transaction!=null) transaction.rollback();
-            throw e;
+        catch (HibernateException e) {
+            if (transaction!=null) {
+                try {
+                    transaction.rollback();
+                }
+                catch (Exception re) {
+                    System.err.println("Error when trying to rollback transaction:"); // use logging framework here
+                    re.printStackTrace();
+                }
+            }
+            e.printStackTrace();
         }
         finally {
             session.close();
